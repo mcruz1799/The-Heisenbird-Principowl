@@ -81,8 +81,10 @@ public sealed class Player : SingleTileEntity, IActor, IDamageable, IAttacker {
     //Clear skid flag
     State &= ~PlayerStates.SkidTurning;
 
+    //Update grounded flag
     if (CheckForGround()) {
       State |= PlayerStates.Grounded;
+      YVelocity = 0;
     } else {
       State &= ~PlayerStates.Grounded;
     }

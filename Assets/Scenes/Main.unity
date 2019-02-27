@@ -373,6 +373,31 @@ PrefabInstance:
       propertyPath: skidAndTurnThreshold
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2539304118999212038, guid: 40ee3d5cb7a1bf74b9e3666d4de34168,
+        type: 3}
+      propertyPath: gravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2539304118999212038, guid: 40ee3d5cb7a1bf74b9e3666d4de34168,
+        type: 3}
+      propertyPath: jumpPower
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2539304118999212038, guid: 40ee3d5cb7a1bf74b9e3666d4de34168,
+        type: 3}
+      propertyPath: xSpeedMax
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2539304118999212038, guid: 40ee3d5cb7a1bf74b9e3666d4de34168,
+        type: 3}
+      propertyPath: _xAccelerationGrounded
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2539304118999212038, guid: 40ee3d5cb7a1bf74b9e3666d4de34168,
+        type: 3}
+      propertyPath: ySpeedMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2539304118999212033, guid: 40ee3d5cb7a1bf74b9e3666d4de34168,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -445,12 +470,12 @@ PrefabInstance:
     - target: {fileID: 4544426361195923445, guid: fb38a9eecfb3682488817379c526d75c,
         type: 3}
       propertyPath: numRows
-      value: 10
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4544426361195923445, guid: fb38a9eecfb3682488817379c526d75c,
         type: 3}
       propertyPath: numCols
-      value: 10
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4544426361195923444, guid: fb38a9eecfb3682488817379c526d75c,
         type: 3}
@@ -658,7 +683,7 @@ PrefabInstance:
     - target: {fileID: 6766016044102236407, guid: a4b341a24c827c7439df78e703606df9,
         type: 3}
       propertyPath: timeBetweenTurns
-      value: 1
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4b341a24c827c7439df78e703606df9, type: 3}
