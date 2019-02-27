@@ -75,7 +75,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47329e88d50fe5f4ea9dd0e974aedc81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCoordinates: {x: 0, y: 0}
   gravity: 1
   jumpPower: 4
   _xAccelerationGrounded: 2
@@ -179,7 +178,7 @@ MonoBehaviour:
   localOffset: {x: 0, y: 0, z: 0}
   useInspectorOffset: 0
   smoothMotion: 0
-  smoothMotionSpeed: 0
+  smoothMotionSpeed: 1
   lockX: 0
   lockY: 0
   lockZ: 0
