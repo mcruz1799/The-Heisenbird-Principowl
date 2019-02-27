@@ -27,6 +27,8 @@ public class InputManager : MonoBehaviour {
   //Contains all of the actions the player is trying to do
   private readonly ISet<Action> playerActionSelections = new HashSet<Action>();
 
+  private Action? queuedAction = null;
+
   private void Awake() {
     S = this;
 
@@ -50,6 +52,7 @@ public class InputManager : MonoBehaviour {
       Action action = inputMapping.Value;
 
       if (Input.GetKeyDown(key)) {
+        queuedAction = action;
         playerActionSelections.Add(action);
       }
 
@@ -60,6 +63,12 @@ public class InputManager : MonoBehaviour {
   }
 
   public Action GetPlayerAction() {
+    if (queuedAction.HasValue && GameManager.S.Player.CanSelectAction(queuedAction.Value)) {
+      Action result = queuedAction.Value;
+      queuedAction = null;
+      return result;
+    }
+
     foreach (Action action in playerActionPriorities) {
       if (playerActionSelections.Contains(action) && GameManager.S.Player.CanSelectAction(action)) {
         return action;
