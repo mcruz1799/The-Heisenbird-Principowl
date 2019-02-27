@@ -28,12 +28,7 @@ public class FollowTransform : MonoBehaviour {
 
     Vector3 finalPosition;
     if (smoothMotion) {
-      Vector3 selfToTarget = targetPosition - currentPosition;
-      if (selfToTarget.sqrMagnitude <= 0.04f) { //Snap-to-target when distance <= sqrt(0.04)
-        finalPosition = targetPosition;
-      } else {
-        finalPosition = Vector3.MoveTowards(currentPosition, targetPosition, smoothMotionSpeed * Time.deltaTime);
-      }
+      finalPosition = Vector3.MoveTowards(currentPosition, targetPosition, smoothMotionSpeed * Time.deltaTime);
     } else {
       finalPosition = targetPosition;
     }
