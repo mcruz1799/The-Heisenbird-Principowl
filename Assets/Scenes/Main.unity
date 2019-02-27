@@ -124,12 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47329e88d50fe5f4ea9dd0e974aedc81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &16918837 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5673759199542847803, guid: b7dc34f0a2a68a3498c6d81d9127b9a4,
-    type: 3}
-  m_PrefabInstance: {fileID: 5673759199525928974}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +193,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &363918227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7890401424038097244, guid: b7dc34f0a2a68a3498c6d81d9127b9a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 5673759199525928974}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &388194471
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,14 +325,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5862e69166729634bb4b2f4214087d9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toFollow: {fileID: 16918837}
+  toFollow: {fileID: 363918227}
   localOffset: {x: 0, y: 0, z: -50}
   useInspectorOffset: 1
-  smoothMotion: 1
-  smoothMotionSpeed: 70
+  smoothMotion: 0
+  smoothMotionSpeed: 1
   lockX: 0
   lockY: 0
-  lockZ: 1
+  lockZ: 0
 --- !u!1 &1844431720
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,8 +390,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 6910328573096434756, guid: 9c96cd149f5ea024f9075f2852a5eaf8,
     type: 3}
-  numRows: 40
-  numCols: 40
+  numRows: 200
+  numCols: 200
 --- !u!1 &2140197680
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fccda361038fcbb40b2538962e7cbb01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenTurns: 0.05
+  timeBetweenTurns: 0.1
   _player: {fileID: 16918834}
   _board: {fileID: 1907900118}
 --- !u!4 &2140197682
@@ -547,6 +547,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211242068283646675, guid: b7dc34f0a2a68a3498c6d81d9127b9a4,
+        type: 3}
+      propertyPath: smoothMotionSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211242068283646675, guid: b7dc34f0a2a68a3498c6d81d9127b9a4,
+        type: 3}
+      propertyPath: smoothMotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211242068283646675, guid: b7dc34f0a2a68a3498c6d81d9127b9a4,
+        type: 3}
+      propertyPath: smoothMotionTime
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7dc34f0a2a68a3498c6d81d9127b9a4, type: 3}
