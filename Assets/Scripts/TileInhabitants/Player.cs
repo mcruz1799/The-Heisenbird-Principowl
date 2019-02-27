@@ -43,8 +43,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   private int XAcceleration => IsGrounded ? _xAccelerationGrounded : _xAccelerationAerial;
 
-  protected override void Start() {
-    base.Start();
+  private void Start() {
     GameManager.S.RegisterTurnTaker(this);
   }
 
@@ -54,7 +53,8 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //
 
   public override bool IsBlockedBy(ITileInhabitant other) {
-    return other is Wall;
+    bool isWall = other is Wall;
+    return isWall;
   }
 
 
@@ -68,16 +68,33 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
     if (XVelocity != 0 || YVelocity != 0) {
       List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, YVelocity);
-      for (int i = 0; i < moveWaypoints.Count; i++) {
+
+      //Skip the first waypoint because it's just our current position
+      for (int i = 1; i < moveWaypoints.Count; i++) {
         Vector2Int waypoint = moveWaypoints[i];
         int newRow = waypoint.y;
         int newCol = waypoint.x;
+
+        //Guaranteed that exactly one of these is +/- 1.
         int xDir = newCol - Col;
         int yDir = newRow - Row;
 
         SetPosition(newRow, newCol, out bool enteredNewPosition);
         if (!enteredNewPosition) {
           //We couldn't enter the new position.  Must have encountered an obstacle.
+
+          if (yDir > 0) {
+            Debug.Log("TODO: Bonked head");
+          }
+
+          if (yDir < 0) {
+            YVelocity = 0;
+            Debug.Log("TODO: Landed");
+          }
+
+          if (xDir != 0) {
+            Debug.Log("TODO: Hit wall");
+          }
 
           //Compute stuff like: 
           //  Changes to state (e.g. wall sliding)
@@ -94,13 +111,12 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     //Update grounded flag
     if (CheckForGround()) {
       State |= PlayerStates.Grounded;
-      YVelocity = 0;
     } else {
       State &= ~PlayerStates.Grounded;
     }
 
     //Apply gravity
-    if (!State.HasFlag(PlayerStates.Grounded)) {
+    if (!IsGrounded) {
       YVelocity -= gravity;
     }
   }
@@ -138,6 +154,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
           State |= PlayerStates.SkidTurning; //Set skid flag
           XVelocity = skidSpeed;
         } else {
+          if (XVelocity > 0) {
+            XVelocity = 0;
+          }
           XVelocity -= XAcceleration;
         }
         break;
@@ -147,6 +166,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
           State |= PlayerStates.SkidTurning; //Set skid flag
           XVelocity = -skidSpeed;
         } else {
+          if (XVelocity < 0) {
+            XVelocity = 0;
+          }
           XVelocity += XAcceleration;
         }
         break;
