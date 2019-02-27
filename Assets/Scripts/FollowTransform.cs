@@ -9,7 +9,7 @@ public class FollowTransform : MonoBehaviour {
   [SerializeField] private bool useInspectorOffset;
 
   [SerializeField] private bool smoothMotion;
-  [Range(1f, 100f)] [SerializeField] private float smoothMotionSpeed;
+  [Range(1f, 100f)] [SerializeField] private float smoothMotionSpeed = 1f;
 
   [SerializeField] private bool lockX;
   [SerializeField] private bool lockY;
@@ -23,33 +23,24 @@ public class FollowTransform : MonoBehaviour {
   }
 
   private void Update() {
-    Vector3 oldPosition = transform.position;
-    Vector3 newPosition = toFollow.position + localOffset;
+    Vector3 currentPosition = transform.position;
+    Vector3 targetPosition = toFollow.position + localOffset;
 
+    Vector3 finalPosition;
     if (smoothMotion) {
-      Vector3 selfToTarget = newPosition - oldPosition;
-      if (selfToTarget.sqrMagnitude <= 0.04f) { //distance bw camera and obj
-        transform.position = newPosition;
+      Vector3 selfToTarget = targetPosition - currentPosition;
+      if (selfToTarget.sqrMagnitude <= 0.04f) { //Snap-to-target position when distance <= sqrt(0.04)
+        finalPosition = targetPosition;
       } else {
-        //transform.Translate(selfToTarget.normalized * Time.deltaTime * smoothMotionSpeed);
-        //Vector3 velocity = new Vector3(smoothMotionSpeed, 0, smoothMotionSpeed);
-        //transform.position = Vector3.SmoothDamp(oldPosition, newPosition, ref velocity, 1f);
-        transform.position = Vector3.MoveTowards(oldPosition, newPosition, smoothMotionSpeed * Time.deltaTime);
+        finalPosition = Vector3.MoveTowards(currentPosition, targetPosition, smoothMotionSpeed * Time.deltaTime);
       }
     } else {
-      transform.position = newPosition;
+      finalPosition = targetPosition;
     }
-    Vector3 finalPosition = transform.position;
-    if (lockX) {
-      finalPosition.x = oldPosition.x;
-    }
-    if (lockY) {
-      finalPosition.y = oldPosition.y;
-    }
-    if (lockZ) {
-      finalPosition.z = oldPosition.z;
-    }
-    transform.position = finalPosition;
 
+    finalPosition.x = lockX ? currentPosition.x : finalPosition.x;
+    finalPosition.y = lockY ? currentPosition.y : finalPosition.y;
+    finalPosition.z = lockZ ? currentPosition.z : finalPosition.z;
+    transform.position = finalPosition;
   }
 }
