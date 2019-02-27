@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant, ITurnTaker {
+public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant {
 #pragma warning disable 0649
+  [SerializeField] private Vector2Int spawnCoordinates;
 #pragma warning restore 0649
-
-  public Vector2Int spawnCoordinates;
 
   //To be controlled by subclasses
   public int Row { get; private set; }
   public int Col { get; private set; }
 
   protected virtual void Start() {
-    GameManager.S.RegisterTurnTaker(this);
     SetPosition(spawnCoordinates.y, spawnCoordinates.x, out bool spawnSuccessful);
     if (!spawnSuccessful) {
       Debug.LogError("Failed to initialize entity!");
@@ -61,7 +59,7 @@ public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant, ITurnTa
   //Calculate the waypoints for moving in a line from GameBoard[Row, Col] to GameBoard[Row + yDelta, Col + xDelta]
   //Note that the returned waypoints are xy-coordinates, NOT row-col-pairs
   //Ensures that each waypoint shares an EDGE (not just a corner) with the next.
-  protected List<Vector2Int> CalculateMoveWaypoints(int xDelta, int yDelta) {
+  public List<Vector2Int> CalculateMoveWaypoints(int xDelta, int yDelta) {
     //Debug.LogFormat("x0: {0}  y0: {1}    xf: {2}  yf: {3}", Col, Row, Col + xDelta, Row + yDelta);
     List<Vector2Int> waypoints = BresenhamLineAlgorithm(Col, Row, Col + xDelta, Row + yDelta);
 
@@ -112,17 +110,19 @@ public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant, ITurnTa
     return result;
   }
 
-  protected virtual void SetPosition(int newRow, int newCol, out bool success) {
-    if (GameManager.S.Board.IsPositionLegal(newRow, newCol) && GameManager.S.Board[newRow, newCol].CanAdd(this)) {
+  public bool CanSetPosition(int newRow, int newCol) {
+    return GameManager.S.Board.IsPositionLegal(newRow, newCol) && GameManager.S.Board[newRow, newCol].CanAdd(this);
+  }
+
+  public void SetPosition(int newRow, int newCol, out bool success) {
+    success = CanSetPosition(newRow, newCol);
+    if (success) {
       Row = newRow;
       Col = newCol;
 
       Vector3 newPosition = GameManager.S.Board[Row, Col].transform.position;
       newPosition.z = transform.position.z;
       transform.position = newPosition;
-      success = true;
-    } else {
-      success = false;
     }
   }
 
@@ -135,11 +135,4 @@ public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant, ITurnTa
   public ISet<Tile> Occupies() {
     return new HashSet<Tile>() { GameManager.S.Board[Row, Col] };
   }
-
-
-  //
-  //ITurnTaker
-  //
-
-  public abstract void OnTurn();
 }
