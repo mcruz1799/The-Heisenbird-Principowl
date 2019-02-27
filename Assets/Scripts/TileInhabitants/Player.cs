@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class Player : SingleTileEntity, IActor, IDamageable, IAttacker {
+public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, IAttacker {
   [System.Flags] private enum PlayerStates {
     None = 0,
     Grounded = 1 << 0,
@@ -43,6 +43,11 @@ public sealed class Player : SingleTileEntity, IActor, IDamageable, IAttacker {
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   private int XAcceleration => IsGrounded ? _xAccelerationGrounded : _xAccelerationAerial;
 
+  protected override void Start() {
+    base.Start();
+    GameManager.S.RegisterTurnTaker(this);
+  }
+
 
   //
   //SingleTileEntity
@@ -52,7 +57,12 @@ public sealed class Player : SingleTileEntity, IActor, IDamageable, IAttacker {
     return other is Wall;
   }
 
-  public override void OnTurn() {
+
+  //
+  //ITurnTaker
+  //
+
+  public void OnTurn() {
     PerformAction(selectedAction);
     selectedAction = Action.Wait;
 
@@ -96,7 +106,17 @@ public sealed class Player : SingleTileEntity, IActor, IDamageable, IAttacker {
   }
 
   private bool CheckForGround() {
-    return !GameManager.S.Board.IsPositionLegal(Row-1, Col);
+    //Can't fall out of bounds
+    if (!GameManager.S.Board.IsPositionLegal(Row-1, Col)) {
+      return true;
+    }
+
+    //If you can't be added to the Tile, it counts as ground.
+    if (!GameManager.S.Board[Row - 1, Col].CanAdd(this)) {
+      return true;
+    }
+
+    return false;
   }
 
   private void PerformAction(Action action) {
