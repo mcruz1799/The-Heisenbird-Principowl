@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Board : MonoBehaviour {
 #pragma warning disable 0649
-  [Range(1, 99)] [SerializeField] private int numRows = 1, numCols = 1;
   [SerializeField] private Tile tilePrefab;
+  [Range(1, 200)] [SerializeField] private int numRows = 1, numCols = 1;
 #pragma warning restore 0649
 
   private Tile[,] board;
