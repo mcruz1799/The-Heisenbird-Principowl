@@ -4,19 +4,11 @@ using UnityEngine;
 
 public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant {
 #pragma warning disable 0649
-  [SerializeField] private Vector2Int spawnCoordinates;
 #pragma warning restore 0649
 
   //To be controlled by subclasses
   public int Row { get; private set; }
   public int Col { get; private set; }
-
-  protected virtual void Start() {
-    SetPosition(spawnCoordinates.y, spawnCoordinates.x, out bool spawnSuccessful);
-    if (!spawnSuccessful) {
-      Debug.LogError("Failed to initialize entity!");
-    }
-  }
 
   //Code taken from https://stackoverflow.com/questions/11678693/all-cases-covered-bresenhams-line-algorithm
   private static List<Vector2Int> BresenhamLineAlgorithm(int x0, int y0, int xf, int yf) {
@@ -117,8 +109,10 @@ public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant {
   public void SetPosition(int newRow, int newCol, out bool success) {
     success = CanSetPosition(newRow, newCol);
     if (success) {
+      GameManager.S.Board[Row, Col].Remove(this);
       Row = newRow;
       Col = newCol;
+      GameManager.S.Board[Row, Col].Add(this);
 
       Vector3 newPosition = GameManager.S.Board[Row, Col].transform.position;
       newPosition.z = transform.position.z;
