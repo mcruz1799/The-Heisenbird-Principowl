@@ -4,10 +4,14 @@ using UnityEngine;
 
 //A Tile is a container for ITileInhabitants
 public sealed class Tile : MonoBehaviour {
-  private ISet<ITileInhabitant> inhabitants;
+  private readonly ISet<ITileObserver> observers = new HashSet<ITileObserver>();
+  private readonly ISet<ITileInhabitant> inhabitants = new HashSet<ITileInhabitant>();
 
-  private void Awake() {
-    inhabitants = new HashSet<ITileInhabitant>();
+  public bool Subscribe(ITileObserver observer) {
+    return observers.Add(observer);
+  }
+  public bool Unsubscribe(ITileObserver observer) {
+    return observers.Remove(observer);
   }
 
   //Check whether an inhabitant can be added to this Tile
@@ -33,9 +37,19 @@ public sealed class Tile : MonoBehaviour {
     }
 
     inhabitants.Add(newInhabitant);
+    foreach (ITileObserver observer in observers) {
+      observer.OnInhabitantEntered(newInhabitant);
+    }
   }
 
   public bool Remove(ITileInhabitant inhabitant) {
-    return inhabitants.Remove(inhabitant);
+    bool success = inhabitants.Remove(inhabitant);
+    if (success) {
+      foreach (ITileObserver observer in observers) {
+        observer.OnInhabitantExited(inhabitant);
+      }
+    }
+
+    return success;
   }
 }
