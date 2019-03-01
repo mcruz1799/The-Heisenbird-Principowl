@@ -15,8 +15,12 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 #pragma warning disable 0649
   [Range(1, 20)] [SerializeField] private int gravity = 1;
   [Range(1, 20)] [SerializeField] private int jumpPower = 1;
+
   [Range(1, 20)] [SerializeField] private int _xWallJumpPower = 1;
   [Range(1, 20)] [SerializeField] private int yWallJumpPower = 1;
+  [Range(1, 20)] [SerializeField] private int wallSlideSpeed = 1;
+  //TODO: private int wallJumpCooldown;
+
   [Range(1,  5)] [SerializeField] private int _xAccelerationGrounded = 1;
   [Range(1,  5)] [SerializeField] private int _xAccelerationAerial = 1;
   [Range(1,  5)] [SerializeField] private int xDeceleration = 1;
@@ -43,8 +47,10 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     set => _yVelocity = Mathf.Clamp(value, -ySpeedMax, ySpeedMax);
   }
 
+  //Exposed for PlayerAnimator
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
-  private bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
+  public bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
+
   private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -_xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? _xWallJumpPower : 0;
   private int XAcceleration => IsGrounded ? _xAccelerationGrounded : _xAccelerationAerial;
 
@@ -99,12 +105,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
           if (xDir != 0) {
             State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
-            Debug.Log("TODO: Hit wall");
+            XVelocity = 0;
+            YVelocity = -wallSlideSpeed;
           }
-
-          //Compute stuff like: 
-          //  Changes to state (e.g. wall sliding)
-          //  Changes to velocity (e.g. head-bonk)
 
           break;
         }
