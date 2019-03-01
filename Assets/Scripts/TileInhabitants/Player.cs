@@ -6,22 +6,25 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   [System.Flags] private enum PlayerStates {
     None = 0,
     Grounded = 1 << 0,
-    WallSliding = 1 << 1,
-    SkidTurning = 1 << 2,
-    HeadBonking = 1 << 3,
+    LeftWallSliding = 1 << 1,
+    RightWallSliding = 1 << 2,
+    SkidTurning = 1 << 3,
+    HeadBonking = 1 << 4,
   }
 
 #pragma warning disable 0649
-  [Range(1, 99)] [SerializeField] private int gravity = 1;
-  [Range(1, 99)] [SerializeField] private int jumpPower = 1;
-  [Range(1, 99)] [SerializeField] private int _xAccelerationGrounded = 1;
-  [Range(1, 99)] [SerializeField] private int _xAccelerationAerial = 1;
-  [Range(1, 99)] [SerializeField] private int xDeceleration = 1;
+  [Range(1, 20)] [SerializeField] private int gravity = 1;
+  [Range(1, 20)] [SerializeField] private int jumpPower = 1;
+  [Range(1, 20)] [SerializeField] private int _xWallJumpPower = 1;
+  [Range(1, 20)] [SerializeField] private int yWallJumpPower = 1;
+  [Range(1,  5)] [SerializeField] private int _xAccelerationGrounded = 1;
+  [Range(1,  5)] [SerializeField] private int _xAccelerationAerial = 1;
+  [Range(1,  5)] [SerializeField] private int xDeceleration = 1;
 
-  [Range(1, 99)] [SerializeField] private int xSpeedMax = 1;
-  [Range(1, 99)] [SerializeField] private int ySpeedMax = 1;
+  [Range(1, 10)] [SerializeField] private int xSpeedMax = 1;
+  [Range(1, 10)] [SerializeField] private int ySpeedMax = 1;
 
-  [Range(3, 99)] [SerializeField] private int skidAndTurnThreshold = 3;
+  [Range(3, 10)] [SerializeField] private int skidAndTurnThreshold = 3;
   [Range(1,  2)] [SerializeField] private int skidSpeed = 1; //Must be less than skidAndTurnThreshold
 #pragma warning restore 0649
 
@@ -41,6 +44,8 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   }
 
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
+  private bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
+  private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -_xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? _xWallJumpPower : 0;
   private int XAcceleration => IsGrounded ? _xAccelerationGrounded : _xAccelerationAerial;
 
   private void Start() {
@@ -93,6 +98,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
           }
 
           if (xDir != 0) {
+            State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
             Debug.Log("TODO: Hit wall");
           }
 
@@ -140,6 +146,12 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
       case Action.Jump:
         if (IsGrounded) {
           YVelocity += jumpPower;
+        } else if (IsWallSliding) {
+          YVelocity = yWallJumpPower;
+          XVelocity = XWallJumpPower;
+
+          State &= ~PlayerStates.RightWallSliding;
+          State &= ~PlayerStates.LeftWallSliding;
         }
         break;
 
@@ -150,6 +162,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
         break;
 
       case Action.MoveLeft:
+        State &= ~PlayerStates.RightWallSliding;
+        State &= ~PlayerStates.LeftWallSliding;
+
         if (IsGrounded && XVelocity >= skidAndTurnThreshold) {
           State |= PlayerStates.SkidTurning; //Set skid flag
           XVelocity = skidSpeed;
@@ -162,6 +177,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
         break;
 
       case Action.MoveRight:
+        State &= ~PlayerStates.RightWallSliding;
+        State &= ~PlayerStates.LeftWallSliding;
+
         if (IsGrounded && XVelocity <= -skidAndTurnThreshold) {
           State |= PlayerStates.SkidTurning; //Set skid flag
           XVelocity = -skidSpeed;
@@ -199,7 +217,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //
 
   public bool CanSelectAction(Action action) {
-    if (action == Action.Jump && !IsGrounded) {
+    if (action == Action.Jump && !(IsGrounded || IsWallSliding)) {
       return false;
     }
 

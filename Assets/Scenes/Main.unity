@@ -451,6 +451,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerHolder
       objectReference: {fileID: 0}
+    - target: {fileID: 5673759199542847804, guid: b7dc34f0a2a68a3498c6d81d9127b9a4,
+        type: 3}
+      propertyPath: _xWallJumpPower
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5673759199542847804, guid: b7dc34f0a2a68a3498c6d81d9127b9a4,
+        type: 3}
+      propertyPath: yWallJumpPower
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2874007845249132593, guid: b7dc34f0a2a68a3498c6d81d9127b9a4,
         type: 3}
       propertyPath: m_LocalPosition.x
