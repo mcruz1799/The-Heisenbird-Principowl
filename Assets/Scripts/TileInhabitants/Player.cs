@@ -104,11 +104,13 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
           if (yDir > 0) {
             //Debug.Log("TODO: Bonked head");
+            //SoundManager.S.PlayHeadBonkSfx();
           }
 
           if (yDir < 0) {
             YVelocity = 0;
             //Debug.Log("TODO: Landed");
+            //SoundManager.S.PlayLandedSfx();
           }
 
           if (xDir != 0) {
@@ -159,6 +161,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
       case Action.Jump:
         if (IsGrounded) {
           YVelocity += jumpPower;
+          //SoundManager.S.PlayJumpSfx();
         } else if (IsWallSliding) {
           YVelocity = yWallJumpPower;
           XVelocity = XWallJumpPower;
@@ -277,5 +280,14 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
       return;
     }
     other.TakeDamage(this, _attackPower);
+  }
+
+
+  //
+  //Other
+  //
+
+  private void UpdateSounds() {
+    //SoundManager.S.ToggleWallSlidingSfx(IsWallSliding);
   }
 }
