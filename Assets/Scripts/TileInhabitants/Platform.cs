@@ -6,9 +6,9 @@ public abstract class Platform : MultiTileEntity
 {
   private Board Board => GameManager.S.Board;
 
-  private int platformLength;
+  protected abstract int platformLength { get; set; }
 
-  private string color = "";
+  protected string color = "";
 
   protected override HashSet<SingleTileEntity> ConstructSelf()
   {
