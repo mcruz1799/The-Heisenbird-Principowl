@@ -14,6 +14,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
 #pragma warning disable 0649
   [Range(1, 1000)] [SerializeField] private int _maxHp = 1;
+  [Range(1, 1000)] [SerializeField] private int _attackPower = 1;
 
   [Range(1, 20)] [SerializeField] private int gravity = 1;
   [Range(1, 20)] [SerializeField] private int jumpPower = 1;
@@ -266,6 +267,14 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //
 
   public bool CanAttack(IDamageable other) {
-    throw new System.NotImplementedException();
+    return other is Enemy;
+  }
+
+  public void Attack(IDamageable other) {
+    if (!CanAttack(other)) {
+      Debug.LogError("Attempting an illegal attack");
+      return;
+    }
+    other.TakeDamage(this, _attackPower);
   }
 }
