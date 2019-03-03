@@ -30,6 +30,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
   [Range(1, 10)] [SerializeField] private int xSpeedMax = 1;
   [Range(1, 10)] [SerializeField] private int ySpeedMax = 1;
+  [Range(-10, -1)] [SerializeField] private int ySpeedMin = -1;
 
   [Range(3, 10)] [SerializeField] private int skidAndTurnThreshold = 3;
   [Range(1,  2)] [SerializeField] private int skidSpeed = 1; //Must be less than skidAndTurnThreshold
@@ -47,7 +48,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   private int _yVelocity;
   private int YVelocity {
     get => _yVelocity;
-    set => _yVelocity = Mathf.Clamp(value, -ySpeedMax, ySpeedMax);
+    set => _yVelocity = Mathf.Clamp(value, ySpeedMin, ySpeedMax);
   }
 
   //Exposed for PlayerAnimator
