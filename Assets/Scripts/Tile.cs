@@ -52,4 +52,13 @@ public sealed class Tile : MonoBehaviour {
 
     return success;
   }
+
+  public void Attack(IAttacker attacker) {
+    foreach (ITileInhabitant inhabitant in inhabitants) {
+      IDamageable victim = inhabitant is IDamageable ? (IDamageable)inhabitant : null;
+      if (victim != null && attacker.CanAttack(victim)) {
+        attacker.Attack(victim);
+      }
+    }
+  }
 }
