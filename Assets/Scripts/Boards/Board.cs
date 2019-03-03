@@ -50,6 +50,7 @@ public class Board : MonoBehaviour {
     get => board[row, col];
   }
 
+  //Get a Tile N/S/E/W of Board[row, col].  Returns null if there is no Tile in that direction
   public Tile GetInDirection(int row, int col, Direction direction) {
     switch (direction) {
       case Direction.North:
