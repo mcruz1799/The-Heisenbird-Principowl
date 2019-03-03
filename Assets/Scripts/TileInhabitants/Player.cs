@@ -13,6 +13,8 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   }
 
 #pragma warning disable 0649
+  [Range(1, 1000)] [SerializeField] private int _maxHp = 1;
+
   [Range(1, 20)] [SerializeField] private int gravity = 1;
   [Range(1, 20)] [SerializeField] private int jumpPower = 1;
 
@@ -53,6 +55,10 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
   private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -_xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? _xWallJumpPower : 0;
   private int XAcceleration => IsGrounded ? _xAccelerationGrounded : _xAccelerationAerial;
+
+  private void Awake() {
+    _damageable = new Damageable(_maxHp);
+  }
 
   private void Start() {
     GameManager.S.RegisterTurnTaker(this);
@@ -241,12 +247,17 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //IDamageable
   //
 
+  private Damageable _damageable;
+  public int MaxHitpoints => _damageable.MaxHitpoints;
+  public int Hitpoints => _damageable.Hitpoints;
+  public bool IsAlive => _damageable.IsAlive;
+
   public int CalculateDamage(IAttacker attacker, int baseDamage) {
-    throw new System.NotImplementedException();
+    return _damageable.CalculateDamage(baseDamage);
   }
 
   public void TakeDamage(IAttacker attacker, int baseDamage) {
-    throw new System.NotImplementedException();
+    _damageable.TakeDamage(baseDamage);
   }
 
 
