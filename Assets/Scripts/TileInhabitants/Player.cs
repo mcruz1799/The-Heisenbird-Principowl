@@ -104,9 +104,11 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
           }
 
           if (xDir != 0) {
-            State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
+            if (!IsGrounded) {
+              State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
+              YVelocity = -wallSlideSpeed;
+            }
             XVelocity = 0;
-            YVelocity = -wallSlideSpeed;
           }
 
           break;
@@ -152,10 +154,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
         } else if (IsWallSliding) {
           YVelocity = yWallJumpPower;
           XVelocity = XWallJumpPower;
-
-          State &= ~PlayerStates.RightWallSliding;
-          State &= ~PlayerStates.LeftWallSliding;
         }
+        State &= ~PlayerStates.RightWallSliding;
+        State &= ~PlayerStates.LeftWallSliding;
         break;
 
       case Action.Drop:
