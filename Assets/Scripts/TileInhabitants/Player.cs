@@ -102,12 +102,12 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
           //We couldn't enter the new position.  Must have encountered an obstacle.
 
           if (yDir > 0) {
-            Debug.Log("TODO: Bonked head");
+            //Debug.Log("TODO: Bonked head");
           }
 
           if (yDir < 0) {
             YVelocity = 0;
-            Debug.Log("TODO: Landed");
+            //Debug.Log("TODO: Landed");
           }
 
           if (xDir != 0) {
@@ -168,7 +168,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
       case Action.Drop:
         if (IsGrounded) {
-          Debug.LogWarning("TODO: Drop-through platforms by pressing down");
+          Debug.LogWarning("TODO: Drop-through certain platforms by pressing down");
         }
         break;
 
