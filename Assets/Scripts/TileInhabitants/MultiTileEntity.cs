@@ -11,6 +11,8 @@ public abstract class MultiTileEntity : MonoBehaviour, ITileInhabitant {
   private readonly HashSet<SingleTileEntity> composedEntities = new HashSet<SingleTileEntity>();
   protected IReadOnlyCollection<SingleTileEntity> ComposedEntities => composedEntities;
 
+  protected abstract HashSet<SingleTileEntity> ConstructSelf();
+
   private SingleTileEntity _leadingEntity;
   private SingleTileEntity LeadingEntity {
     get => _leadingEntity;
@@ -18,6 +20,11 @@ public abstract class MultiTileEntity : MonoBehaviour, ITileInhabitant {
       composedEntities.Contains(value) ? 
       _leadingEntity = value : 
       throw new System.ArgumentException("LeadingEntity must be a member of composedEntities");
+  }
+
+  protected virtual void Awake ()
+  {
+    composedEntities.UnionWith(ConstructSelf());
   }
 
   public void SetPosition(int newRow, int newCol, out bool success) {
