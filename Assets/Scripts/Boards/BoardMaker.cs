@@ -64,7 +64,7 @@ public class BoardMaker : MonoBehaviour {
     else {
       foreach (ColorToPrefab colorMapping in colorMappings) {
         if (colorMapping.color.Equals(pixelColor)) {
-          Debug.Log("Found Wall.");
+          //Debug.Log("Found Wall.");
           GameObject g = Instantiate(colorMapping.prefab);
           ITileInhabitant inhabitant = g.GetComponent<ITileInhabitant>();
           result.Add(inhabitant);
