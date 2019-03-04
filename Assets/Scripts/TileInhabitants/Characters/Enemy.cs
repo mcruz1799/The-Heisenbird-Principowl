@@ -6,6 +6,8 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
 
   private readonly EnemyObject e;
   protected Direction Facing { get; set; }
+  protected int SpeedX { get; set; }
+  protected int SpeedY { get; set; }
 
   public Enemy(EnemyObject e) : base(e) {
     this.e = e;
@@ -21,9 +23,34 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
 
   public virtual void OnTurn() {
     //TODO: Shouldn't attack every timestep.  ^.-
+    Move();
     Tile attackedTile = GameManager.S.Board.GetInDirection(Row, Col, Facing);
     attackedTile.Attack(this);
   }
+
+  public override bool CanSetPosition(int newRow, int newCol)
+  {
+    bool validPosition = base.CanSetPosition(newRow, newCol);
+    Tile below = GameManager.S.Board.GetInDirection(newRow, newCol, Direction.South);
+    //if (below.)
+    return validPosition;
+  }
+  private void Move()
+  {
+    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(SpeedX, SpeedY);
+
+    for (int i = 1; i < moveWaypoints.Count; i++) {
+      Vector2Int waypoint = moveWaypoints[i];
+      int newRow = waypoint.y;
+      int newCol = waypoint.x;
+
+      int xDir = newCol - Col;
+      int yDir = newRow - Row;
+
+
+    }
+  }
+
 
 
   //

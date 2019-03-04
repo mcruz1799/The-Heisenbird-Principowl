@@ -109,7 +109,7 @@ public abstract class SingleTileEntity : ITileInhabitant {
     return result;
   }
 
-  public bool CanSetPosition(int newRow, int newCol) {
+  public virtual bool CanSetPosition(int newRow, int newCol) {
     return GameManager.S.Board.IsPositionLegal(newRow, newCol) && GameManager.S.Board[newRow, newCol].CanAdd(this);
   }
 
