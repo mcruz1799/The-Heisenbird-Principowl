@@ -5,7 +5,8 @@ using UnityEngine;
 //A Tile is a container for ITileInhabitants
 public sealed class Tile : MonoBehaviour {
   private readonly ISet<ITileObserver> observers = new HashSet<ITileObserver>();
-  private readonly ISet<ITileInhabitant> inhabitants = new HashSet<ITileInhabitant>();
+  private readonly HashSet<ITileInhabitant> inhabitants = new HashSet<ITileInhabitant>();
+  public IReadOnlyCollection<ITileInhabitant> Inhabitants => inhabitants;
 
   public bool Subscribe(ITileObserver observer) {
     return observers.Add(observer);
@@ -53,7 +54,9 @@ public sealed class Tile : MonoBehaviour {
     return success;
   }
 
+  [System.Obsolete("Please loop over Tile.Inhabitants and attack them by trying to cast them to IDamageable")]
   public void Attack(IAttacker attacker) {
+    Debug.LogWarning("Tile.Attack() is deprecated");
     foreach (ITileInhabitant inhabitant in inhabitants) {
       IDamageable victim = inhabitant is IDamageable ? (IDamageable)inhabitant : null;
       if (victim != null && attacker.CanAttack(victim)) {
