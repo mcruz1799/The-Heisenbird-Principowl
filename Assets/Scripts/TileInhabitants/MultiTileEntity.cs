@@ -18,7 +18,7 @@ public abstract class MultiTileEntity : ITileInhabitant {
       throw new System.ArgumentException("LeadingEntity must be a member of composedEntities");
   }
 
-  public MultiTileEntity(HashSet<SingleTileEntity> composedEntities, SingleTileEntity leadingEntity) {
+  protected MultiTileEntity(HashSet<SingleTileEntity> composedEntities, SingleTileEntity leadingEntity) {
     this.composedEntities.UnionWith(composedEntities);
     LeadingEntity = leadingEntity;
   }
