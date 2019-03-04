@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SingleTileEntityObject : MonoBehaviour {
+  [Header("INITIALIZATION ONLY")]
   public int spawnRow;
   public int spawnCol;
 
