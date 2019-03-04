@@ -51,7 +51,7 @@ public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant {
   //Calculate the waypoints for moving in a line from GameBoard[Row, Col] to GameBoard[Row + yDelta, Col + xDelta]
   //Note that the returned waypoints are xy-coordinates, NOT row-col-pairs
   //Ensures that each waypoint shares an EDGE (not just a corner) with the next.
-  public List<Vector2Int> CalculateMoveWaypoints(int xDelta, int yDelta) {
+  protected List<Vector2Int> CalculateMoveWaypoints(int xDelta, int yDelta) {
     //Debug.LogFormat("x0: {0}  y0: {1}    xf: {2}  yf: {3}", Col, Row, Col + xDelta, Row + yDelta);
     List<Vector2Int> waypoints = BresenhamLineAlgorithm(Col, Row, Col + xDelta, Row + yDelta);
 

@@ -13,6 +13,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   }
 
 #pragma warning disable 0649
+  [Range(1, 1000)] [SerializeField] private int _maxHp = 1;
+  [Range(1, 1000)] [SerializeField] private int _attackPower = 1;
+
   [Range(1, 20)] [SerializeField] private int gravity = 1;
   [Range(1, 20)] [SerializeField] private int jumpPower = 1;
 
@@ -27,6 +30,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
   [Range(1, 10)] [SerializeField] private int xSpeedMax = 1;
   [Range(1, 10)] [SerializeField] private int ySpeedMax = 1;
+  [Range(-10, -1)] [SerializeField] private int ySpeedMin = -1;
 
   [Range(3, 10)] [SerializeField] private int skidAndTurnThreshold = 3;
   [Range(1,  2)] [SerializeField] private int skidSpeed = 1; //Must be less than skidAndTurnThreshold
@@ -44,7 +48,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   private int _yVelocity;
   private int YVelocity {
     get => _yVelocity;
-    set => _yVelocity = Mathf.Clamp(value, -ySpeedMax, ySpeedMax);
+    set => _yVelocity = Mathf.Clamp(value, ySpeedMin, ySpeedMax);
   }
 
   //Exposed for PlayerAnimator
@@ -53,6 +57,10 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
   private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -_xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? _xWallJumpPower : 0;
   private int XAcceleration => IsGrounded ? _xAccelerationGrounded : _xAccelerationAerial;
+
+  private void Awake() {
+    _damageable = new Damageable(_maxHp);
+  }
 
   private void Start() {
     GameManager.S.RegisterTurnTaker(this);
@@ -95,12 +103,14 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
           //We couldn't enter the new position.  Must have encountered an obstacle.
 
           if (yDir > 0) {
-            Debug.Log("TODO: Bonked head");
+            //Debug.Log("TODO: Bonked head");
+            //SoundManager.S.PlayHeadBonkSfx();
           }
 
           if (yDir < 0) {
             YVelocity = 0;
-            Debug.Log("TODO: Landed");
+            //Debug.Log("TODO: Landed");
+            //SoundManager.S.PlayLandedSfx();
           }
 
           if (xDir != 0) {
@@ -151,6 +161,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
       case Action.Jump:
         if (IsGrounded) {
           YVelocity += jumpPower;
+          //SoundManager.S.PlayJumpSfx();
         } else if (IsWallSliding) {
           YVelocity = yWallJumpPower;
           XVelocity = XWallJumpPower;
@@ -161,7 +172,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
       case Action.Drop:
         if (IsGrounded) {
-          Debug.LogWarning("TODO: Drop-through platforms by pressing down");
+          Debug.LogWarning("TODO: Drop-through certain platforms by pressing down");
         }
         break;
 
@@ -241,12 +252,17 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //IDamageable
   //
 
+  private Damageable _damageable;
+  public int MaxHitpoints => _damageable.MaxHitpoints;
+  public int Hitpoints => _damageable.Hitpoints;
+  public bool IsAlive => _damageable.IsAlive;
+
   public int CalculateDamage(IAttacker attacker, int baseDamage) {
-    throw new System.NotImplementedException();
+    return _damageable.CalculateDamage(baseDamage);
   }
 
   public void TakeDamage(IAttacker attacker, int baseDamage) {
-    throw new System.NotImplementedException();
+    _damageable.TakeDamage(baseDamage);
   }
 
 
@@ -255,6 +271,23 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //
 
   public bool CanAttack(IDamageable other) {
-    throw new System.NotImplementedException();
+    return other is Enemy;
+  }
+
+  public void Attack(IDamageable other) {
+    if (!CanAttack(other)) {
+      Debug.LogError("Attempting an illegal attack");
+      return;
+    }
+    other.TakeDamage(this, _attackPower);
+  }
+
+
+  //
+  //Other
+  //
+
+  private void UpdateSounds() {
+    //SoundManager.S.ToggleWallSlidingSfx(IsWallSliding);
   }
 }
