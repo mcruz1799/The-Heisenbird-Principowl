@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 
-
 //Based off LevelGeneratorScript from Brackeys.
 [System.Serializable]
-public class ColorToPrefab
-{
-
+public class ColorToTileInhabitantMaker {
   public Color color;
-  public GameObject prefab;
-
+  public TileInhabitantMaker maker;
 }
 

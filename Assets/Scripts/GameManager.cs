@@ -7,12 +7,13 @@ public class GameManager : MonoBehaviour {
 
 #pragma warning disable 0649
   [Range(0.01f, 2f)] [SerializeField] private float timeBetweenTurns = 0.01f;
-  [SerializeField] private Player _player;
-  [SerializeField] private Board _board;
+  [SerializeField] private PlayerObject _playerObject;
+  [SerializeField] private BoardObject boardMaker;
 #pragma warning restore 0649
 
-  public Player Player => _player;
-  public Board Board => _board;
+  public Player Player { get; private set; }
+  public Board Board { get; private set; }
+  public Transform TileInhabitantObjectHolder { get; private set; }
 
   //This is public so that other objects can calculate how long their animations should take.
   public float TimeBetweenTurns => timeBetweenTurns;
@@ -22,7 +23,15 @@ public class GameManager : MonoBehaviour {
 
   private void Awake() {
     S = this;
+    TileInhabitantObjectHolder = new GameObject().transform;
+    TileInhabitantObjectHolder.name = "TileInhabitantObjectHolder";
+    Board = new Board(boardMaker.numRows, boardMaker.numCols, boardMaker.tilePrefab, boardMaker.transform);
+    boardMaker.PopulateBoard();
 
+    Player = new Player(_playerObject);
+    if (Board == null || Player == null) {
+      throw new System.Exception("Failed to initialize GameManager");
+    }
     StartCoroutine(TurnTakerRoutine());
   }
 

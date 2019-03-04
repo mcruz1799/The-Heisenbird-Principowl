@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4158725118143313129}
   - component: {fileID: 8455696892415747739}
   - component: {fileID: 1151357474806224623}
-  - component: {fileID: 1816889565232577422}
+  - component: {fileID: 7156523501053880395}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6320097930146463304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 14, y: -85, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,7 +78,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1816889565232577422
+--- !u!114 &7156523501053880395
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,6 +87,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6320097930146463304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec407b8c1e6f55146b553b54fc0deaa4, type: 3}
+  m_Script: {fileID: 11500000, guid: a422e4144384b9e46b4f3355d08fa152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnRow: 0
+  spawnCol: 0

@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageable {
-#pragma warning disable 0649
-  [Range(1, 1000)] [SerializeField] private int _maxHp = 1;
-  [Range(1, 1000)] [SerializeField] private int _attackPower = 1;
-#pragma warning restore 0649
 
+  private readonly EnemyObject e;
   protected Direction Facing { get; set; }
 
-  protected virtual void Awake() {
+  public Enemy(EnemyObject e) : base(e) {
+    this.e = e;
     GameManager.S.RegisterTurnTaker(this);
-    _damageable = new Damageable(_maxHp);
+    _damageable = new Damageable(e._maxHp);
     Debug.LogWarning("Enemies have no cooldown on their attack, so they will damage the player every timestep");
   }
 
@@ -43,7 +41,7 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
       return;
     }
 
-    other.TakeDamage(this, _attackPower);
+    other.TakeDamage(this, e._attackPower);
   }
 
   //

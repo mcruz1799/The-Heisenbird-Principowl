@@ -2,39 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MultiTileEntity : MonoBehaviour, ITileInhabitant {
-#pragma warning disable 0649
-#pragma warning restore 0649
+public abstract class MultiTileEntity : ITileInhabitant {
 
   //The abstract class gets to define what composedEntities actually contains
   //Subclasses aren't allowed to modify what's inside composedEntities, but they can look via ComposedEntities
-  private readonly Dictionary<SingleTileEntity,Vector2Int> composedEntities = new Dictionary<SingleTileEntity, Vector2Int>();
-  //protected IReadOnlyCollection<SingleTileEntity> ComposedEntities => composedEntities;
-
-  protected abstract System.Tuple<Dictionary<SingleTileEntity,Vector2Int>, SingleTileEntity> ConstructSelf();
+  private readonly HashSet<SingleTileEntity> composedEntities = new HashSet<SingleTileEntity>();
+  protected IReadOnlyCollection<SingleTileEntity> ComposedEntities => composedEntities;
 
   private SingleTileEntity _leadingEntity;
   protected SingleTileEntity LeadingEntity {
     get => _leadingEntity;
     set => _leadingEntity = 
-      composedEntities.ContainsKey(value) ? 
+      composedEntities.Contains(value) ? 
       _leadingEntity = value : 
       throw new System.ArgumentException("LeadingEntity must be a member of composedEntities");
   }
 
-  protected virtual void Awake()
-  {
-    System.Tuple<Dictionary<SingleTileEntity,Vector2Int>, SingleTileEntity > tuple = ConstructSelf();
-    foreach (SingleTileEntity entity in tuple.Item1.Keys) {
-      composedEntities.Add(entity, tuple.Item1[entity]);
-    }
-    LeadingEntity = (tuple.Item2 != null) ? tuple.Item2 : throw new System.ArgumentException("LeadingEntity is null.");
+  public MultiTileEntity(HashSet<SingleTileEntity> composedEntities, SingleTileEntity leadingEntity) {
+    this.composedEntities.UnionWith(composedEntities);
+    LeadingEntity = leadingEntity;
   }
 
   public void SetPosition(int newRow, int newCol, out bool success) {
-    foreach (SingleTileEntity entity in composedEntities.Keys) {
-      int row = newRow + composedEntities[entity].y;
-      int col = newCol + composedEntities[entity].x;
+    foreach (SingleTileEntity entity in composedEntities) {
+      int row = newRow + (entity.Row - LeadingEntity.Row);
+      int col = newCol + (entity.Col - LeadingEntity.Col);
       if (!entity.CanSetPosition(row, col)) {
         success = false;
         return;
@@ -42,11 +34,11 @@ public abstract class MultiTileEntity : MonoBehaviour, ITileInhabitant {
     }
 
     success = true;
-    foreach (SingleTileEntity entity in composedEntities.Keys) {
+    foreach (SingleTileEntity entity in composedEntities) {
 
 
-      int row = newRow + composedEntities[entity].y;
-      int col = newCol + composedEntities[entity].x;
+      int row = newRow + (entity.Row - LeadingEntity.Row);
+      int col = newCol + (entity.Col - LeadingEntity.Col);
       Debug.Log("Multi Row:" + row);
       Debug.Log("Multi Col:" + col);
       entity.SetPosition(row, col, out bool doubleCheckSuccess);
@@ -65,8 +57,8 @@ public abstract class MultiTileEntity : MonoBehaviour, ITileInhabitant {
   //
 
   public bool IsBlockedBy(ITileInhabitant other) {
-    foreach (SingleTileEntity entity in composedEntities.Keys) {
-      bool otherIsPartOfThis = other is SingleTileEntity && composedEntities.ContainsKey((SingleTileEntity)other);
+    foreach (SingleTileEntity entity in composedEntities) {
+      bool otherIsPartOfThis = other is SingleTileEntity && composedEntities.Contains((SingleTileEntity)other);
       if (!otherIsPartOfThis && entity.IsBlockedBy(other)) {
         return true;
       }
@@ -76,7 +68,7 @@ public abstract class MultiTileEntity : MonoBehaviour, ITileInhabitant {
 
   public ISet<Tile> Occupies() {
     ISet<Tile> result = new HashSet<Tile>();
-    foreach (SingleTileEntity entity in composedEntities.Keys) {
+    foreach (SingleTileEntity entity in composedEntities) {
       result.UnionWith(entity.Occupies());
     }
     return result;

@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant {
-#pragma warning disable 0649
-#pragma warning restore 0649
+public abstract class SingleTileEntity : ITileInhabitant {
 
-  //To be controlled by subclasses
+  private readonly SingleTileEntityObject gameObject;
+
   public int Row { get; private set; }
   public int Col { get; private set; }
+
+  public SingleTileEntity(SingleTileEntityObject gameObject) {
+    this.gameObject = gameObject;
+    SetPosition(gameObject.spawnRow, gameObject.spawnCol, out bool success);
+    if (!success) {
+      throw new System.Exception("Failed to initialize SingleTileEntity");
+    }
+  }
 
   //Code taken from https://stackoverflow.com/questions/11678693/all-cases-covered-bresenhams-line-algorithm
   private static List<Vector2Int> BresenhamLineAlgorithm(int x0, int y0, int xf, int yf) {
@@ -113,10 +120,7 @@ public abstract class SingleTileEntity : MonoBehaviour, ITileInhabitant {
       Row = newRow;
       Col = newCol;
       GameManager.S.Board[Row, Col].Add(this);
-
-      Vector3 newPosition = GameManager.S.Board[Row, Col].transform.position;
-      newPosition.z = transform.position.z;
-      transform.position = newPosition;
+      gameObject.SetPosition(Row, Col);
     }
   }
 

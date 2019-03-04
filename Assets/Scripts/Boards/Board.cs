@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Board : MonoBehaviour {
-#pragma warning disable 0649
-  [SerializeField] private BoardMaker boardMaker;
-  [SerializeField] private Tile tilePrefab;
-  [Range(1, 200)] [SerializeField] private int numRows = 1, numCols = 1;
-#pragma warning restore 0649
+public class Board {
+  private readonly Tile[,] board;
 
-  private Tile[,] board;
+  public int Rows { get; }
+  public int Cols { get; }
 
-  public int Rows { get; private set; }
-  public int Cols { get; private set; }
+  private static int numMade;
+  public Board(int numRows, int numCols, Tile tilePrefab, Transform tileHolder) {
+    if (numMade > 2) {
+      Debug.Log("D:");
+      return;
+    }
+    numMade += 1;
 
-  private void Start() {
     Rows = numRows;
     Cols = numCols;
     board = new Tile[Rows, Cols];
@@ -25,19 +26,8 @@ public class Board : MonoBehaviour {
     float yOffset = -tileHeight / 2f * Rows;
     for (int row = 0; row < Rows; row++) {
       for (int col = 0; col < Cols; col++) {
-        board[row, col] = Instantiate(original: tilePrefab, parent: transform);
+        board[row, col] = Object.Instantiate(original: tilePrefab, parent: tileHolder);
         board[row, col].transform.position = new Vector3(tileWidth * col + xOffset, tileHeight * row + yOffset, 0);
-      }
-    }
-    for (int row = 0; row < Rows; row++) {
-      for (int col = 0; col < Cols; col++) {
-        ISet<ITileInhabitant> inhabitants = boardMaker.PopulateTile(row, col);
-        foreach (ITileInhabitant inhabitant in inhabitants) {
-          inhabitant.SetPosition(row, col, out bool success);
-          if (!success) {
-            throw new System.Exception("Failed to initialize Board");
-          }
-        }
       }
     }
   }

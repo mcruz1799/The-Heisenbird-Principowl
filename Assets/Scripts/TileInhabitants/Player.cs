@@ -12,29 +12,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     HeadBonking = 1 << 4,
   }
 
-#pragma warning disable 0649
-  [Range(1, 1000)] [SerializeField] private int _maxHp = 1;
-  [Range(1, 1000)] [SerializeField] private int _attackPower = 1;
-
-  [Range(1, 20)] [SerializeField] private int gravity = 1;
-  [Range(1, 20)] [SerializeField] private int jumpPower = 1;
-
-  [Range(1, 20)] [SerializeField] private int _xWallJumpPower = 1;
-  [Range(1, 20)] [SerializeField] private int yWallJumpPower = 1;
-  [Range(1, 20)] [SerializeField] private int wallSlideSpeed = 1;
-  //TODO: private int wallJumpCooldown;
-
-  [Range(1,  5)] [SerializeField] private int _xAccelerationGrounded = 1;
-  [Range(1,  5)] [SerializeField] private int _xAccelerationAerial = 1;
-  [Range(1,  5)] [SerializeField] private int xDeceleration = 1;
-
-  [Range(1, 10)] [SerializeField] private int xSpeedMax = 1;
-  [Range(1, 10)] [SerializeField] private int ySpeedMax = 1;
-  [Range(-10, -1)] [SerializeField] private int ySpeedMin = -1;
-
-  [Range(3, 10)] [SerializeField] private int skidAndTurnThreshold = 3;
-  [Range(1,  2)] [SerializeField] private int skidSpeed = 1; //Must be less than skidAndTurnThreshold
-#pragma warning restore 0649
+  private readonly PlayerObject p;
 
   private PlayerStates State { get; set; } = PlayerStates.Grounded;
   private Action selectedAction = Action.Wait;
@@ -42,27 +20,25 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   private int _xVelocity;
   private int XVelocity {
     get => _xVelocity;
-    set => _xVelocity = Mathf.Clamp(value, -xSpeedMax, xSpeedMax);
+    set => _xVelocity = Mathf.Clamp(value, -p.xSpeedMax, p.xSpeedMax);
   }
 
   private int _yVelocity;
   private int YVelocity {
     get => _yVelocity;
-    set => _yVelocity = Mathf.Clamp(value, ySpeedMin, ySpeedMax);
+    set => _yVelocity = Mathf.Clamp(value, p.ySpeedMin, p.ySpeedMax);
   }
 
   //Exposed for PlayerAnimator
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   public bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
 
-  private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -_xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? _xWallJumpPower : 0;
-  private int XAcceleration => IsGrounded ? _xAccelerationGrounded : _xAccelerationAerial;
+  private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -p._xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? p._xWallJumpPower : 0;
+  private int XAcceleration => IsGrounded ? p._xAccelerationGrounded : p._xAccelerationAerial;
 
-  private void Awake() {
-    _damageable = new Damageable(_maxHp);
-  }
-
-  private void Start() {
+  public Player(PlayerObject p) : base(p) {
+    this.p = p;
+    _damageable = new Damageable(this.p._maxHp);
     GameManager.S.RegisterTurnTaker(this);
   }
 
@@ -103,20 +79,20 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
           //We couldn't enter the new position.  Must have encountered an obstacle.
 
           if (yDir > 0) {
-            //Debug.Log("TODO: Bonked head");
-            //SoundManager.S.PlayHeadBonkSfx();
-          }
-
-          if (yDir < 0) {
+            //Debug.Log("Bonked head");
             YVelocity = 0;
-            //Debug.Log("TODO: Landed");
-            //SoundManager.S.PlayLandedSfx();
+            SoundManager.S.PlayerHeadBonk();
+
+          } else if (yDir < 0) {
+            YVelocity = 0;
+            //Debug.Log("Landed");
+            SoundManager.S.PlayerLanded();
           }
 
           if (xDir != 0) {
             if (!IsGrounded) {
               State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
-              YVelocity = -wallSlideSpeed;
+              YVelocity = -p.wallSlideSpeed;
             }
             XVelocity = 0;
           }
@@ -138,7 +114,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
     //Apply gravity
     if (!IsGrounded) {
-      YVelocity -= gravity;
+      YVelocity -= p.gravity;
     }
   }
 
@@ -160,11 +136,13 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     switch (action) {
       case Action.Jump:
         if (IsGrounded) {
-          YVelocity += jumpPower;
-          //SoundManager.S.PlayJumpSfx();
+          YVelocity += p.jumpPower;
+          SoundManager.S.PlayerJump();
+
         } else if (IsWallSliding) {
-          YVelocity = yWallJumpPower;
+          YVelocity = p.yWallJumpPower;
           XVelocity = XWallJumpPower;
+          SoundManager.S.PlayerJump();
         }
         State &= ~PlayerStates.RightWallSliding;
         State &= ~PlayerStates.LeftWallSliding;
@@ -180,9 +158,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
         State &= ~PlayerStates.RightWallSliding;
         State &= ~PlayerStates.LeftWallSliding;
 
-        if (IsGrounded && XVelocity >= skidAndTurnThreshold) {
+        if (IsGrounded && XVelocity >= p.skidAndTurnThreshold) {
           State |= PlayerStates.SkidTurning; //Set skid flag
-          XVelocity = skidSpeed;
+          XVelocity = p.skidSpeed;
         } else {
           if (XVelocity > 0) {
             XVelocity = 0;
@@ -195,9 +173,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
         State &= ~PlayerStates.RightWallSliding;
         State &= ~PlayerStates.LeftWallSliding;
 
-        if (IsGrounded && XVelocity <= -skidAndTurnThreshold) {
+        if (IsGrounded && XVelocity <= -p.skidAndTurnThreshold) {
           State |= PlayerStates.SkidTurning; //Set skid flag
-          XVelocity = -skidSpeed;
+          XVelocity = -p.skidSpeed;
         } else {
           if (XVelocity < 0) {
             XVelocity = 0;
@@ -208,12 +186,12 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
       case Action.Wait:
         if (XVelocity > 0) {
-          XVelocity -= xDeceleration;
+          XVelocity -= p.xDeceleration;
           if (XVelocity < 0) {
             XVelocity = 0;
           }
         } else if (XVelocity < 0) {
-          XVelocity += xDeceleration;
+          XVelocity += p.xDeceleration;
           if (XVelocity > 0) {
             XVelocity = 0;
           }
@@ -263,6 +241,11 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
   public void TakeDamage(IAttacker attacker, int baseDamage) {
     _damageable.TakeDamage(baseDamage);
+    if (_damageable.IsAlive) {
+      SoundManager.S.PlayerDamaged();
+    } else {
+      SoundManager.S.PlayerDied();
+    }
   }
 
 
@@ -279,7 +262,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
       Debug.LogError("Attempting an illegal attack");
       return;
     }
-    other.TakeDamage(this, _attackPower);
+    other.TakeDamage(this, p._attackPower);
   }
 
 
