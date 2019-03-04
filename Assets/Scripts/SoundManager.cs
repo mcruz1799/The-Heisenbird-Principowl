@@ -8,4 +8,24 @@ public class SoundManager : MonoBehaviour {
   private void Awake() {
     S = this;
   }
+
+  public void PlayerHeadBonk() {
+
+  }
+
+  public void PlayerLanded() {
+
+  }
+
+  public void PlayerJump() {
+
+  }
+
+  public void PlayerDamaged() {
+
+  }
+
+  public void PlayerDied() {
+
+  }
 }
