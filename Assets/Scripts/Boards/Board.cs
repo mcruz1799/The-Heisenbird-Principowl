@@ -27,6 +27,10 @@ public class Board : MonoBehaviour {
       for (int col = 0; col < Cols; col++) {
         board[row, col] = Instantiate(original: tilePrefab, parent: transform);
         board[row, col].transform.position = new Vector3(tileWidth * col + xOffset, tileHeight * row + yOffset, 0);
+      }
+    }
+    for (int row = 0; row < Rows; row++) {
+      for (int col = 0; col < Cols; col++) {
         ISet<ITileInhabitant> inhabitants = boardMaker.PopulateTile(row, col);
         foreach (ITileInhabitant inhabitant in inhabitants) {
           inhabitant.SetPosition(row, col, out bool success);
