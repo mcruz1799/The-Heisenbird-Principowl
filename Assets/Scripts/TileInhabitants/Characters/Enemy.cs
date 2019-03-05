@@ -23,9 +23,9 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
 
   public virtual void OnTurn() {
     //TODO: Shouldn't attack every timestep.  ^.-
-    Move();
+    //Move();
     Tile attackedTile = GameManager.S.Board.GetInDirection(Row, Col, Facing);
-    attackedTile.Attack(this);
+    //attackedTile.Attack(this);
   }
 
   public override bool CanSetPosition(int newRow, int newCol)
