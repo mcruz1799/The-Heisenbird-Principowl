@@ -14,6 +14,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   }
 
   private readonly PlayerObject p;
+  private Transform pGraphic;
 
   private PlayerStates State { get; set; } = PlayerStates.Grounded;
   private Action selectedAction = Action.Wait;
@@ -41,6 +42,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     this.p = p;
     _damageable = new Damageable(this.p._maxHp);
     GameManager.S.RegisterTurnTaker(this);
+    pGraphic = p.transform.parent.GetChild(1);
   }
 
 
@@ -81,6 +83,14 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
     if (XVelocity != 0 || YVelocity != 0) {
       List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, YVelocity);
+
+
+      //Flip PlayerGraphic Orientation
+      if (XVelocity < 0) {
+        pGraphic.localRotation = new Quaternion(0,180,0,0);
+      } else if (XVelocity > 0) {
+        pGraphic.localRotation = new Quaternion(0, 0, 0, 0);
+      }
 
       //Skip the first waypoint because it's just our current position
       for (int i = 1; i < moveWaypoints.Count; i++) {
