@@ -5,13 +5,17 @@ using UnityEngine;
 public class Platform : SingleTileEntity {
   private readonly PlatformObject gameObject;
 
-  public bool IsActive => gameObject.isActive;
+  public bool IsActive {
+    get => gameObject.isActive;
+    set => gameObject.isActive = value;
+  }
   public bool PlayerCanDropThrough => gameObject.playerCanDropThrough;
   public bool PlayerCanJumpThrough => gameObject.playerCanJumpThrough;
   public PlatformAndBeetleColor ColorGroup => gameObject.colorGroup;
 
   private Platform(SingleTileEntityObject gameObject) : base(gameObject) {
     this.gameObject = (PlatformObject)gameObject;
+    PlatformToggleManager.AddPlatform(this);
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other) {

@@ -13,9 +13,24 @@ public class PlatformBeetle : Enemy {
     XVelocity = 1;
   }
 
+  private int turnParity = 0;
   public override void OnTurn() {
-    Move();
+    //It's safe to do this stuff before OnDeath() is check in the base method.
+    //Awful stylistically, but safe.  Please don't add more code unless you really know what you're doing.
+    turnParity += 1;
+    turnParity %= e.moveCooldown;
+    if (turnParity == 0) {
+      Move();
+    }
     base.OnTurn();
+  }
+
+  protected override void OnDeath() {
+    Debug.Log("Beetle died!");
+    PlatformToggleManager.Toggle(GroupColor);
+    Object.Destroy(e.gameObject);
+    GameManager.S.Board[Row, Col].Remove(this);
+    GameManager.S.UnregisterTurnTaker(this);
   }
 
   private void Move() {
