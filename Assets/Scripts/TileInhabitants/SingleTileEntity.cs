@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class SingleTileEntity : ITileInhabitant {
 
+  //Exists as a hack to simplify how we prevent MultiTileEntity from colliding with itself
+  public readonly ISet<ITileInhabitant> toIgnore = new HashSet<ITileInhabitant>();
+
   private readonly SingleTileEntityObject gameObject;
 
   public int Row { get; private set; }
@@ -128,7 +131,11 @@ public abstract class SingleTileEntity : ITileInhabitant {
   //ITileInhabitant
   //
 
-  public abstract bool IsBlockedBy(ITileInhabitant other);
+  public bool IsBlockedBy(ITileInhabitant other) {
+    return !toIgnore.Contains(other) && IsBlockedByCore(other);
+  }
+
+  protected abstract bool IsBlockedByCore(ITileInhabitant other);
 
   public ISet<Tile> Occupies() {
     return new HashSet<Tile>() { GameManager.S.Board[Row, Col] };

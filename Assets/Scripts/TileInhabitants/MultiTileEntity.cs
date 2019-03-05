@@ -20,6 +20,9 @@ public abstract class MultiTileEntity : ITileInhabitant {
 
   protected MultiTileEntity(HashSet<SingleTileEntity> composedEntities, SingleTileEntity leadingEntity) {
     this.composedEntities.UnionWith(composedEntities);
+    foreach (SingleTileEntity entity in composedEntities) {
+      entity.toIgnore.UnionWith(composedEntities);
+    }
     LeadingEntity = leadingEntity;
   }
 
@@ -35,12 +38,8 @@ public abstract class MultiTileEntity : ITileInhabitant {
 
     success = true;
     foreach (SingleTileEntity entity in composedEntities) {
-
-
       int row = newRow + (entity.Row - LeadingEntity.Row);
       int col = newCol + (entity.Col - LeadingEntity.Col);
-      Debug.Log("Multi Row:" + row);
-      Debug.Log("Multi Col:" + col);
       entity.SetPosition(row, col, out bool doubleCheckSuccess);
       if (!doubleCheckSuccess) {
         success = false;

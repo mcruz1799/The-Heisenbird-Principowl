@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformLength: 3
-  subentityObjectPrefab: {fileID: 5201060628255058296, guid: a6cb927081eb9d941a60cd37c4db2518,
+  platformPrefab: {fileID: 1966066030913921970, guid: a6cb927081eb9d941a60cd37c4db2518,
     type: 3}

@@ -14,15 +14,23 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
     Debug.LogWarning("Enemies have no cooldown on their attack, so they will damage the player every timestep");
   }
 
-  public override bool IsBlockedBy(ITileInhabitant other) {
-    bool isWall = other is Wall;
-    return isWall;
+  protected override bool IsBlockedByCore(ITileInhabitant other) {
+    return other is Platform || other is Player || other is Enemy;
   }
 
   public virtual void OnTurn() {
     //TODO: Shouldn't attack every timestep.  ^.-
     Tile attackedTile = GameManager.S.Board.GetInDirection(Row, Col, Facing);
-    attackedTile.Attack(this);
+    foreach (ITileInhabitant inhabitant in attackedTile.Inhabitants) {
+      if (!(inhabitant is IDamageable)) {
+        continue;
+      }
+
+      IDamageable victim = (IDamageable)inhabitant;
+      if (CanAttack(victim)) {
+        victim.TakeDamage(this, e._attackPower);
+      }
+    }
   }
 
 

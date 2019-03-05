@@ -47,9 +47,8 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //SingleTileEntity
   //
 
-  public override bool IsBlockedBy(ITileInhabitant other) {
-    bool isWall = other is Wall;
-    return isWall;
+  protected override bool IsBlockedByCore(ITileInhabitant other) {
+    return other is Platform || other is Player || other is Enemy;
   }
 
 
