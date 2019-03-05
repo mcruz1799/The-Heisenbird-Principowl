@@ -5,7 +5,9 @@ using UnityEngine;
 public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageable {
 
   private readonly EnemyObject e;
-  protected Direction Facing { get; set; }
+  protected abstract Direction Facing { get; set; }
+  protected abstract int SpeedX { get; set; }
+  protected abstract int SpeedY { get; set; }
 
   public Enemy(EnemyObject e) : base(e) {
     this.e = e;
@@ -20,6 +22,7 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
 
   public virtual void OnTurn() {
     //TODO: Shouldn't attack every timestep.  ^.-
+    Move();
     Tile attackedTile = GameManager.S.Board.GetInDirection(Row, Col, Facing);
     foreach (ITileInhabitant inhabitant in attackedTile.Inhabitants) {
       if (!(inhabitant is IDamageable)) {
@@ -32,6 +35,38 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
       }
     }
   }
+
+  public override bool CanSetPosition(int newRow, int newCol)
+  {
+    bool validPosition = base.CanSetPosition(newRow, newCol);
+    Tile below = GameManager.S.Board.GetInDirection(newRow, newCol, Direction.East);
+
+    /*IReadOnlyCollection<ITileInhabitant> inhabitants = below.Inhabitants;
+    bool isEmpty = true;
+    foreach (ITileInhabitant inhabitant in inhabitants) {
+      if (inhabitant.IsBlockedBy(null)) {
+        isEmpty = false;
+        break;
+      }
+    }*/
+    return validPosition; // && !isEmpty; //Makes sure that there is something beneath the enemy.
+  }
+  private void Move()
+  {
+    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(SpeedX, SpeedY);
+    for (int i = 1; i < moveWaypoints.Count; i++) {
+      Vector2Int waypoint = moveWaypoints[i];
+      int newRow = waypoint.x;
+      int newCol = waypoint.y;
+      Debug.Log("Row,Col: " + newRow + ", " + newCol);
+      SetPosition(newRow, newCol, out bool enteredNewPosition);
+      if (!enteredNewPosition) {
+        Facing = Facing.Opposite();
+      }
+
+    }
+  }
+
 
 
   //
