@@ -48,7 +48,25 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //
 
   protected override bool IsBlockedByCore(ITileInhabitant other) {
-    return other is Platform || other is Player || other is Enemy;
+    if (other is Enemy) {
+      return true;
+    }
+
+    if (other is Platform) {
+      Platform platform = (Platform)other;
+      if (!platform.IsActive) {
+        return false;
+      }
+      if (platform.PlayerCanJumpThrough) {
+        //TODO: Check if the player is moving up through the platform
+      }
+      if (platform.PlayerCanDropThrough) {
+        //TODO: Add a drop-through flag?  Move the selectedAction reset to the end of OnTurn?
+      }
+      return true;
+    }
+
+    return false;
   }
 
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Platform : SingleTileEntity {
   private readonly PlatformObject gameObject;
 
+  public bool IsActive => gameObject.isActive;
   public bool PlayerCanDropThrough => gameObject.playerCanDropThrough;
   public bool PlayerCanJumpThrough => gameObject.playerCanJumpThrough;
   public PlatformAndBeetleColor ColorGroup => gameObject.colorGroup;
