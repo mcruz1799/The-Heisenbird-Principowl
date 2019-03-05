@@ -10,7 +10,6 @@ public class PlatformBeetleMaker : TileInhabitantMaker
 
   public override ITileInhabitant Make(int row, int col, Transform parent = null)
   {
-    Debug.Log("Shizzwizzle.");
     SingleTileEntityObject obj = (SingleTileEntityObject) platformBeetlePrefab.GetComponentInChildren<PlatformBeetleObject>();
     Debug.Log(obj);
     return PlatformBeetle.Make(obj, row, col, parent);

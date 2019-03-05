@@ -13,9 +13,7 @@ public class PlatformBeetle : Enemy
 
   public static PlatformBeetle Make(SingleTileEntityObject platformBeetlePrefab, int row, int col, Transform parent = null)
   {
-    Debug.Log("Breaks here.");
     GameObject g = platformBeetlePrefab.gameObject.transform.parent.gameObject;
-    Debug.Log(g);
     GameObject instance = Object.Instantiate(g);
     platformBeetlePrefab = instance.GetComponentInChildren<SingleTileEntityObject>();
     instance.transform.parent = parent;
