@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformBeetleObject : EnemyObject
-{
+public class PlatformBeetleObject : EnemyObject {
   //TODO: Add Specific Parameters
 }

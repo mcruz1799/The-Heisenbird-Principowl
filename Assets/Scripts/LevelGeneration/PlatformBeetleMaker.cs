@@ -5,14 +5,11 @@ using UnityEngine;
 public class PlatformBeetleMaker : TileInhabitantMaker
 {
 #pragma warning disable 0649
-  [SerializeField] private GameObject platformBeetlePrefab;
+  [SerializeField] private PlatformBeetleObject platformBeetlePrefab;
 #pragma warning restore 0649
 
-  public override ITileInhabitant Make(int row, int col, Transform parent = null)
-  {
-    SingleTileEntityObject obj = (SingleTileEntityObject) platformBeetlePrefab.GetComponentInChildren<PlatformBeetleObject>();
-    Debug.Log(obj);
-    return PlatformBeetle.Make(obj, row, col, parent);
+  public override ITileInhabitant Make(int row, int col, Transform parent = null) {
+    return PlatformBeetle.Make(platformBeetlePrefab, row, col, parent);
   }
 }
 

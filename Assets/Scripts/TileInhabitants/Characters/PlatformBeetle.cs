@@ -2,42 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformBeetle : Enemy
-{
+public class PlatformBeetle : Enemy {
   private readonly PlatformBeetleObject e;
-  private Direction currentDirection;
 
-  public PlatformBeetle(SingleTileEntityObject e) : base((EnemyObject)e)
-  {
-    //TODO: Add Other Necessary Setup Here.
-    this.e = (PlatformBeetleObject)e;
-    this.currentDirection = Direction.East;
+  protected override Direction AttackDirection => XVelocity > 0 ? Direction.East : Direction.West;
+
+  private PlatformBeetle(PlatformBeetleObject e) : base(e) {
+    this.e = e;
+    XVelocity = 1;
   }
 
-  protected override int SpeedX {
-    get => e.xSpeed;
-    set => e.xSpeed = value;
-  }
-  protected override int SpeedY {
-    get => e.xSpeed;
-    set => e.xSpeed = value;
+  public override void OnTurn() {
+    Move();
+    base.OnTurn();
   }
 
-  protected override Direction Facing {
-    get => this.currentDirection;
-    set => this.currentDirection = value;
+  private void Move() {
+    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, YVelocity);
+    for (int i = 1; i < moveWaypoints.Count; i++) {
+      Vector2Int waypoint = moveWaypoints[i];
+      int newRow = waypoint.y;
+      int newCol = waypoint.x;
+
+      //Is the new Tile a legal place to be?
+      Tile below = GameManager.S.Board.GetInDirection(newRow, newCol, Direction.South);
+      if (!CanStandAbove(below) || !CanSetPosition(newRow, newCol)) {
+        XVelocity *= -1;
+        break;
+      }
+
+      SetPosition(newRow, newCol, out bool success);
+      if (!success) {
+        throw new System.Exception("Unexpected failure in SetPosition");
+      }
+    }
   }
 
-  public static PlatformBeetle Make(SingleTileEntityObject platformBeetlePrefab, int row, int col, Transform parent = null)
-  {
-    GameObject g = platformBeetlePrefab.gameObject.transform.parent.gameObject;
-    GameObject instance = Object.Instantiate(g);
-    Debug.Log("Instance:" + instance);
-    Debug.Log("Row:" + row);
-    Debug.Log("Col:" +col);
-    platformBeetlePrefab = instance.GetComponentInChildren<SingleTileEntityObject>();
-    instance.transform.parent = parent;
-    Debug.Log("Prefab:" + platformBeetlePrefab);
+  private bool CanStandAbove(Tile tile) {
+    foreach (ITileInhabitant inhabitant in tile.Inhabitants) {
+      if (inhabitant is Platform) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static PlatformBeetle Make(PlatformBeetleObject platformBeetlePrefab, int row, int col, Transform parent = null) {
+    platformBeetlePrefab = Object.Instantiate(platformBeetlePrefab);
+    platformBeetlePrefab.transform.parent = parent;
     platformBeetlePrefab.spawnRow = row;
     platformBeetlePrefab.spawnCol = col;
     return new PlatformBeetle(platformBeetlePrefab);
