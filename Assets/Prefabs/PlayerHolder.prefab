@@ -75,21 +75,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431d66ce5f5211c4ab7e1b37df075eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRow: 0
-  spawnCol: 0
+  spawnRow: 1
+  spawnCol: 1
   _maxHp: 1
   _attackPower: 1
   gravity: 1
-  jumpPower: 1
-  _xWallJumpPower: 1
+  jumpPower: 5
+  _xWallJumpPower: 3
   yWallJumpPower: 1
   wallSlideSpeed: 1
   _xAccelerationGrounded: 1
   _xAccelerationAerial: 1
   xDeceleration: 1
-  xSpeedMax: 1
-  ySpeedMax: 1
-  ySpeedMin: -1
+  xSpeedMax: 3
+  ySpeedMax: 10
+  ySpeedMin: -10
   skidAndTurnThreshold: 3
   skidSpeed: 1
 --- !u!1 &7890401424038097247
