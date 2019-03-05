@@ -23,7 +23,6 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
     this.e = e;
     GameManager.S.RegisterTurnTaker(this);
     _damageable = new Damageable(e._maxHp);
-    Debug.LogWarning("Enemies have no cooldown on their attack, so they will damage the player every timestep");
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other) {
