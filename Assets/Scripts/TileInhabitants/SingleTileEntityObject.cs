@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SingleTileEntityObject : MonoBehaviour {
   [Header("INITIALIZATION ONLY")]
+
+  //When constructing a SingleTileEntity, SetPosition(spawnRow, spawnCol) gets called.
   public int spawnRow;
   public int spawnCol;
 

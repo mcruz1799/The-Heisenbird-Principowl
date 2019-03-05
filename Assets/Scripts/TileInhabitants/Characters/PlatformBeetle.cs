@@ -32,8 +32,12 @@ public class PlatformBeetle : Enemy
   {
     GameObject g = platformBeetlePrefab.gameObject.transform.parent.gameObject;
     GameObject instance = Object.Instantiate(g);
+    Debug.Log("Instance:" + instance);
+    Debug.Log("Row:" + row);
+    Debug.Log("Col:" +col);
     platformBeetlePrefab = instance.GetComponentInChildren<SingleTileEntityObject>();
     instance.transform.parent = parent;
+    Debug.Log("Prefab:" + platformBeetlePrefab);
     platformBeetlePrefab.spawnRow = row;
     platformBeetlePrefab.spawnCol = col;
     return new PlatformBeetle(platformBeetlePrefab);

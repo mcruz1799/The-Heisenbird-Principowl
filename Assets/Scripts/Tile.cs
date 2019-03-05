@@ -33,7 +33,6 @@ public sealed class Tile : MonoBehaviour {
 
   public void Add(ITileInhabitant newInhabitant) {
     if (!CanAdd(newInhabitant)) {
-      Debug.LogError("Illegal call to Tile.Add()");
       throw new System.ArgumentException("Cannot add inhabitant");
     }
 
@@ -52,16 +51,5 @@ public sealed class Tile : MonoBehaviour {
     }
 
     return success;
-  }
-
-  [System.Obsolete("Please loop over Tile.Inhabitants and attack them by trying to cast them to IDamageable")]
-  public void Attack(IAttacker attacker) {
-    Debug.LogWarning("Tile.Attack() is deprecated");
-    foreach (ITileInhabitant inhabitant in inhabitants) {
-      IDamageable victim = inhabitant is IDamageable ? (IDamageable)inhabitant : null;
-      if (victim != null && attacker.CanAttack(victim)) {
-        attacker.Attack(victim);
-      }
-    }
   }
 }
