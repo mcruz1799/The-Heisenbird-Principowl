@@ -26,7 +26,16 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other) {
-    return other is Platform || other is Player || other is Enemy;
+    if (other is Player || other is Enemy) {
+      return true;
+    }
+
+    if (other is Platform) {
+      Platform platform = (Platform)other;
+      return platform.IsActive;
+    }
+
+    return false;
   }
 
   public virtual void OnTurn() {

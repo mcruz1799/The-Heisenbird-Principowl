@@ -34,15 +34,47 @@ public class PlatformBeetle : Enemy {
   }
 
   private void Move() {
-    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, YVelocity);
+    if (!CanStandAbove(GameManager.S.Board.GetInDirection(Row, Col, Direction.South))) {
+      //Seems like the ground disappeared from beneath me!  D:
+      Fall();
+
+    } else {
+      //Business as usual
+      Patrol();
+    }
+  }
+
+  private void Fall() {
+    YVelocity -= 1;
+
+    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(0, YVelocity);
     for (int i = 1; i < moveWaypoints.Count; i++) {
       Vector2Int waypoint = moveWaypoints[i];
       int newRow = waypoint.y;
       int newCol = waypoint.x;
 
-      //Is the new Tile a legal place to be?
+      if (!CanSetPosition(newRow, newCol)) {
+        YVelocity = 0;
+        break;
+      }
+
+      SetPosition(newRow, newCol, out bool success);
+      if (!success) {
+        throw new System.Exception("Unexpected failure in SetPosition");
+      }
+    }
+  }
+
+  private void Patrol() {
+    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, 0);
+    for (int i = 1; i < moveWaypoints.Count; i++) {
+      Vector2Int waypoint = moveWaypoints[i];
+      int newRow = waypoint.y;
+      int newCol = waypoint.x;
+
+      //Unless I'm falling, my next waypoint must be on the ground.
       Tile below = GameManager.S.Board.GetInDirection(newRow, newCol, Direction.South);
-      if (!CanStandAbove(below) || !CanSetPosition(newRow, newCol)) {
+      if (!CanSetPosition(newRow, newCol) || !CanStandAbove(below)) {
         XVelocity *= -1;
         break;
       }
@@ -55,9 +87,13 @@ public class PlatformBeetle : Enemy {
   }
 
   private bool CanStandAbove(Tile tile) {
+    if (tile == null) {
+      return true;
+    }
     foreach (ITileInhabitant inhabitant in tile.Inhabitants) {
       if (inhabitant is Platform) {
-        return true;
+        Platform platform = (Platform)inhabitant;
+        return platform.IsActive;
       }
     }
     return false;

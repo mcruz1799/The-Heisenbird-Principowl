@@ -8,14 +8,7 @@ public class Board {
   public int Rows { get; }
   public int Cols { get; }
 
-  private static int numMade;
   public Board(int numRows, int numCols, Tile tilePrefab, Transform tileHolder) {
-    if (numMade > 2) {
-      Debug.Log("D:");
-      return;
-    }
-    numMade += 1;
-
     Rows = numRows;
     Cols = numCols;
     board = new Tile[Rows, Cols];
