@@ -10,6 +10,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     RightWallSliding = 1 << 2,
     SkidTurning = 1 << 3,
     HeadBonking = 1 << 4,
+    DroppingThroughPlatform =  1 << 5,
   }
 
   private readonly PlayerObject p;
@@ -57,11 +58,11 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
       if (!platform.IsActive) {
         return false;
       }
-      if (platform.PlayerCanJumpThrough) {
-        //TODO: Check if the player is moving up through the platform
+      if (platform.PlayerCanJumpThrough && platform.Row == Row+1) {
+        return false;
       }
-      if (platform.PlayerCanDropThrough) {
-        //TODO: Add a drop-through flag?  Move the selectedAction reset to the end of OnTurn?
+      if (State.HasFlag(PlayerStates.DroppingThroughPlatform) && platform.PlayerCanDropThrough && platform.Row == Row-1) {
+        return false;
       }
       return true;
     }
@@ -76,7 +77,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
   public void OnTurn() {
     PerformAction(selectedAction);
-    selectedAction = Action.Wait;
+    //Note that selectedAction is reset to Wait at the end of this function
 
     if (XVelocity != 0 || YVelocity != 0) {
       List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, YVelocity);
@@ -122,6 +123,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     //Clear skid flag
     State &= ~PlayerStates.SkidTurning;
 
+    //Clear dropping through platform flag
+    State &= ~PlayerStates.DroppingThroughPlatform;
+
     //Update grounded flag
     if (CheckForGround()) {
       State |= PlayerStates.Grounded;
@@ -133,6 +137,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     if (!IsGrounded) {
       YVelocity -= p.gravity;
     }
+
+    //Clear the selected action
+    selectedAction = Action.Wait;
   }
 
   private bool CheckForGround() {
@@ -167,7 +174,10 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
       case Action.Drop:
         if (IsGrounded) {
-          Debug.LogWarning("TODO: Drop-through certain platforms by pressing down");
+          State |= PlayerStates.DroppingThroughPlatform;
+          if (YVelocity == 0) {
+            YVelocity = -1;
+          }
         }
         break;
 

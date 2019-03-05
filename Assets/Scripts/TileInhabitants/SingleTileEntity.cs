@@ -120,9 +120,9 @@ public abstract class SingleTileEntity : ITileInhabitant {
     success = CanSetPosition(newRow, newCol);
     if (success) {
       GameManager.S.Board[Row, Col].Remove(this);
+      GameManager.S.Board[newRow, newCol].Add(this);
       Row = newRow;
       Col = newCol;
-      GameManager.S.Board[Row, Col].Add(this);
       gameObject.SetPosition(Row, Col);
     }
   }
