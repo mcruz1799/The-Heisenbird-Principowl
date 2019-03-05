@@ -32,8 +32,8 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
   {
     bool validPosition = base.CanSetPosition(newRow, newCol);
     Tile below = GameManager.S.Board.GetInDirection(newRow, newCol, Direction.South);
-    //if (below.)
-    return validPosition;
+    
+    return validPosition && !below.CanAdd(this); //Makes sure that there is something beneath the enemy.
   }
   private void Move()
   {
@@ -44,9 +44,11 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
       int newRow = waypoint.y;
       int newCol = waypoint.x;
 
-      int xDir = newCol - Col;
-      int yDir = newRow - Row;
+      SetPosition(newRow, newCol, out bool enteredNewPosition);
 
+      if (!enteredNewPosition) {
+        Facing = Facing.Opposite();
+      }
 
     }
   }

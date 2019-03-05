@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformBeetle : MonoBehaviour
+public class PlatformBeetle : Enemy
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  private readonly PlatformBeetleObject e;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  public PlatformBeetle(PlatformBeetleObject e) : base(e)
+  {
+    //TODO: Add Other Necessary Setup Here.
+  }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 985752834887942499}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 3356153000875350277}
   - component: {fileID: 6042730274465368715}
   m_Layer: 0
-  m_Name: PlayerGraphic
+  m_Name: EnemyGraphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,7 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7273775180802752617}
   m_Layer: 0
-  m_Name: EnemyHolder
+  m_Name: PlatformBeetle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
