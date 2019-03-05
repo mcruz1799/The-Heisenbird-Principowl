@@ -105,6 +105,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
             YVelocity = 0;
             //Debug.Log("Landed");
             SoundManager.S.PlayerLanded();
+            //TODO: Attack below
           }
 
           if (xDir != 0) {

@@ -40,7 +40,7 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
 
       IDamageable victim = (IDamageable)inhabitant;
       if (CanAttack(victim)) {
-        victim.TakeDamage(this, e._attackPower);
+        Attack(victim);
       }
     }
   }
