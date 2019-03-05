@@ -41,15 +41,15 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
     bool validPosition = base.CanSetPosition(newRow, newCol);
     Tile below = GameManager.S.Board.GetInDirection(newRow, newCol, Direction.East);
 
-    IReadOnlyCollection<ITileInhabitant> inhabitants = below.Inhabitants;
+    /*IReadOnlyCollection<ITileInhabitant> inhabitants = below.Inhabitants;
     bool isEmpty = true;
     foreach (ITileInhabitant inhabitant in inhabitants) {
       if (inhabitant.IsBlockedBy(null)) {
         isEmpty = false;
         break;
       }
-    }
-    return validPosition && !isEmpty; //Makes sure that there is something beneath the enemy.
+    }*/
+    return validPosition; // && !isEmpty; //Makes sure that there is something beneath the enemy.
   }
   private void Move()
   {
