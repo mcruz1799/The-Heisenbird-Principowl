@@ -6,6 +6,7 @@ public class PlatformBeetle : Enemy {
   private readonly PlatformBeetleObject e;
 
   protected override Direction AttackDirection => XVelocity > 0 ? Direction.East : Direction.West;
+  public PlatformAndBeetleColor GroupColor => e.groupColor;
 
   private PlatformBeetle(PlatformBeetleObject e) : base(e) {
     this.e = e;
