@@ -128,3 +128,5 @@ MonoBehaviour:
   xSpeedMax: 10
   ySpeedMax: 10
   ySpeedMin: -10
+  groupColor: 0
+  moveCooldown: 5

@@ -105,7 +105,14 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
             YVelocity = 0;
             //Debug.Log("Landed");
             SoundManager.S.PlayerLanded();
-            //TODO: Attack below
+            Tile t = GameManager.S.Board.GetInDirection(Row, Col, Direction.South);
+            if (t != null) {
+              foreach (ITileInhabitant victim in t.Inhabitants) {
+                if (victim is IDamageable && CanAttack((IDamageable)victim)) {
+                  Attack((IDamageable)victim);
+                }
+              }
+            }
           }
 
           if (xDir != 0) {
@@ -271,8 +278,11 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     _damageable.TakeDamage(baseDamage);
     if (_damageable.IsAlive) {
       SoundManager.S.PlayerDamaged();
+      Debug.LogFormat("Player has {0} hp left", Hitpoints);
     } else {
       SoundManager.S.PlayerDied();
+      Debug.Log("Player has died.  Need to do something about that.");
+      UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
   }
 

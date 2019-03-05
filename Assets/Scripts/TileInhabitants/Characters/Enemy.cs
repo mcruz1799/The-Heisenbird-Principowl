@@ -31,6 +31,11 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
   }
 
   public virtual void OnTurn() {
+    if (!IsAlive) {
+      OnDeath();
+      return;
+    }
+
     //TODO: Shouldn't attack every timestep.  ^.-
     Tile attackedTile = GameManager.S.Board.GetInDirection(Row, Col, AttackDirection);
     foreach (ITileInhabitant inhabitant in attackedTile.Inhabitants) {
@@ -77,10 +82,9 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
     return _damageable.CalculateDamage(baseDamage);
   }
 
-  public void TakeDamage(IAttacker attacker, int baseDamage) {
+  public virtual void TakeDamage(IAttacker attacker, int baseDamage) {
     _damageable.TakeDamage(CalculateDamage(attacker, baseDamage));
-    if (!IsAlive) {
-      Debug.Log("TODO: Handle what happens when an enemy dies");
-    }
   }
+
+  protected abstract void OnDeath();
 }

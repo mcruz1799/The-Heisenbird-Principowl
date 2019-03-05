@@ -38,8 +38,10 @@ public class GameManager : MonoBehaviour {
   public bool RegisterTurnTaker(ITurnTaker turnTaker) {
     return turnTakers.Add(turnTaker);
   }
+
+  private ISet<ITurnTaker> toRemove = new HashSet<ITurnTaker>();
   public bool UnregisterTurnTaker(ITurnTaker turnTaker) {
-    return turnTakers.Remove(turnTaker);
+    return toRemove.Add(turnTaker);
   }
 
   private IEnumerator TurnTakerRoutine() {
@@ -48,8 +50,13 @@ public class GameManager : MonoBehaviour {
 
       Player.SelectAction(InputManager.S.GetPlayerAction());
       foreach (ITurnTaker turnTaker in turnTakers) {
-        turnTaker.OnTurn();
+        if (!toRemove.Contains(turnTaker)) {
+          turnTaker.OnTurn();
+        }
       }
+
+      turnTakers.ExceptWith(toRemove);
+      toRemove.Clear();
     }
   }
 }
