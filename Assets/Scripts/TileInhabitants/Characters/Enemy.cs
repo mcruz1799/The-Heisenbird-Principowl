@@ -46,14 +46,16 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
 
     //TODO: Shouldn't attack every timestep.  ^.-
     Tile attackedTile = GameManager.S.Board.GetInDirection(Row, Col, AttackDirection);
-    foreach (ITileInhabitant inhabitant in attackedTile.Inhabitants) {
-      if (!(inhabitant is IDamageable)) {
-        continue;
-      }
+    if (attackedTile != null) {
+      foreach (ITileInhabitant inhabitant in attackedTile.Inhabitants) {
+        if (!(inhabitant is IDamageable)) {
+          continue;
+        }
 
-      IDamageable victim = (IDamageable)inhabitant;
-      if (CanAttack(victim)) {
-        Attack(victim);
+        IDamageable victim = (IDamageable)inhabitant;
+        if (CanAttack(victim)) {
+          Attack(victim);
+        }
       }
     }
   }

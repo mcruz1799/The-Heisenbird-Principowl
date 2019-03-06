@@ -42,16 +42,16 @@ public class Board {
   public Tile GetInDirection(int row, int col, Direction direction) {
     switch (direction) {
       case Direction.North:
-        return row + 1 < Rows ? this[row + 1, col] : null;
+        return IsPositionLegal(row + 1, col) ? this[row + 1, col] : null;
 
       case Direction.South:
-        return row - 1 >= 0 ? this[row - 1, col] : null;
+        return IsPositionLegal(row - 1, col) ? this[row - 1, col] : null;
 
       case Direction.East:
-        return col + 1 < Cols ? this[row, col + 1] : null;
+        return IsPositionLegal(row, col + 1) ? this[row, col + 1] : null;
 
       case Direction.West:
-        return col - 1 >= 0 ? this[row, col - 1] : null;
+        return IsPositionLegal(row, col - 1) ? this[row, col - 1] : null;
 
       default:
         throw new System.ArgumentException("Illegal direction enum value");

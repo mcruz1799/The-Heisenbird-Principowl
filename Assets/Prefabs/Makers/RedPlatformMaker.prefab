@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6708039480429461893}
-  - component: {fileID: 2613822344061144952}
+  - component: {fileID: 3119395089931153236}
   m_Layer: 0
   m_Name: RedPlatformMaker
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2613822344061144952
+--- !u!114 &3119395089931153236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,8 +40,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 3394941085179853615}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe19860aa624de344a10f5d8d8e5461d, type: 3}
+  m_Script: {fileID: 11500000, guid: dd6c62551c58fad48996128432ab2833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformBeetlePrefab: {fileID: 5863764130154113457, guid: 915f429eb83ed694ba3066e2b0fe7b35,
+  wallPrefab: {fileID: 9215325318308815690, guid: 4c1ef9cafa3b8a94b83b5041dea7e56a,
     type: 3}
