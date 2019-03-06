@@ -35,8 +35,9 @@ public class GameManager : MonoBehaviour {
     StartCoroutine(TurnTakerRoutine());
   }
 
+  private ISet<ITurnTaker> toAdd = new HashSet<ITurnTaker>();
   public bool RegisterTurnTaker(ITurnTaker turnTaker) {
-    return turnTakers.Add(turnTaker);
+    return toAdd.Add(turnTaker);
   }
 
   private ISet<ITurnTaker> toRemove = new HashSet<ITurnTaker>();
@@ -49,6 +50,8 @@ public class GameManager : MonoBehaviour {
       yield return new WaitForSeconds(timeBetweenTurns);
 
       Player.SelectAction(InputManager.S.GetPlayerAction());
+      turnTakers.UnionWith(toAdd);
+      toAdd.Clear();
       foreach (ITurnTaker turnTaker in turnTakers) {
         if (!toRemove.Contains(turnTaker)) {
           turnTaker.OnTurn();
