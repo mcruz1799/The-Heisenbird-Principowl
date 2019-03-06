@@ -14,7 +14,6 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   }
 
   private readonly PlayerObject p;
-  private Transform pGraphic;
 
   private PlayerStates State { get; set; } = PlayerStates.Grounded;
   private Action selectedAction = Action.Wait;
@@ -42,7 +41,6 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     this.p = p;
     _damageable = new Damageable(this.p._maxHp);
     GameManager.S.RegisterTurnTaker(this);
-    pGraphic = p.transform.parent.GetChild(1);
   }
 
 
@@ -87,9 +85,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
       //Flip PlayerGraphic Orientation
       if (XVelocity < 0) {
-        pGraphic.localRotation = new Quaternion(0,180,0,0);
+        p.spriteRenderer.flipX = true;
       } else if (XVelocity > 0) {
-        pGraphic.localRotation = new Quaternion(0, 0, 0, 0);
+        p.spriteRenderer.flipX = false;
       }
 
       //Skip the first waypoint because it's just our current position
@@ -107,13 +105,11 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
           //We couldn't enter the new position.  Must have encountered an obstacle.
 
           if (yDir > 0) {
-            //Debug.Log("Bonked head");
             YVelocity = 0;
             SoundManager.S.PlayerHeadBonk();
 
           } else if (yDir < 0) {
             YVelocity = 0;
-            //Debug.Log("Landed");
             SoundManager.S.PlayerLanded();
             Tile t = GameManager.S.Board.GetInDirection(Row, Col, Direction.South);
             if (t != null) {
@@ -291,7 +287,6 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
       Debug.LogFormat("Player has {0} hp left", Hitpoints);
     } else {
       SoundManager.S.PlayerDied();
-      Debug.Log("Player has died.  Need to do something about that.");
       UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
   }
