@@ -7,30 +7,29 @@ public class BoardObject : MonoBehaviour {
   [Range(1, 300)] public int numRows = 1, numCols = 1;
   public Tile tilePrefab;
   public ColorToTileInhabitantMaker[] colorMappings;
-  public Texture2D[] levels;
+  public Texture2D level;
   public int x0, y0;
   [Range(1, 100)] public int pixelWidth = 1, pixelHeight = 1;
 #pragma warning restore 0649
 
   //Fills GameManager.S.Board with tile inhabitants
-  public void PopulateBoard(int level = 0) {
+  public void PopulateBoard() {
     //TODO: Clear GameManager.S.Board of tile inhabitants?
     //  How to handle the Player...
 
     for (int row = 0; row < numRows; row++) {
       for (int col = 0; col < numCols; col++) {
-        PopulateTileFromMap(row, col, level);
+        PopulateTileFromMap(row, col);
       }
     }
   }
 
   //Use the color mapping for a particular level to populate the tiles.
-  private void PopulateTileFromMap(int row, int col, int level = 0) {
-    Texture2D map = levels[level];
+  private void PopulateTileFromMap(int row, int col) {
 
     Color pixelColor;
     try {
-      pixelColor = map.GetPixel(x0 + col * pixelWidth, y0 + row * pixelHeight);
+      pixelColor = level.GetPixel(x0 + col * pixelWidth, y0 + row * pixelHeight);
     } catch (System.Exception e) {
       throw new System.Exception("Failed to obtain Pixel. Error: " + e);
     }
