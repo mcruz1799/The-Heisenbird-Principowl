@@ -52,7 +52,7 @@ public class SoundManager : MonoBehaviour {
     audio.Play();
   }
   public void BeetleDied(){
-    // audio.clip = BeetleDeath;
-    // audio.Play();
+    audio.clip = BeetleDeath;
+    audio.Play();
   }
 }
