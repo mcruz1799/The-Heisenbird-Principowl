@@ -12,4 +12,10 @@ public class PlatformObject : SingleTileEntityObject {
 
   public bool playerCanDropThrough;
   public bool playerCanJumpThrough;
+
+  [SerializeField] private Renderer sprite;
+
+  private void Update() {
+    sprite.enabled = isActive;
+  }
 }

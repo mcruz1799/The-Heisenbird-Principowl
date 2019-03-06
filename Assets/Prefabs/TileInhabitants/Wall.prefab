@@ -96,3 +96,4 @@ MonoBehaviour:
   colorGroup: 0
   playerCanDropThrough: 0
   playerCanJumpThrough: 0
+  sprite: {fileID: 8507473958968533667}

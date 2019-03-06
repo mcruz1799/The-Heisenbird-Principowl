@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toFollow: {fileID: 2874007845122323793}
-  localOffset: {x: 0, y: 0, z: -50}
+  localOffset: {x: 0, y: 0, z: -75}
   useInspectorOffset: 1
   smoothMotion: 0
   smoothMotionSpeed: 1
@@ -688,6 +688,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 3895756231609646414, guid: ff79193ee4fcffa4dbcabb22067830fa,
+        type: 3}
+      propertyPath: _maxHp
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3895756231609646414, guid: ff79193ee4fcffa4dbcabb22067830fa,
+        type: 3}
+      propertyPath: jumpPower
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3895756231609646414, guid: ff79193ee4fcffa4dbcabb22067830fa,
+        type: 3}
+      propertyPath: xSpeedMax
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6975803616809586252, guid: ff79193ee4fcffa4dbcabb22067830fa,
         type: 3}

@@ -284,7 +284,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     _damageable.TakeDamage(baseDamage);
     if (_damageable.IsAlive) {
       SoundManager.S.PlayerDamaged();
-      Debug.LogFormat("Player has {0} hp left", Hitpoints);
+      //Debug.LogFormat("Player has {0} hp left", Hitpoints);
     } else {
       SoundManager.S.PlayerDied();
       UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
