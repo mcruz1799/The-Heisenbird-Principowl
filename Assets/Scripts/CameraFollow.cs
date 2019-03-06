@@ -33,7 +33,7 @@ public class CameraFollow : MonoBehaviour
     yThreshold = 3;
   }
 
-  private void Update()
+  private void LateUpdate()
   {
     Vector3 currentPosition = transform.position;
     Vector3 targetPosition = toFollow.position + localOffset;
