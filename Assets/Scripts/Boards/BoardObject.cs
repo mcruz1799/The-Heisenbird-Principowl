@@ -8,6 +8,8 @@ public class BoardObject : MonoBehaviour {
   public Tile tilePrefab;
   public ColorToTileInhabitantMaker[] colorMappings;
   public Texture2D[] levels;
+  public int x0, y0;
+  [Range(1, 100)] public int pixelWidth = 1, pixelHeight = 1;
 #pragma warning restore 0649
 
   //Fills GameManager.S.Board with tile inhabitants
@@ -28,7 +30,7 @@ public class BoardObject : MonoBehaviour {
 
     Color pixelColor;
     try {
-      pixelColor = map.GetPixel(col, row);
+      pixelColor = map.GetPixel(x0 + col * pixelWidth, y0 + row * pixelHeight);
     } catch (System.Exception e) {
       throw new System.Exception("Failed to obtain Pixel. Error: " + e);
     }
