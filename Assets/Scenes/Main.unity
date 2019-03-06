@@ -378,7 +378,7 @@ MonoBehaviour:
   Landed: {fileID: 0}
   Jump: {fileID: 8300000, guid: 932182c3e269b4998a92b1d76a8f4beb, type: 3}
   Damaged: {fileID: 8300000, guid: 306d138953f904cb494847f7e6eaec30, type: 3}
-  PlayerDeath: {fileID: 0}
+  PlayerDeath: {fileID: 8300000, guid: 9ed1f4ecc2f4c4d3eb9bc83045d26ed8, type: 3}
   BeetleDeath: {fileID: 0}
 --- !u!4 &1844431722
 Transform:
