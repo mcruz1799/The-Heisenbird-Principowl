@@ -379,7 +379,7 @@ MonoBehaviour:
   Jump: {fileID: 8300000, guid: 932182c3e269b4998a92b1d76a8f4beb, type: 3}
   Damaged: {fileID: 8300000, guid: 306d138953f904cb494847f7e6eaec30, type: 3}
   PlayerDeath: {fileID: 8300000, guid: 9ed1f4ecc2f4c4d3eb9bc83045d26ed8, type: 3}
-  BeetleDeath: {fileID: 0}
+  BeetleDeath: {fileID: 8300000, guid: 2646744c46e4c4177887a47d4e9640b2, type: 3}
 --- !u!4 &1844431722
 Transform:
   m_ObjectHideFlags: 0
@@ -604,6 +604,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3895756231609646414, guid: ff79193ee4fcffa4dbcabb22067830fa,
+        type: 3}
+      propertyPath: jumpPower
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6975803616809586251, guid: ff79193ee4fcffa4dbcabb22067830fa,
         type: 3}
       propertyPath: m_Name
