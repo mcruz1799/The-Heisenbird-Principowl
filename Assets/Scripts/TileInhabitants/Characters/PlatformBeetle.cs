@@ -17,11 +17,11 @@ public class PlatformBeetle : Enemy {
   public override void OnTurn() {
     //It's safe to do this stuff before OnDeath() is check in the base method.
     //Awful stylistically, but safe.  Please don't add more code unless you really know what you're doing.
-    turnParity += 1;
-    turnParity %= e.moveCooldown;
-    if (turnParity == 0) {
-      Move();
+    if (e.moveCooldown != 0) {
+      turnParity += 1;
+      turnParity %= e.moveCooldown;
     }
+    Move();
     base.OnTurn();
   }
 
@@ -40,7 +40,9 @@ public class PlatformBeetle : Enemy {
 
     } else {
       //Business as usual
-      Patrol();
+      if (turnParity == 0) {
+        Patrol();
+      }
     }
   }
 
