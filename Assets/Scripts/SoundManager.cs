@@ -9,7 +9,9 @@ public class SoundManager : MonoBehaviour {
   public AudioClip Landed;
   public AudioClip Jump;
   public AudioClip Damaged;
-  public AudioClip Died;
+  public AudioClip PlayerDeath;
+  public AudioClip BeetleDeath;
+  
 
   private void Awake() {
     //Check if there is already an S of SoundManager
@@ -46,7 +48,11 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayerDied() {
-    audio.clip = Died;
+    audio.clip = PlayerDeath;
     audio.Play();
+  }
+  public void BeetleDied(){
+    // audio.clip = BeetleDeath;
+    // audio.Play();
   }
 }
