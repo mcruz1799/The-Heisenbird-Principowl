@@ -7,6 +7,7 @@ public sealed class PlayerObject : SingleTileEntityObject {
   [Space(10)]
 
   [Header("ADJUSTABLE DURING PLAY MODE")]
+  public SpriteRenderer spriteRenderer;
   [Range(1, 1000)] public int _attackPower = 1;
 
   [Header("Jumping")]
