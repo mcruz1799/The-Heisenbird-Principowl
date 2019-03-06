@@ -146,6 +146,7 @@ MonoBehaviour:
   spawnRow: 1
   spawnCol: 1
   _maxHp: 1
+  spriteRenderer: {fileID: 1129180136239347666}
   _attackPower: 1
   gravity: 1
   jumpPower: 5
