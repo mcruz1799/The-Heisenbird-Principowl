@@ -33,7 +33,7 @@ public class CameraFollow : MonoBehaviour
     yThreshold = 3;
   }
 
-  private void Update()
+  private void LateUpdate()
   {
     Vector3 currentPosition = transform.position;
     Vector3 targetPosition = toFollow.position + localOffset;
@@ -46,16 +46,16 @@ public class CameraFollow : MonoBehaviour
     if (smoothMotion) {
 
  
-    xDifference = Mathf.Abs(targetPosition.x - currentPosition.x);
-    yDifference = Mathf.Abs(targetPosition.y - currentPosition.y);
+      xDifference = Mathf.Abs(targetPosition.x - currentPosition.x);
+      yDifference = Mathf.Abs(targetPosition.y - currentPosition.y);
 
     if (xDifference >= xThreshold || yDifference >= yThreshold) {
       finalPosition = Vector3.Lerp(currentPosition, targetPosition, smoothMotionSpeed * Time.deltaTime);
     }
-    finalPosition.x = (xDifference < xThreshold) ? currentPosition.x : finalPosition.x;
-    finalPosition.y = (yDifference < yThreshold) ? currentPosition.y : finalPosition.y;
-    //finalPosition.z = lockZ ? currentPosition.z : finalPosition.z;
-    transform.position = finalPosition;
+      finalPosition.x = (xDifference < xThreshold) ? currentPosition.x : finalPosition.x;
+      finalPosition.y = (yDifference < yThreshold) ? currentPosition.y : finalPosition.y;
+
+      transform.position = finalPosition;
     } else {
       finalPosition = targetPosition;
     }
