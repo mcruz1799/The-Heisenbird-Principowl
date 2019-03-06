@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -235,8 +235,7 @@ MonoBehaviour:
     maker: {fileID: 6992942043397827169, guid: bdda2bf2bf4463d4492abdf42d11ad00, type: 3}
   - color: {r: 0.078431375, g: 0.6862745, b: 0.8627451, a: 1}
     maker: {fileID: 6235150820820840103, guid: f70a64c9905c1c7478b521f70800d2e6, type: 3}
-  levels:
-  - {fileID: 2800000, guid: 7c766145466a66b42975eaf3670045b8, type: 3}
+  level: {fileID: 2800000, guid: 7c766145466a66b42975eaf3670045b8, type: 3}
   x0: 0
   y0: 0
   pixelWidth: 1
@@ -252,7 +251,7 @@ GameObject:
   - component: {fileID: 534669905}
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
-  - component: {fileID: 534669907}
+  - component: {fileID: 534669906}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -324,7 +323,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &534669907
+--- !u!114 &534669906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -333,14 +332,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 534669902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5862e69166729634bb4b2f4214087d9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 00a07a4e05c6c1c4ea4c1faf4a18de07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   toFollow: {fileID: 2874007845122323793}
   localOffset: {x: 0, y: 0, z: -50}
   useInspectorOffset: 1
-  smoothMotion: 0
-  smoothMotionSpeed: 1
+  smoothMotion: 1
+  smoothMotionSpeed: 4
+  xThreshold: 0
+  yThreshold: 0
   lockX: 0
   lockY: 0
   lockZ: 0
@@ -608,6 +609,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 3895756231609646414, guid: ff79193ee4fcffa4dbcabb22067830fa,
+        type: 3}
+      propertyPath: jumpPower
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3895756231609646414, guid: ff79193ee4fcffa4dbcabb22067830fa,
+        type: 3}
+      propertyPath: xSpeedMax
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6975803616809586252, guid: ff79193ee4fcffa4dbcabb22067830fa,
         type: 3}

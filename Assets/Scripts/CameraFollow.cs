@@ -29,8 +29,8 @@ public class CameraFollow : MonoBehaviour
     if (!useInspectorOffset) {
       localOffset = transform.position - toFollow.position;
     }
-    xThreshold = 1;
-    yThreshold = 2;
+    xThreshold = 0;
+    yThreshold = 0;
   }
 
   private void Update()
