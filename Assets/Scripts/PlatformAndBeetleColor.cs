@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlatformAndBeetleColor { None, Cyan }
+public enum PlatformAndBeetleColor { None, Cyan, Red}
 
 //public static class PlatformAndBeetleColorExtensions {
 //  public static Color32 RgbColor(this PlatformAndBeetleColor color) {
