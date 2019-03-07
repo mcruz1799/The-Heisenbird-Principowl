@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
   public static GameManager S { get; private set; }
@@ -21,7 +22,22 @@ public class GameManager : MonoBehaviour {
   //Initialized here so that other classes can safely call RegisterTurnTaker inside of Awake
   private ISet<ITurnTaker> turnTakers = new HashSet<ITurnTaker>();
 
+  //UI
+  [SerializeField] private int timer = 60;  
+  [SerializeField] private Text timerText; 
+
+  private IEnumerator timeRoutine()
+  {
+    while (timer > 0){
+      yield return new WaitForSeconds(1.0f);
+      timer -= 1;
+      timerText.text = timer.ToString();
+    }
+  }
   private void Awake() {
+    timerText.text = timer.ToString();
+    StartCoroutine("timeRoutine");
+
     S = this;
     TileInhabitantObjectHolder = new GameObject().transform;
     TileInhabitantObjectHolder.name = "TileInhabitantObjectHolder";
