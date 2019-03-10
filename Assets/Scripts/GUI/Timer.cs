@@ -12,6 +12,7 @@ public class Timer : MonoBehaviour {
   private void Awake() {
     timeRemaining = _timerLength;
     timerText = GetComponent<Text>();
+    StartCoroutine(TimerRoutine());
   }
 
   private IEnumerator TimerRoutine() {
