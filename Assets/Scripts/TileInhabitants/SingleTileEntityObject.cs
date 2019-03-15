@@ -9,15 +9,19 @@ public class SingleTileEntityObject : MonoBehaviour {
   public int spawnRow;
   public int spawnCol;
 
+  private Coroutine movementCoroutine;
+
   public void SetPosition(int row, int col) {
     Vector3 newPosition = GameManager.S.Board[row, col].transform.position;
     newPosition.z = transform.position.z;
     // transform.position = newPosition;
-    StartCoroutine(MoveToPosition(transform, newPosition, GameManager.S.TimeBetweenTurns));
+    if (movementCoroutine != null) {
+      StopCoroutine(movementCoroutine);
+    }
+    movementCoroutine = StartCoroutine(MoveToPosition(transform, newPosition, GameManager.S.TimeBetweenTurns));
   }
 
-  private IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove)
-  {
+  private IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove) {
     var currentPos = transform.position;
     var t = 0f;
     while (t < 1) {
