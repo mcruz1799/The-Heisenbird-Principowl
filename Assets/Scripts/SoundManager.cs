@@ -14,16 +14,7 @@ public class SoundManager : MonoBehaviour {
   
 
   private void Awake() {
-    //Check if there is already an S of SoundManager
-    if (S == null)
-        //if not, set it to this.
-        S = this;
-    //If S already exists:
-    else if (S != this)
-        //Destroy this, this enforces our singleton pattern so there can only be one S of SoundManager.
-        Destroy (gameObject);
-    //Set SoundManager to DontDestroyOnLoad so that it won't be destroyed when reloading our scene.
-    DontDestroyOnLoad (gameObject);
+    S = this;
     audioSource = GetComponent<AudioSource>();
   }
 
