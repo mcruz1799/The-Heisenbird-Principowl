@@ -170,78 +170,80 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     return false;
   }
 
+  
+
   private void PerformAction(Action action) {
     switch (action) {
-      case Action.Jump:
-        if (IsGrounded) {
-          YVelocity += p.jumpPower;
-          SoundManager.S.PlayerJump();
+      case Action.Jump: JumpAction(); break;
+      case Action.Drop: DropAction(); break;
+      case Action.MoveLeft: MoveAction(-1); break;
+      case Action.MoveRight: MoveAction(1); break;
+      case Action.Wait: WaitAction(); break;
+      default: throw new System.ArgumentException("Illegal enum value detected");
+    }
+  }
 
-        } else if (IsWallSliding) {
-          YVelocity = p.yWallJumpPower;
-          XVelocity = XWallJumpPower;
-          SoundManager.S.PlayerJump();
-        }
-        State &= ~PlayerStates.RightWallSliding;
-        State &= ~PlayerStates.LeftWallSliding;
-        break;
+  private void JumpAction() {
+    if (IsGrounded) {
+      YVelocity += p.jumpPower;
+      SoundManager.S.PlayerJump();
 
-      case Action.Drop:
-        if (IsGrounded) {
-          State |= PlayerStates.DroppingThroughPlatform;
-          if (YVelocity == 0) {
-            YVelocity = -1;
-          }
-        }
-        break;
+    } else if (IsWallSliding) {
+      YVelocity = p.yWallJumpPower;
+      XVelocity = XWallJumpPower;
+      SoundManager.S.PlayerJump();
+    }
+    State &= ~PlayerStates.RightWallSliding;
+    State &= ~PlayerStates.LeftWallSliding;
+  }
 
-      case Action.MoveLeft:
-        State &= ~PlayerStates.RightWallSliding;
-        State &= ~PlayerStates.LeftWallSliding;
+  private void DropAction() {
+    if (IsGrounded) {
+      State |= PlayerStates.DroppingThroughPlatform;
+      if (YVelocity == 0) {
+        YVelocity = -1;
+      }
+    }
+  }
 
-        if (IsGrounded && XVelocity >= p.skidAndTurnThreshold) {
-          State |= PlayerStates.SkidTurning; //Set skid flag
-          XVelocity = p.skidSpeed;
-        } else {
-          if (XVelocity > 0) {
-            XVelocity = 0;
-          }
-          XVelocity -= XAcceleration;
-        }
-        break;
+  private void MoveAction(int xDir) {
+    State &= ~PlayerStates.RightWallSliding;
+    State &= ~PlayerStates.LeftWallSliding;
 
-      case Action.MoveRight:
-        State &= ~PlayerStates.RightWallSliding;
-        State &= ~PlayerStates.LeftWallSliding;
-
-        if (IsGrounded && XVelocity <= -p.skidAndTurnThreshold) {
-          State |= PlayerStates.SkidTurning; //Set skid flag
-          XVelocity = -p.skidSpeed;
-        } else {
-          if (XVelocity < 0) {
-            XVelocity = 0;
-          }
-          XVelocity += XAcceleration;
-        }
-        break;
-
-      case Action.Wait:
+    if (xDir < 0) {
+      if (IsGrounded && XVelocity >= p.skidAndTurnThreshold) {
+        State |= PlayerStates.SkidTurning; //Set skid flag
+        XVelocity = p.skidSpeed;
+      } else {
         if (XVelocity > 0) {
-          XVelocity -= p.xDeceleration;
-          if (XVelocity < 0) {
-            XVelocity = 0;
-          }
-        } else if (XVelocity < 0) {
-          XVelocity += p.xDeceleration;
-          if (XVelocity > 0) {
-            XVelocity = 0;
-          }
+          XVelocity = 0;
         }
-        break;
+        XVelocity -= XAcceleration;
+      }
+    } else if (xDir > 0) {
+      if (IsGrounded && XVelocity <= -p.skidAndTurnThreshold) {
+        State |= PlayerStates.SkidTurning; //Set skid flag
+        XVelocity = -p.skidSpeed;
+      } else {
+        if (XVelocity < 0) {
+          XVelocity = 0;
+        }
+        XVelocity += XAcceleration;
+      }
+    }
+  }
 
-      default:
-        Debug.LogError("Illegal enum value detected");
-        break;
+  private void WaitAction() {
+    if (XVelocity > 0) {
+      XVelocity -= p.xDeceleration;
+      if (XVelocity < 0) {
+        XVelocity = 0;
+      }
+    } else if (XVelocity < 0) {
+      XVelocity += p.xDeceleration;
+      if (XVelocity > 0) {
+        XVelocity = 0;
+      }
     }
   }
 
