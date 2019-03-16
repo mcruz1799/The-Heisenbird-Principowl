@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
   public static SoundManager S { get; private set; }
-  private AudioSource audio;
+  private AudioSource audioSource;
   public AudioClip HeadBonk;
   public AudioClip Landed;
   public AudioClip Jump;
@@ -14,22 +14,13 @@ public class SoundManager : MonoBehaviour {
   
 
   private void Awake() {
-    //Check if there is already an S of SoundManager
-    if (S == null)
-        //if not, set it to this.
-        S = this;
-    //If S already exists:
-    else if (S != this)
-        //Destroy this, this enforces our singleton pattern so there can only be one S of SoundManager.
-        Destroy (gameObject);
-    //Set SoundManager to DontDestroyOnLoad so that it won't be destroyed when reloading our scene.
-    DontDestroyOnLoad (gameObject);
-    audio = GetComponent<AudioSource>();
+    S = this;
+    audioSource = GetComponent<AudioSource>();
   }
 
   public void PlayerHeadBonk() {
-    audio.clip = HeadBonk;
-    audio.Play();
+    audioSource.clip = HeadBonk;
+    audioSource.Play();
   }
 
   public void PlayerLanded() {
@@ -38,21 +29,21 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayerJump() {
-    audio.clip = Jump;
-    audio.Play();
+    audioSource.clip = Jump;
+    audioSource.Play();
   }
 
   public void PlayerDamaged() {
-    audio.clip = Damaged;
-    audio.Play();
+    audioSource.clip = Damaged;
+    audioSource.Play();
   }
 
   public void PlayerDied() {
-    audio.clip = PlayerDeath;
-    audio.Play();
+    audioSource.clip = PlayerDeath;
+    audioSource.Play();
   }
   public void BeetleDied(){
-    audio.clip = BeetleDeath;
-    audio.Play();
+    audioSource.clip = BeetleDeath;
+    audioSource.Play();
   }
 }

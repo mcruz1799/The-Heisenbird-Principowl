@@ -13,7 +13,9 @@ public class PlatformObject : SingleTileEntityObject {
   public bool playerCanDropThrough;
   public bool playerCanJumpThrough;
 
+#pragma warning disable 0649
   [SerializeField] private Renderer sprite;
+#pragma warning restore 0649
 
   private void Update() {
     sprite.enabled = isActive;
