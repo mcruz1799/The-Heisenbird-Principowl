@@ -8,14 +8,16 @@ public class FollowerEnemy : Enemy
   private bool isFollowing;
 
   //to be initialized by the level generator
-  public int homeTileRow;
-  public int homeTileCol;
+  private int homeTileRow;
+  private int homeTileCol;
 
 
   protected override Direction AttackDirection => XVelocity > 0 ? Direction.East : Direction.West;
 
-  private FollowerEnemy(FollowerEnemyObject e) : base(e) {
+  private FollowerEnemy(FollowerEnemyObject e, int homeRow, int homeCol) : base(e) {
     this.e = e;
+    this.homeTileRow = homeRow;
+    this.homeTileCol = homeCol;
     XVelocity = 1;
   }
 
@@ -97,7 +99,7 @@ public class FollowerEnemy : Enemy
     followerEnemyPrefab.transform.parent = parent;
     followerEnemyPrefab.spawnRow = row;
     followerEnemyPrefab.spawnCol = col;
-    return new FollowerEnemy(followerEnemyPrefab);
+    return new FollowerEnemy(followerEnemyPrefab, row, col);
   }
 
   protected override void OnDeath() {
