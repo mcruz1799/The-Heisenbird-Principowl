@@ -6,8 +6,12 @@ public class FollowerEnemy : Enemy
 {
   private readonly FollowerEnemyObject e;
   private bool isFollowing;
-  //TODO: HOW DO I INITIALIZE HOMETILE??
-  private SingleTileEntity homeTile;
+
+  //to be initialized by the level generator
+  public int homeTileRow;
+  public int homeTileCol;
+
+
   protected override Direction AttackDirection => XVelocity > 0 ? Direction.East : Direction.West;
 
   private FollowerEnemy(FollowerEnemyObject e) : base(e) {
@@ -29,7 +33,7 @@ public class FollowerEnemy : Enemy
   }
 
   private void FollowPlayer(){
-    if(Mathf.Abs(homeTile.Col - this.Col) > e.maxDistFromHome){
+    if(Mathf.Abs(homeTileCol - this.Col) > e.attackRange){
       //If we are too far from home point, return to home
       isFollowing = false;
       return;
@@ -44,11 +48,10 @@ public class FollowerEnemy : Enemy
       int newRow = waypoint.y;
       int newCol = waypoint.x;
 
-      if (!CanSetPosition(newRow, newCol)) {
+      /*if (!CanSetPosition(newRow, newCol)) {
         //change this
-        XVelocity *= -1;
-        break;
-      }
+        return;
+      }*/
 
       SetPosition(newRow, newCol, out bool success);
       if (!success) {
@@ -59,16 +62,16 @@ public class FollowerEnemy : Enemy
 
   private void ReturnToHome(){
     //If player is close enough, we will follow the player >:)
-    if(Mathf.Abs(GameManager.S.Player.Col - this.Col) <= e.playerFollowDistance && Mathf.Abs(GameManager.S.Player.Row - this.Row) < e.playerFollowDistance){
+    if(Mathf.Abs(GameManager.S.Player.Col - this.Col) <= e.attackRange && Mathf.Abs(GameManager.S.Player.Row - this.Row) <= e.attackRange){
         isFollowing = true;
         return;
     }
 
     //If we are home, don't do anything 
-    if(this.Row == homeTile.Row && this.Col == homeTile.Col) return;
+    if(this.Row == homeTileRow && this.Col == homeTileCol) return;
 
     //Check which direction we need to go and change XVelocity accordingly
-    int distanceToHome = homeTile.Col - this.Col;
+    int distanceToHome = homeTileCol - this.Col;
     XVelocity = Mathf.Abs(XVelocity);
     if(distanceToHome < 0) XVelocity *= -1;
     List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, 0);
