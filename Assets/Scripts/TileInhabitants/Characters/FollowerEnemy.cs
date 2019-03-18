@@ -48,11 +48,10 @@ public class FollowerEnemy : Enemy
       int newRow = waypoint.y;
       int newCol = waypoint.x;
 
-      if (!CanSetPosition(newRow, newCol)) {
+      /*if (!CanSetPosition(newRow, newCol)) {
         //change this
-        XVelocity *= -1;
-        break;
-      }
+        return;
+      }*/
 
       SetPosition(newRow, newCol, out bool success);
       if (!success) {
