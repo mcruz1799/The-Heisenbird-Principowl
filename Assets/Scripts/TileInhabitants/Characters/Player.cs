@@ -65,16 +65,10 @@ public partial class Player : ITurnTaker, IDamageable {
         subentityGameObject.spawnCol = gameObject.spawnCol + c;
         subentityGameObject.transform.parent = gameObject.transform;
         entities[c, r] = new PlayerSubEntity(subentityGameObject, this);
-
-        //Parent sprite to the center
-        if (r == dim/2 && c == dim/2) {
-          gameObject.graphicsHolder.transform.parent = entities[c, r].gameObject.transform;
-          gameObject.graphicsHolder.transform.localPosition = Vector3.zero;
-        }
       }
     }
 
-    //Parent sprite to the TopLeft
+    //Parent graphics to the TopLeft
     gameObject.graphicsHolder.transform.parent = TopLeft.gameObject.transform;
     gameObject.graphicsHolder.transform.localPosition = Vector3.zero;
 
