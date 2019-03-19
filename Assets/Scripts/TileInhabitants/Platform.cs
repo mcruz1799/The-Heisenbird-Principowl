@@ -19,7 +19,7 @@ public class Platform : SingleTileEntity {
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other) {
-    return other is Platform || other is Player || other is Enemy;
+    return other is Platform || other is Player.PlayerSubEntity || other is Enemy;
   }
 
   public static Platform Make(PlatformObject platformPrefab, int row, int col, Transform parent = null) {

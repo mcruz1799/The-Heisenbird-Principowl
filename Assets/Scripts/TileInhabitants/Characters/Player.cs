@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, IAttacker {
+public partial class Player : ITurnTaker, IDamageable {
   [System.Flags] private enum PlayerStates {
     None = 0,
     Grounded = 1 << 0,
@@ -10,126 +10,176 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     RightWallSliding = 1 << 2,
     SkidTurning = 1 << 3,
     HeadBonking = 1 << 4,
-    DroppingThroughPlatform =  1 << 5,
+    DroppingThroughPlatform = 1 << 5,
   }
 
-  private readonly PlayerObject p;
+  private static readonly int dim = 3;
 
-  private PlayerStates State { get; set; } = PlayerStates.Grounded;
-  private Action selectedAction = Action.Wait;
+  private PlayerSubEntity TopLeft => entities[0, dim - 1];
+  private readonly PlayerSubEntity[,] entities = new PlayerSubEntity[dim, dim];
+  private readonly PlayerObject gameObject;
+
+  private PlayerStates State { get; set; }
+
+  private bool IsDroppingThroughPlatform => State.HasFlag(PlayerStates.DroppingThroughPlatform);
+
+  private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -gameObject.xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? gameObject.xWallJumpPower : 0;
+  private int XAcceleration => IsGrounded ? gameObject.xAccelerationGrounded : gameObject.xAccelerationAerial;
+
+  //These are for enemy targeting
+  public int Row => TopLeft.Row;
+  public int Col => TopLeft.Col;
+
+
+  //
+  //Variables exposed for animations
+  //
 
   private int _xVelocity;
-  private int XVelocity {
+  public int XVelocity {
     get => _xVelocity;
-    set => _xVelocity = Mathf.Clamp(value, -p.xSpeedMax, p.xSpeedMax);
+    private set => _xVelocity = Mathf.Clamp(value, -gameObject.xSpeedMax, gameObject.xSpeedMax);
   }
 
   private int _yVelocity;
-  private int YVelocity {
+  public int YVelocity {
     get => _yVelocity;
-    set => _yVelocity = Mathf.Clamp(value, p.ySpeedMin, p.ySpeedMax);
+    private set => _yVelocity = Mathf.Clamp(value, gameObject.ySpeedMin, gameObject.ySpeedMax);
   }
-
-  //Exposed for PlayerAnimator
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   public bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
 
-  private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -p._xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? p._xWallJumpPower : 0;
-  private int XAcceleration => IsGrounded ? p._xAccelerationGrounded : p._xAccelerationAerial;
 
-  public Player(PlayerObject p) : base(p) {
-    this.p = p;
-    _damageable = new Damageable(this.p._maxHp);
+  //
+  //Methods
+  //
+
+  public Player(PlayerObject gameObject) {
+    this.gameObject = gameObject;
+    _damageable = new Damageable(gameObject.maxHp);
+    for (int r = 0; r < dim; r++) {
+      for (int c = 0; c < dim; c++) {
+        SingleTileEntityObject subentityGameObject = new GameObject().AddComponent<SingleTileEntityObject>();
+        subentityGameObject.name = string.Format("Player[r={0}, c={1}]", r, c); ;
+        subentityGameObject.spawnRow = gameObject.spawnRow + r;
+        subentityGameObject.spawnCol = gameObject.spawnCol + c;
+        subentityGameObject.transform.parent = gameObject.transform;
+        entities[c, r] = new PlayerSubEntity(subentityGameObject, this);
+
+        //Parent sprite to the center
+        if (r == dim/2 && c == dim/2) {
+          gameObject.graphicsHolder.transform.parent = entities[c, r].gameObject.transform;
+          gameObject.graphicsHolder.transform.localPosition = Vector3.zero;
+        }
+      }
+    }
+
+    //Parent sprite to the TopLeft
+    gameObject.graphicsHolder.transform.parent = TopLeft.gameObject.transform;
+    gameObject.graphicsHolder.transform.localPosition = Vector3.zero;
+
+    //Sub entities shouldn't interact with each other
+    foreach (PlayerSubEntity p in entities) {
+      foreach (PlayerSubEntity other in entities) {
+        if (other == p) continue;
+        p.toIgnore.Add(other);
+      }
+    }
+
+    PerformAction(Action.Wait);
     GameManager.S.RegisterTurnTaker(this);
   }
 
+  public void OnTurn() {
+    PerformAction(selectedAction);
+    Attack();
+  }
 
-  //
-  //SingleTileEntity
-  //
-
-  protected override bool IsBlockedByCore(ITileInhabitant other) {
-    if (other is Enemy) {
-      return true;
+  //Attack enemies below self
+  private void Attack() {
+    foreach (PlayerSubEntity bottom in Bottom()) {
+      Tile t = GameManager.S.Board.GetInDirection(bottom.Row, bottom.Col, Direction.South);
+      if (t != null) {
+        foreach (ITileInhabitant victim in t.Inhabitants) {
+          if (victim is IDamageable && bottom.CanAttack((IDamageable)victim)) {
+            bottom.Attack((IDamageable)victim);
+          }
+        }
+      }
     }
-
-    if (other is Platform) {
-      Platform platform = (Platform)other;
-      if (!platform.IsActive) {
-        return false;
-      }
-      if (platform.PlayerCanJumpThrough && platform.Row == Row+1) {
-        return false;
-      }
-      if (State.HasFlag(PlayerStates.DroppingThroughPlatform) && platform.PlayerCanDropThrough && platform.Row == Row-1) {
-        return false;
-      }
-      return true;
-    }
-
-    return false;
   }
 
 
   //
-  //ITurnTaker
+  //Performing actions
   //
 
-  public void OnTurn() {
-    PerformAction(selectedAction);
-    //Note that selectedAction is reset to Wait at the end of this function
+  private void PerformAction(Action action) {
+    switch (action) {
+      case Action.Jump: JumpAction(); break;
+      case Action.Drop: DropAction(); break;
+      case Action.MoveLeft: MoveAction(-1); break;
+      case Action.MoveRight: MoveAction(1); break;
+      case Action.Wait: WaitAction(); break;
+      default: throw new System.ArgumentException("Illegal enum value detected");
+    }
 
     if (XVelocity != 0 || YVelocity != 0) {
-      List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, YVelocity);
-
-
-      //Flip PlayerGraphic Orientation
-      if (XVelocity < 0) {
-        p.spriteRenderer.flipX = true;
-      } else if (XVelocity > 0) {
-        p.spriteRenderer.flipX = false;
-      }
+      List<Vector2Int> moveWaypoints = TopLeft.CalculateMoveWaypoints(XVelocity, YVelocity);
 
       //Skip the first waypoint because it's just our current position
       for (int i = 1; i < moveWaypoints.Count; i++) {
         Vector2Int waypoint = moveWaypoints[i];
-        int newRow = waypoint.y;
-        int newCol = waypoint.x;
 
         //Guaranteed that exactly one of these is +/- 1.
-        int xDir = newCol - Col;
-        int yDir = newRow - Row;
+        int xDir = waypoint.x - TopLeft.Col;
+        int yDir = waypoint.y - TopLeft.Row;
 
-        SetPosition(newRow, newCol, out bool enteredNewPosition);
-        if (!enteredNewPosition) {
-          //We couldn't enter the new position.  Must have encountered an obstacle.
+        //Check that every subentity can make the move
+        bool canMove = true;
+        foreach (PlayerSubEntity p in entities) {
+          int newRow = p.Row + yDir;
+          int newCol = p.Col + xDir;
+          if (!p.CanSetPosition(newRow, newCol)) {
+            //We couldn't enter the new position.  Must have encountered an obstacle.
 
-          if (yDir > 0) {
-            YVelocity = 0;
-            SoundManager.S.PlayerHeadBonk();
+            if (yDir > 0) {
+              YVelocity = 0;
+              SoundManager.S.PlayerHeadBonk();
 
-          } else if (yDir < 0) {
-            YVelocity = 0;
-            SoundManager.S.PlayerLanded();
-            Tile t = GameManager.S.Board.GetInDirection(Row, Col, Direction.South);
-            if (t != null) {
-              foreach (ITileInhabitant victim in t.Inhabitants) {
-                if (victim is IDamageable && CanAttack((IDamageable)victim)) {
-                  Attack((IDamageable)victim);
-                }
+            } else if (yDir < 0) {
+              YVelocity = 0;
+              SoundManager.S.PlayerLanded();
+            }
+
+            //Wall sliding
+            if (xDir != 0) {
+              if (!IsGrounded) {
+                State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
+                YVelocity = -gameObject.wallSlideSpeed;
               }
+              XVelocity = 0;
             }
-          }
 
-          if (xDir != 0) {
-            if (!IsGrounded) {
-              State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
-              YVelocity = -p.wallSlideSpeed;
-            }
-            XVelocity = 0;
+            canMove = false;
+            break;
           }
+        }
 
+        //If a subentity couldn't make the move, exit the loop
+        if (!canMove) {
           break;
+        }
+
+        //Move all the subentities and the gameObject
+        foreach (PlayerSubEntity p in entities) {
+          int newRow = p.Row + yDir;
+          int newCol = p.Col + xDir;
+
+          p.SetPosition(newRow, newCol, out bool enteredNewPosition);
+          if (!enteredNewPosition) {
+            throw new System.Exception("Unexpected failure in SetPosition");
+          }
         }
       }
     }
@@ -141,55 +191,27 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     State &= ~PlayerStates.DroppingThroughPlatform;
 
     //Update grounded flag
-    if (CheckForGround()) {
-      State |= PlayerStates.Grounded;
-    } else {
-      State &= ~PlayerStates.Grounded;
+    State &= ~PlayerStates.Grounded;
+    foreach (PlayerSubEntity p in Bottom()) {
+      if (p.IsGrounded) {
+        State |= PlayerStates.Grounded;
+        break;
+      }
     }
 
     //Apply gravity
     if (!IsGrounded) {
-      YVelocity -= p.gravity;
-    }
-
-    //Clear the selected action
-    selectedAction = Action.Wait;
-  }
-
-  private bool CheckForGround() {
-    //Can't fall out of bounds
-    if (!GameManager.S.Board.IsPositionLegal(Row-1, Col)) {
-      return true;
-    }
-
-    //If you can't be added to the Tile, it counts as ground.
-    if (!GameManager.S.Board[Row - 1, Col].CanAdd(this)) {
-      return true;
-    }
-
-    return false;
-  }
-
-  
-
-  private void PerformAction(Action action) {
-    switch (action) {
-      case Action.Jump: JumpAction(); break;
-      case Action.Drop: DropAction(); break;
-      case Action.MoveLeft: MoveAction(-1); break;
-      case Action.MoveRight: MoveAction(1); break;
-      case Action.Wait: WaitAction(); break;
-      default: throw new System.ArgumentException("Illegal enum value detected");
+      YVelocity -= gameObject.gravity;
     }
   }
 
   private void JumpAction() {
     if (IsGrounded) {
-      YVelocity += p.jumpPower;
+      YVelocity = gameObject.jumpPower;
       SoundManager.S.PlayerJump();
 
     } else if (IsWallSliding) {
-      YVelocity = p.yWallJumpPower;
+      YVelocity = gameObject.yWallJumpPower;
       XVelocity = XWallJumpPower;
       SoundManager.S.PlayerJump();
     }
@@ -211,9 +233,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     State &= ~PlayerStates.LeftWallSliding;
 
     if (xDir < 0) {
-      if (IsGrounded && XVelocity >= p.skidAndTurnThreshold) {
+      if (IsGrounded && XVelocity >= gameObject.skidAndTurnThreshold) {
         State |= PlayerStates.SkidTurning; //Set skid flag
-        XVelocity = p.skidSpeed;
+        XVelocity = gameObject.skidSpeed;
       } else {
         if (XVelocity > 0) {
           XVelocity = 0;
@@ -221,9 +243,9 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
         XVelocity -= XAcceleration;
       }
     } else if (xDir > 0) {
-      if (IsGrounded && XVelocity <= -p.skidAndTurnThreshold) {
+      if (IsGrounded && XVelocity <= -gameObject.skidAndTurnThreshold) {
         State |= PlayerStates.SkidTurning; //Set skid flag
-        XVelocity = -p.skidSpeed;
+        XVelocity = -gameObject.skidSpeed;
       } else {
         if (XVelocity < 0) {
           XVelocity = 0;
@@ -235,12 +257,12 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
   private void WaitAction() {
     if (XVelocity > 0) {
-      XVelocity -= p.xDeceleration;
+      XVelocity -= gameObject.xDeceleration;
       if (XVelocity < 0) {
         XVelocity = 0;
       }
     } else if (XVelocity < 0) {
-      XVelocity += p.xDeceleration;
+      XVelocity += gameObject.xDeceleration;
       if (XVelocity > 0) {
         XVelocity = 0;
       }
@@ -249,8 +271,10 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
 
   //
-  //IActor
+  //Action selection
   //
+
+  private Action selectedAction = Action.Wait;
 
   public bool CanSelectAction(Action action) {
     if (action == Action.Jump && !(IsGrounded || IsWallSliding)) {
@@ -273,7 +297,7 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
   //IDamageable
   //
 
-  private Damageable _damageable;
+  private readonly Damageable _damageable;
   public int MaxHitpoints => _damageable.MaxHitpoints;
   public int Hitpoints => _damageable.Hitpoints;
   public bool IsAlive => _damageable.IsAlive;
@@ -286,7 +310,6 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
     _damageable.TakeDamage(baseDamage);
     if (_damageable.IsAlive) {
       SoundManager.S.PlayerDamaged();
-      //Debug.LogFormat("Player has {0} hp left", Hitpoints);
     } else {
       SoundManager.S.PlayerDied();
       UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
@@ -295,27 +318,22 @@ public sealed class Player : SingleTileEntity, IActor, ITurnTaker, IDamageable, 
 
 
   //
-  //IAttacker
+  //Side iterators (for use in foreach loops)
   //
 
-  public bool CanAttack(IDamageable other) {
-    return other is Enemy;
-  }
-
-  public void Attack(IDamageable other) {
-    if (!CanAttack(other)) {
-      Debug.LogError("Attempting an illegal attack");
-      return;
+  private IEnumerable<PlayerSubEntity> Bottom() {
+    for (int c = 0; c < dim; c++) {
+      yield return entities[c, 0];
     }
-    other.TakeDamage(this, p._attackPower);
   }
-
-
-  //
-  //Other
-  //
-
-  private void UpdateSounds() {
-    //SoundManager.S.ToggleWallSlidingSfx(IsWallSliding);
+  private IEnumerable<PlayerSubEntity> Left() {
+    for (int r = 0; r < dim; r++) {
+      yield return entities[0, r];
+    }
+  }
+  private IEnumerable<PlayerSubEntity> Right() {
+    for (int r = 0; r < dim; r++) {
+      yield return entities[dim - 1, r];
+    }
   }
 }
