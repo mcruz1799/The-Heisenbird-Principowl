@@ -35,7 +35,7 @@ public class FollowerEnemy : Enemy
   }
 
   private void FollowPlayer(){
-    if(Mathf.Abs(homeTileCol - this.Col) > e.attackRange){
+    if(Mathf.Abs(homeTileCol - this.Col) > e.followRange){
       //If we are too far from home point, return to home
       isFollowing = false;
       return;
@@ -64,7 +64,7 @@ public class FollowerEnemy : Enemy
 
   private void ReturnToHome(){
     //If player is close enough, we will follow the player >:)
-    if(Mathf.Abs(GameManager.S.Player.Col - this.Col) <= e.attackRange && Mathf.Abs(GameManager.S.Player.Row - this.Row) <= e.attackRange){
+    if(Mathf.Abs(GameManager.S.Player.Col - this.Col) <= e.aggroRange && Mathf.Abs(GameManager.S.Player.Row - this.Row) <= e.aggroRange){
         isFollowing = true;
         return;
     }
