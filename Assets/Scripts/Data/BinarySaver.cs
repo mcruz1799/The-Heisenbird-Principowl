@@ -77,19 +77,21 @@ public class BinarySaver : MonoBehaviour
   private OverallProgress LoadMostRecent()
   {
     string folderPath = Path.Combine(Application.persistentDataPath, folderName);
-    FileInfo[] files = new DirectoryInfo(folderPath).GetFiles("*.*");
-    string latestFile = "";
-    if (files.Length <= 0) return null;
-    else {
-      DateTime lastModified = DateTime.MinValue;
-      foreach (FileInfo file in files) {
-        if (file.LastWriteTime > lastModified) {
-          lastModified = file.LastWriteTime;
-          latestFile = file.Name;
+    try {
+      FileInfo[] files = new DirectoryInfo(folderPath).GetFiles("*.*");
+      string latestFile = "";
+      if (files.Length <= 0) return null;
+      else {
+        DateTime lastModified = DateTime.MinValue;
+        foreach (FileInfo file in files) {
+          if (file.LastWriteTime > lastModified) {
+            lastModified = file.LastWriteTime;
+            latestFile = file.Name;
+          }
         }
+        return LoadProgress(latestFile);
       }
-      return LoadProgress(latestFile);
-    }
+    } catch (Exception e) { return null; }
   }
 
   //Saves the Progress Data to the directory.
