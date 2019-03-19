@@ -33,8 +33,9 @@ public class FlammableTile : SingleTileEntity, ITurnTaker
       IReadOnlyCollection<ITileInhabitant> inhabitants = GameManager.S.Board[Row, Col].Inhabitants;
       foreach (ITileInhabitant habiter in inhabitants){
         if (habiter is FollowerEnemy){
+          FollowerEnemy follower = (FollowerEnemy) habiter;
           isOnFire = true;
-          habiter.TakeDamage(1);
+          follower.TakeDamage(null, follower.MaxHitpoints);
           for (int i = 1; i <= gameObject.numUpdraftTiles; i++){
             updraftTileMaker.Make(Row + i, Col, null);
           }
