@@ -68,11 +68,15 @@ public partial class Player : ITurnTaker, IDamageable {
 
         //Parent sprite to the center
         if (r == dim/2 && c == dim/2) {
-          gameObject.spriteRenderer.gameObject.transform.parent = entities[c, r].gameObject.transform;
-          gameObject.spriteRenderer.gameObject.transform.localPosition = Vector3.zero;
+          gameObject.graphicsHolder.transform.parent = entities[c, r].gameObject.transform;
+          gameObject.graphicsHolder.transform.localPosition = Vector3.zero;
         }
       }
     }
+
+    //Parent sprite to the TopLeft
+    gameObject.graphicsHolder.transform.parent = TopLeft.gameObject.transform;
+    gameObject.graphicsHolder.transform.localPosition = Vector3.zero;
 
     //Sub entities shouldn't interact with each other
     foreach (PlayerSubEntity p in entities) {
@@ -118,13 +122,6 @@ public partial class Player : ITurnTaker, IDamageable {
       case Action.MoveRight: MoveAction(1); break;
       case Action.Wait: WaitAction(); break;
       default: throw new System.ArgumentException("Illegal enum value detected");
-    }
-
-    //Flip PlayerGraphic Orientation
-    if (XVelocity < 0) {
-      gameObject.spriteRenderer.flipX = true;
-    } else if (XVelocity > 0) {
-      gameObject.spriteRenderer.flipX = false;
     }
 
     if (XVelocity != 0 || YVelocity != 0) {
