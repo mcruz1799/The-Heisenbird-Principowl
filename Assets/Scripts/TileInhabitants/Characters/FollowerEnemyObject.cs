@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class FollowerEnemyObject : EnemyObject
 {
-  [Range(1, 10)] public int maxDistFromHome;
-  [Range(1, 10)] public int playerFollowDistance;
+  [Range(1, 10)] public int aggroRange;
+  public int followRange;
 }

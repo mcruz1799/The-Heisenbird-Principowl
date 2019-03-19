@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class BoardObject : MonoBehaviour {
@@ -7,7 +8,10 @@ public class BoardObject : MonoBehaviour {
   [Range(1, 300)] public int numRows = 1, numCols = 1;
   public Tile tilePrefab;
   public ColorToTileInhabitantMaker[] colorMappings;
+  public ASCIIToTileInhabitantMaker[] asciiMappings;
   public Texture2D level;
+  public TextAsset levelAscii;
+  private List<char[]> ascii;
   public int x0, y0;
   [Range(1, 100)] public int pixelWidth = 1, pixelHeight = 1;
 #pragma warning restore 0649
@@ -43,4 +47,37 @@ public class BoardObject : MonoBehaviour {
       }
     }
   }
+
+    //Use the color mapping for a particular level to populate the tiles.
+  private void PopulateTileFromMapASCII(int row, int col) {
+    if (ascii == null) initializeASCIIArray();
+
+    char currentChar;
+    try {
+      currentChar = ascii[row][col];
+    } catch (System.Exception e) {
+      throw new System.Exception("Failed to obtain Character. Error: " + e);
+    }
+
+    foreach (ASCIIToTileInhabitantMaker asciiMapping in asciiMappings) {
+      if (asciiMapping.ascii.Equals(currentChar)) {
+        asciiMapping.maker.Make(row, col, GameManager.S.TileInhabitantObjectHolder);
+      }
+    }
+    
+  }
+
+  private void initializeASCIIArray()
+  {
+    string fs = levelAscii.text;
+    string[] fLines = Regex.Split(fs, "\n|\r|\r\n");
+
+    for (int i = fLines.Length - 1; i >= 0; i--) { //Need to reverse so file is read from bottom to top.
+      string s = fLines[i];
+      char[] chars = s.ToCharArray();
+      ascii.Add(chars);
+    }
+  }
+
+
 }
