@@ -45,8 +45,8 @@ public class SpriteAnimator : MonoBehaviour, ISpriteAnimator {
   public bool FlipX { get => spriteRenderer.flipX; set => spriteRenderer.flipX = value; }
   public bool FlipY { get => spriteRenderer.flipY; set => spriteRenderer.flipY = value; }
 
-  [SerializeField] private int _framesPerSprite;
-  public int FramesPerSprite { get { return _framesPerSprite; } set { _framesPerSprite = value; } }
+  [Range(1, 999), SerializeField] private int _framesPerSprite = 1;
+  public int FramesPerSprite { get => _framesPerSprite; set => _framesPerSprite = value; }
 
   private bool animateFromStartFlag;
 
