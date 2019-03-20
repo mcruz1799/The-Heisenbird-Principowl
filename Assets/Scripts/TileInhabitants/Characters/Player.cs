@@ -295,15 +295,15 @@ public partial class Player : ITurnTaker, IDamageable {
         break;
 
       case Direction.East:
-        if (!IsGrounded && selectedAction == Action.MoveLeft) {
-          State |= PlayerStates.LeftWallSliding;
+        if (!IsGrounded && selectedAction == Action.MoveRight) {
+          State |= PlayerStates.RightWallSliding;
           YVelocity = -gameObject.wallSlideSpeed;
         }
         XVelocity = 0;
         break;
 
       case Direction.West:
-        if (!IsGrounded && selectedAction == Action.MoveRight) {
+        if (!IsGrounded && selectedAction == Action.MoveLeft) {
           State |= PlayerStates.LeftWallSliding;
           YVelocity = -gameObject.wallSlideSpeed;
         }
