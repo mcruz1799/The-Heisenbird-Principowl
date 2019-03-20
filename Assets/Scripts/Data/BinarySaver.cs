@@ -13,8 +13,12 @@ public class BinarySaver : MonoBehaviour
   public static BinarySaver S { get; private set; }
 
   public OverallProgress progress;
+#pragma warning disable 0649
+
   const string folderName = "BinaryProgressData";
   const string fileExtension = ".dat";
+
+#pragma warning restore 0649
 
   //TODO: Move this to GameManager (Save after level completion.)
 
@@ -30,7 +34,7 @@ public class BinarySaver : MonoBehaviour
 
     progress = p;
   }
-
+  /*
   void Update()
   {
     if (Input.GetKeyDown(KeyCode.S)) {
@@ -42,7 +46,7 @@ public class BinarySaver : MonoBehaviour
       Load();
       DebugCurrentProgress(progress);
     }
-  }
+  }*/
 
   public void Save(string saveName = null)
   {
