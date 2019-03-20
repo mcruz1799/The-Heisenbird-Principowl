@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class PlayerObject : SingleTileEntityObject {
+  [Header("INITIALIZATION ONLY")]
+#pragma warning disable 0649
+  [SerializeField] private int _spawnRow;
+  [SerializeField] private int _spawnCol;
+#pragma warning restore 0649
+
   [Range(1, 1000)] public int maxHp = 1;
   [Space(10)]
 
@@ -32,4 +38,9 @@ public sealed class PlayerObject : SingleTileEntityObject {
   [Header("Skidding when turning")]
   [Range(3, 10)] public int skidAndTurnThreshold = 3;
   [Range(1, 2)] public int skidSpeed = 1; //Must be less than skidAndTurnThreshold
+
+  private void Awake() {
+    spawnRow = _spawnRow;
+    spawnCol = _spawnCol;
+  }
 }

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SingleTileEntityObject : MonoBehaviour {
-  [Header("INITIALIZATION ONLY")]
 
   //When constructing a SingleTileEntity, SetPosition(spawnRow, spawnCol) gets called.
-  public int spawnRow;
-  public int spawnCol;
+  [HideInInspector] public int spawnRow;
+  [HideInInspector] public int spawnCol;
 
   private Coroutine movementCoroutine;
 
@@ -22,8 +21,8 @@ public class SingleTileEntityObject : MonoBehaviour {
   }
 
   private IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove) {
-    var currentPos = transform.position;
-    var t = 0f;
+    Vector3 currentPos = transform.position;
+    float t = 0f;
     while (t < 1) {
       t += Time.deltaTime / timeToMove;
       transform.position = Vector3.Lerp(currentPos, position, t);
