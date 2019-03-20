@@ -624,6 +624,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[0].ascii
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[1].ascii
+      value: 69
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[2].ascii
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[1].maker
+      value: 
+      objectReference: {fileID: 7815367375816864579, guid: 47c84b98f4ce1624a9875c38f577480b,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[2].maker
+      value: 
+      objectReference: {fileID: 3119395089931153236, guid: 7145052736f07d945a7a07e08d1f7472,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[0].maker
+      value: 
+      objectReference: {fileID: 7006597351876090859, guid: a7ba06c6bf341ad46b84433263d6a997,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: levelAscii
+      value: 
+      objectReference: {fileID: 4900000, guid: d5ec857e186de7a4d9550515c2284d34, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90b68b8d319dfe44c9b319e8d39f2431, type: 3}
 --- !u!114 &1023114304 stripped
@@ -743,8 +786,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431d66ce5f5211c4ab7e1b37df075eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRiseSpeed: 3
-  maxFallSpeed: 3
 --- !u!1 &1844431720
 GameObject:
   m_ObjectHideFlags: 0
