@@ -22,7 +22,7 @@ public class BoardObject : MonoBehaviour {
     NumRows = lines.Length;
     NumCols = 1;
     for (int i = 0; i < NumRows; i++) {
-      lines[i] = lines[i].Trim();
+      lines[i] = lines[i].TrimEnd();
       if (lines[i].Length > NumCols) {
         NumCols = lines[i].Length;
       }
@@ -46,64 +46,11 @@ public class BoardObject : MonoBehaviour {
       for (int c = 0; c < NumCols; c++) {
         foreach (ASCIIToTileInhabitantMaker asciiMapping in asciiMappings) {
           if (asciiMapping.ascii == levelChars[c, r]) {
-            //Debug.LogFormat("{0} {1} {2}", r, c, levelChars[c, r]);
+            Debug.LogFormat("{0} {1} {2}", r, c, levelChars[c, r]);
             asciiMapping.maker.Make(r, c, GameManager.S.TileInhabitantObjectHolder);
           }
         }
       }
     }
   }
-
-  ////Use the color mapping for a particular level to populate the tiles.
-  //private void PopulateTileFromMap(int row, int col) {
-
-  //  Color pixelColor;
-  //  try {
-  //    pixelColor = level.GetPixel(x0 + col * pixelWidth, y0 + row * pixelHeight);
-  //  } catch (System.Exception e) {
-  //    throw new System.Exception("Failed to obtain Pixel. Error: " + e);
-  //  }
-
-  //  //If the pixel isn't transparent...
-  //  if (pixelColor.a != 0) {
-  //    foreach (ColorToTileInhabitantMaker colorMapping in colorMappings) {
-  //      if (colorMapping.color.Equals(pixelColor)) {
-  //        colorMapping.maker.Make(row, col, GameManager.S.TileInhabitantObjectHolder);
-  //      }
-  //    }
-  //  }
-  //}
-
-    //Use the color mapping for a particular level to populate the tiles.
-  //private void PopulateTileFromMapASCII(int row, int col) {
-  //  if (ascii == null) InitializeASCIIArray();
-
-  //  char currentChar;
-  //  try {
-  //    currentChar = ascii[row][col];
-  //  } catch (System.Exception e) {
-  //    throw new System.Exception("Failed to obtain Character. Error: " + e);
-  //  }
-
-  //  foreach (ASCIIToTileInhabitantMaker asciiMapping in asciiMappings) {
-  //    if (asciiMapping.ascii.Equals(currentChar)) {
-  //      asciiMapping.maker.Make(row, col, GameManager.S.TileInhabitantObjectHolder);
-  //    }
-  //  }
-  //}
-
-  //private void InitializeASCIIArray()
-  //{
-  //  ascii = new List<char[]>();
-  //  string fs = level.text;
-  //  string[] fLines = Regex.Split(fs, "\n|\r|\r\n");
-
-  //  for (int i = fLines.Length - 1; i >= 0; i--) { //Need to reverse so file is read from bottom to top.
-  //    string s = fLines[i];
-  //    char[] chars = s.ToCharArray();
-  //    ascii.Add(chars);
-  //  }
-  //}
-
-
 }

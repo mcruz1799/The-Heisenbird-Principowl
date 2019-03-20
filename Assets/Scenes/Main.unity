@@ -501,15 +501,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a333e425d40de2347b34c161878f020e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 4900000, guid: d5ec857e186de7a4d9550515c2284d34, type: 3}
+  level: {fileID: 4900000, guid: 43cf1c74f3b177e4e9ab4b28469855bd, type: 3}
   asciiMappings:
   - ascii: 101
     maker: {fileID: 3119395089931153236, guid: 7145052736f07d945a7a07e08d1f7472, type: 3}
   - ascii: 69
     maker: {fileID: 7815367375816864579, guid: 47c84b98f4ce1624a9875c38f577480b, type: 3}
   - ascii: 80
-    maker: {fileID: 7006597351876090859, guid: a7ba06c6bf341ad46b84433263d6a997, type: 3}
-  - ascii: 124
     maker: {fileID: 7006597351876090859, guid: a7ba06c6bf341ad46b84433263d6a997, type: 3}
   tilePrefab: {fileID: 6910328573096434756, guid: 9c96cd149f5ea024f9075f2852a5eaf8,
     type: 3}
