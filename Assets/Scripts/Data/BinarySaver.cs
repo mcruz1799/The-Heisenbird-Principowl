@@ -95,7 +95,10 @@ public class BinarySaver : MonoBehaviour
         }
         return LoadProgress(latestFile);
       }
-    } catch (Exception e) { return null; }
+    } catch (Exception e) {
+      Debug.Log("Could not Load Most Recent Save (Do any exist?)" + e);
+      return null;
+    }
   }
 
   //Saves the Progress Data to the directory.
