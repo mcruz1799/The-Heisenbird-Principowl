@@ -722,18 +722,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnRow: 2
   spawnCol: 3
+  _spawnRow: 2
+  _spawnCol: 3
   maxHp: 1000
   graphicsHolder: {fileID: 777887234}
   attackPower: 1
   gravity: 1
-  jumpPower: 5
+  jumpPower: 3
   xWallJumpPower: 2
   yWallJumpPower: 2
   wallSlideSpeed: 1
-  xAccelerationGrounded: 2
+  xAccelerationGrounded: 1
   xAccelerationAerial: 1
   xDeceleration: 1
-  xSpeedMax: 2
+  xSpeedMax: 3
   ySpeedMax: 10
   ySpeedMin: -3
   skidAndTurnThreshold: 3
