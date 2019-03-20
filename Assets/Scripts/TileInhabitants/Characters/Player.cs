@@ -97,6 +97,9 @@ public partial class Player : ITurnTaker, IDamageable {
       PerformAction(selectedAction);
       Attack();
     } else {
+      if (knockback.Value == Direction.East || knockback.Value == Direction.West) {
+        PerformMove(Direction.North);
+      }
       PerformMove(knockback.Value);
     }
 
