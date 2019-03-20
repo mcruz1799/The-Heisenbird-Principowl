@@ -157,7 +157,7 @@ public partial class Player : ITurnTaker, IDamageable {
 
             //Wall sliding
             if (xDir != 0) {
-              if (!IsGrounded) {
+              if (!IsGrounded && ((xDir < 0 && selectedAction == Action.MoveLeft) || (xDir > 0 && selectedAction == Action.MoveRight))) {
                 State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
                 YVelocity = -gameObject.wallSlideSpeed;
               }
