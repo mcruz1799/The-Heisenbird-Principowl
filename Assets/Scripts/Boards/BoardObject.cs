@@ -57,7 +57,7 @@ public class BoardObject : MonoBehaviour {
     try {
       currentChar = ascii[row][col];
     } catch (System.Exception e) {
-      Debug.Log("Failed to obtain Character. Error: " + e); //TODO: Better alternative than just ignoring failed inputs?
+      //Debug.Log("Failed to obtain Character. Error: " + e); //TODO: Better alternative than just ignoring failed inputs?
       return;
     }
 
