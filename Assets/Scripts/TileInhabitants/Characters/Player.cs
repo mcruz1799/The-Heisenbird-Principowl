@@ -69,8 +69,9 @@ public partial class Player : ITurnTaker, IDamageable {
     }
 
     //Parent graphics to the TopLeft
+    Vector3 relativePosition = gameObject.graphicsHolder.transform.position;
     gameObject.graphicsHolder.transform.parent = TopLeft.gameObject.transform;
-    gameObject.graphicsHolder.transform.localPosition = new Vector3(0, 0, gameObject.graphicsHolder.transform.localPosition.z);
+    gameObject.graphicsHolder.transform.localPosition = relativePosition;
 
     //Sub entities shouldn't interact with each other
     foreach (PlayerSubEntity p in entities) {
