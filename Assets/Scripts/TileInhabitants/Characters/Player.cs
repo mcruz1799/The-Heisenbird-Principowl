@@ -92,8 +92,15 @@ public partial class Player : ITurnTaker, IDamageable {
         gameObject.maxFallSpeed = 1;
       }
     }
-    PerformAction(selectedAction);
-    Attack();
+
+    if (knockback == null) {
+      PerformAction(selectedAction);
+      Attack();
+    } else {
+      PerformMove(knockback.Value);
+    }
+
+    knockback = null;
     gameObject.maxFallSpeed = originalMaxFallSpeed;
   }
 
@@ -113,7 +120,7 @@ public partial class Player : ITurnTaker, IDamageable {
           }
           IDamageable victim = (IDamageable)below;
           if (CanAttack(victim)) {
-            victim.TakeDamage(gameObject.attackPower);
+            victim.OnAttacked(gameObject.attackPower, Direction.South);
           }
         }
       }
@@ -351,18 +358,28 @@ public partial class Player : ITurnTaker, IDamageable {
   public int Hitpoints => _damageable.Hitpoints;
   public bool IsAlive => _damageable.IsAlive;
 
+
   public int CalculateDamage(int baseDamage) {
     return _damageable.CalculateDamage(baseDamage);
   }
 
-  public void TakeDamage(int baseDamage) {
-    _damageable.TakeDamage(baseDamage);
+  private Direction? knockback = null;
+  public void OnAttacked(int attackPower, Direction attackDirection) {
+    _damageable.TakeDamage(attackPower);
     if (_damageable.IsAlive) {
       SoundManager.S.PlayerDamaged();
     } else {
       SoundManager.S.PlayerDied();
       UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
+    knockback = attackDirection;
+  }
+
+  public void Destroy() {
+    foreach (PlayerSubEntity entity in entities) {
+      entity.Destroy();
+    }
+    GameManager.S.UnregisterTurnTaker(this);
   }
 
 

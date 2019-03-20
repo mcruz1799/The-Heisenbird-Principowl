@@ -127,6 +127,11 @@ public abstract class SingleTileEntity : ITileInhabitant {
     }
   }
 
+  public virtual void Destroy() {
+    Object.Destroy(gameObject.gameObject);
+    GameManager.S.Board[Row, Col].Remove(this);
+  }
+
   //
   //ITileInhabitant
   //

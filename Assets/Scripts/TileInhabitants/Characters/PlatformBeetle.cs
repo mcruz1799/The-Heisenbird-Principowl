@@ -26,12 +26,9 @@ public class PlatformBeetle : Enemy {
   }
 
   protected override void OnDeath() {
-    //Debug.Log("Beetle died!");
     SoundManager.S.BeetleDied();
     PlatformToggleManager.Toggle(GroupColor);
-    Object.Destroy(e.gameObject);
-    GameManager.S.Board[Row, Col].Remove(this);
-    GameManager.S.UnregisterTurnTaker(this);
+    Destroy();
   }
 
   private void Move() {

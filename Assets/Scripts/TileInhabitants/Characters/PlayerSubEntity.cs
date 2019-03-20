@@ -83,8 +83,12 @@ public partial class Player {
       return parent.CalculateDamage(baseDamage);
     }
 
-    public void TakeDamage(int baseDamage) {
-      parent.TakeDamage(baseDamage);
+    public void OnAttacked(int attackPower, Direction attackDirection) {
+      parent.OnAttacked(attackPower, attackDirection);
+    }
+
+    public override void Destroy() {
+      base.Destroy();
     }
   }
 }

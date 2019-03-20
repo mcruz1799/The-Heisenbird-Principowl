@@ -70,12 +70,8 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IDamageable {
   public int Hitpoints => _damageable.Hitpoints;
   public bool IsAlive => _damageable.IsAlive;
 
-  public int CalculateDamage(int baseDamage) {
-    return _damageable.CalculateDamage(baseDamage);
-  }
-
-  public virtual void TakeDamage(int baseDamage) {
-    _damageable.TakeDamage(CalculateDamage(baseDamage));
+  public virtual void OnAttacked(int attackPower, Direction attackDirection) {
+    _damageable.TakeDamage(_damageable.CalculateDamage(attackPower));
   }
 
   protected abstract void OnDeath();
@@ -91,6 +87,11 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IDamageable {
       return;
     }
 
-    other.TakeDamage(e._attackPower);
+    other.OnAttacked(e._attackPower, AttackDirection);
+  }
+
+  public override void Destroy() {
+    GameManager.S.UnregisterTurnTaker(this);
+    base.Destroy();
   }
 }
