@@ -743,6 +743,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431d66ce5f5211c4ab7e1b37df075eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxRiseSpeed: 3
+  maxFallSpeed: 3
 --- !u!1 &1844431720
 GameObject:
   m_ObjectHideFlags: 0
