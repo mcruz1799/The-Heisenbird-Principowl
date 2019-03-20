@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnRow: 0
   spawnCol: 0
-  isActive: 1
+  isActive: 0
   colorGroup: 2
   playerCanDropThrough: 0
   playerCanJumpThrough: 0
