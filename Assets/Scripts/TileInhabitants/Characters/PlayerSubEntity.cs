@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class Player {
-  public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, IAttacker {
+  public sealed class PlayerSubEntity : SingleTileEntity, IDamageable {
     private readonly Player parent;
 
     public bool IsGrounded {
@@ -69,29 +69,12 @@ public partial class Player {
     public int Hitpoints => parent.Hitpoints;
     public bool IsAlive => parent.IsAlive;
 
-    public int CalculateDamage(IAttacker attacker, int baseDamage) {
-      return parent.CalculateDamage(attacker, baseDamage);
+    public int CalculateDamage(int baseDamage) {
+      return parent.CalculateDamage(baseDamage);
     }
 
-    public void TakeDamage(IAttacker attacker, int baseDamage) {
-      parent.TakeDamage(attacker, baseDamage);
-    }
-
-
-    //
-    //IAttacker
-    //
-
-    public bool CanAttack(IDamageable other) {
-      return other is Enemy;
-    }
-
-    public void Attack(IDamageable other) {
-      if (!CanAttack(other)) {
-        Debug.LogError("Attempting an illegal attack");
-        return;
-      }
-      other.TakeDamage(this, parent.gameObject.attackPower);
+    public void TakeDamage(int baseDamage) {
+      parent.TakeDamage(baseDamage);
     }
   }
 }

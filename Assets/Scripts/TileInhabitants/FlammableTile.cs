@@ -35,7 +35,7 @@ public class FlammableTile : SingleTileEntity, ITurnTaker
         if (habiter is FollowerEnemy){
           FollowerEnemy follower = (FollowerEnemy) habiter;
           isOnFire = true;
-          follower.TakeDamage(null, follower.MaxHitpoints);
+          follower.TakeDamage(follower.MaxHitpoints);
           for (int i = 1; i <= gameObject.numUpdraftTiles; i++){
             updraftTileMaker.Make(Row + i, Col, null);
           }

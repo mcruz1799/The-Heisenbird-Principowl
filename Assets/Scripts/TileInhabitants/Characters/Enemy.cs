@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageable {
+public abstract class Enemy : SingleTileEntity, ITurnTaker, IDamageable {
 
   private readonly EnemyObject e;
   protected abstract Direction AttackDirection { get; }
@@ -62,24 +62,6 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
 
 
   //
-  //IAttacker
-  //
-
-  //Enemies can only attack the player, not each other
-  public bool CanAttack(IDamageable other) {
-    return other is Player.PlayerSubEntity;
-  }
-
-  public void Attack(IDamageable other) {
-    if (!CanAttack(other)) {
-      Debug.LogError("Attempting an illegal attack");
-      return;
-    }
-
-    other.TakeDamage(this, e._attackPower);
-  }
-
-  //
   //IDamageable
   //
 
@@ -88,13 +70,27 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IAttacker, IDamageab
   public int Hitpoints => _damageable.Hitpoints;
   public bool IsAlive => _damageable.IsAlive;
 
-  public int CalculateDamage(IAttacker attacker, int baseDamage) {
+  public int CalculateDamage(int baseDamage) {
     return _damageable.CalculateDamage(baseDamage);
   }
 
-  public virtual void TakeDamage(IAttacker attacker, int baseDamage) {
-    _damageable.TakeDamage(CalculateDamage(attacker, baseDamage));
+  public virtual void TakeDamage(int baseDamage) {
+    _damageable.TakeDamage(CalculateDamage(baseDamage));
   }
 
   protected abstract void OnDeath();
+
+  //Enemies can only attack the player, not each other
+  private bool CanAttack(IDamageable other) {
+    return other is Player.PlayerSubEntity;
+  }
+
+  private void Attack(IDamageable other) {
+    if (!CanAttack(other)) {
+      Debug.LogError("Attempting an illegal attack");
+      return;
+    }
+
+    other.TakeDamage(e._attackPower);
+  }
 }

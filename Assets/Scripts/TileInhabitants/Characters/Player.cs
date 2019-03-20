@@ -94,13 +94,21 @@ public partial class Player : ITurnTaker, IDamageable {
     foreach (PlayerSubEntity bottom in Bottom()) {
       Tile t = GameManager.S.Board.GetInDirection(bottom.Row, bottom.Col, Direction.South);
       if (t != null) {
-        foreach (ITileInhabitant victim in t.Inhabitants) {
-          if (victim is IDamageable && bottom.CanAttack((IDamageable)victim)) {
-            bottom.Attack((IDamageable)victim);
+        foreach (ITileInhabitant below in t.Inhabitants) {
+          if (!(below is IDamageable)) {
+            continue;
+          }
+          IDamageable victim = (IDamageable)below;
+          if (CanAttack(victim)) {
+            victim.TakeDamage(gameObject.attackPower);
           }
         }
       }
     }
+  }
+
+  private bool CanAttack(IDamageable other) {
+    return other is Enemy;
   }
 
 
@@ -296,11 +304,11 @@ public partial class Player : ITurnTaker, IDamageable {
   public int Hitpoints => _damageable.Hitpoints;
   public bool IsAlive => _damageable.IsAlive;
 
-  public int CalculateDamage(IAttacker attacker, int baseDamage) {
+  public int CalculateDamage(int baseDamage) {
     return _damageable.CalculateDamage(baseDamage);
   }
 
-  public void TakeDamage(IAttacker attacker, int baseDamage) {
+  public void TakeDamage(int baseDamage) {
     _damageable.TakeDamage(baseDamage);
     if (_damageable.IsAlive) {
       SoundManager.S.PlayerDamaged();
