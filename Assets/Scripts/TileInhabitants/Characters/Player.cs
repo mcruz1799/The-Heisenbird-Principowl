@@ -44,7 +44,7 @@ public partial class Player : ITurnTaker, IDamageable {
   private int _yVelocity;
   public int YVelocity {
     get => _yVelocity;
-    private set => _yVelocity = Mathf.Clamp(value, gameObject.ySpeedMin, gameObject.ySpeedMax);
+    private set => _yVelocity = Mathf.Clamp(value, -gameObject.maxFallSpeed, gameObject.maxRiseSpeed);
   }
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   public bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
@@ -86,9 +86,21 @@ public partial class Player : ITurnTaker, IDamageable {
   }
 
   public void OnTurn() {
+    int originalMaxFallSpeed = gameObject.maxFallSpeed;
+    foreach (PlayerSubEntity entity in entities) {
+      if (entity.InUpdraft) {
+        gameObject.maxFallSpeed = 1;
+      }
+    }
     PerformAction(selectedAction);
     Attack();
+    gameObject.maxFallSpeed = originalMaxFallSpeed;
   }
+
+
+  //
+  //Attacking
+  //
 
   //Attack enemies below self
   private void Attack() {
