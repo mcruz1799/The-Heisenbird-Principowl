@@ -13,7 +13,7 @@ public class PlatformBeetle : Enemy {
     XVelocity = 1;
   }
 
-  private int turnParity = 0;
+  private int turnParity;
   public override void OnTurn() {
     //It's safe to do this stuff before OnDeath() is check in the base method.
     //Awful stylistically, but safe.  Please don't add more code unless you really know what you're doing.
