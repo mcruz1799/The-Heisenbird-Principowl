@@ -46,7 +46,6 @@ public class BoardObject : MonoBehaviour {
       for (int c = 0; c < NumCols; c++) {
         foreach (ASCIIToTileInhabitantMaker asciiMapping in asciiMappings) {
           if (asciiMapping.ascii == levelChars[c, r]) {
-            Debug.LogFormat("{0} {1} {2}", r, c, levelChars[c, r]);
             asciiMapping.maker.Make(r, c, GameManager.S.TileInhabitantObjectHolder);
           }
         }
