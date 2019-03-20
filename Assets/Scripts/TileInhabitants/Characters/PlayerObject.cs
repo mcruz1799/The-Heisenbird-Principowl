@@ -28,7 +28,7 @@ public sealed class PlayerObject : SingleTileEntityObject {
   [Header("Horizontal movement")]
   [Range(1, 1)] public int xAccelerationGrounded = 1;
   [Range(1, 1)] public int xAccelerationAerial = 1;
-  [Range(1, 1)] public int xDeceleration = 1;
+  [Range(1, 5)] public int xDeceleration = 1;
 
   [Header("Speed caps")]
   [Range(1, 5)] public int xSpeedMax = 3;
