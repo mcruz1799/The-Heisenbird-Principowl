@@ -9,7 +9,7 @@ public class FollowTransform : MonoBehaviour {
   [SerializeField] private bool useInspectorOffset;
 
   [SerializeField] private bool smoothMotion;
-  [Range(1f, 100f)] [SerializeField] private float smoothMotionSpeed = 1f;
+  [Range(0.01f, 100f)] [SerializeField] private float smoothMotionSpeed = 1f;
 
   [SerializeField] private bool lockX;
   [SerializeField] private bool lockY;
@@ -28,7 +28,7 @@ public class FollowTransform : MonoBehaviour {
 
     Vector3 finalPosition;
     if (smoothMotion) {
-      finalPosition = Vector3.MoveTowards(currentPosition, targetPosition, smoothMotionSpeed * Time.deltaTime);
+      finalPosition = Vector3.Lerp(currentPosition, targetPosition, smoothMotionSpeed * Time.deltaTime);
     } else {
       finalPosition = targetPosition;
     }
