@@ -137,52 +137,16 @@ public partial class Player : ITurnTaker, IDamageable {
         //Guaranteed that exactly one of these is +/- 1.
         int xDir = waypoint.x - TopLeft.Col;
         int yDir = waypoint.y - TopLeft.Row;
+        Direction moveDirection = 
+          xDir == 1 ? Direction.East : 
+          xDir == -1 ? Direction.West : 
+          yDir == 1 ? Direction.North : 
+          yDir == -1 ? Direction.South : 
+          throw new System.Exception("Illegal waypoint");
 
-        //Check that every subentity can make the move
-        bool canMove = true;
-        foreach (PlayerSubEntity p in entities) {
-          int newRow = p.Row + yDir;
-          int newCol = p.Col + xDir;
-          if (!p.CanSetPosition(newRow, newCol)) {
-            //We couldn't enter the new position.  Must have encountered an obstacle.
-
-            if (yDir > 0) {
-              YVelocity = 0;
-              SoundManager.S.PlayerHeadBonk();
-
-            } else if (yDir < 0) {
-              YVelocity = 0;
-              SoundManager.S.PlayerLanded();
-            }
-
-            //Wall sliding
-            if (xDir != 0) {
-              if (!IsGrounded && ((xDir < 0 && selectedAction == Action.MoveLeft) || (xDir > 0 && selectedAction == Action.MoveRight))) {
-                State |= xDir < 0 ? PlayerStates.LeftWallSliding : PlayerStates.RightWallSliding;
-                YVelocity = -gameObject.wallSlideSpeed;
-              }
-              XVelocity = 0;
-            }
-
-            canMove = false;
-            break;
-          }
-        }
-
-        //If a subentity couldn't make the move, exit the loop
-        if (!canMove) {
+        bool moveSuccessful = PerformMove(moveDirection);
+        if (!moveSuccessful) {
           break;
-        }
-
-        //Move all the subentities and the gameObject
-        foreach (PlayerSubEntity p in entities) {
-          int newRow = p.Row + yDir;
-          int newCol = p.Col + xDir;
-
-          p.SetPosition(newRow, newCol, out bool enteredNewPosition);
-          if (!enteredNewPosition) {
-            throw new System.Exception("Unexpected failure in SetPosition");
-          }
         }
       }
     }
@@ -274,6 +238,73 @@ public partial class Player : ITurnTaker, IDamageable {
 
 
   //
+  //Performing a move
+  //
+
+  //Attempts to move one space in direction.  If the movement fails, calls OnCollision to update state.
+  private bool PerformMove(Direction moveDirection) {
+    int colDelta = moveDirection == Direction.East ? 1 : moveDirection == Direction.West ? -1 : 0;
+    int rowDelta = moveDirection == Direction.North ? 1 : moveDirection == Direction.South ? -1 : 0;
+
+    //Check that every subentity can make the move
+    foreach (PlayerSubEntity p in entities) {
+      int newRow = p.Row + rowDelta;
+      int newCol = p.Col + colDelta;
+      if (!p.CanSetPosition(newRow, newCol)) {
+        OnCollision(moveDirection);
+        return false;
+      }
+    }
+
+    //Move all the subentities and the gameObject
+    foreach (PlayerSubEntity p in entities) {
+      int newRow = p.Row + rowDelta;
+      int newCol = p.Col + colDelta;
+
+      p.SetPosition(newRow, newCol, out bool enteredNewPosition);
+      if (!enteredNewPosition) {
+        throw new System.Exception("Unexpected failure in SetPosition");
+      }
+    }
+    return true;
+  }
+
+  //Respond to a collision when moving in moveDirection
+  private void OnCollision(Direction moveDirection) {
+    switch (moveDirection) {
+      case Direction.North:
+        YVelocity = 0;
+        SoundManager.S.PlayerHeadBonk();
+        break;
+
+      case Direction.South:
+        YVelocity = 0;
+        SoundManager.S.PlayerLanded();
+        break;
+
+      case Direction.East:
+        if (!IsGrounded && selectedAction == Action.MoveLeft) {
+          State |= PlayerStates.LeftWallSliding;
+          YVelocity = -gameObject.wallSlideSpeed;
+        }
+        XVelocity = 0;
+        break;
+
+      case Direction.West:
+        if (!IsGrounded && selectedAction == Action.MoveRight) {
+          State |= PlayerStates.LeftWallSliding;
+          YVelocity = -gameObject.wallSlideSpeed;
+        }
+        XVelocity = 0;
+        break;
+
+      default:
+        throw new System.ArgumentException("Invalid enum value");
+    }
+  }
+
+
+  //
   //Action selection
   //
 
@@ -329,14 +360,14 @@ public partial class Player : ITurnTaker, IDamageable {
       yield return entities[c, 0];
     }
   }
-  private IEnumerable<PlayerSubEntity> Left() {
-    for (int r = 0; r < dim; r++) {
-      yield return entities[0, r];
-    }
-  }
-  private IEnumerable<PlayerSubEntity> Right() {
-    for (int r = 0; r < dim; r++) {
-      yield return entities[dim - 1, r];
-    }
-  }
+  //private IEnumerable<PlayerSubEntity> Left() {
+  //  for (int r = 0; r < dim; r++) {
+  //    yield return entities[0, r];
+  //  }
+  //}
+  //private IEnumerable<PlayerSubEntity> Right() {
+  //  for (int r = 0; r < dim; r++) {
+  //    yield return entities[dim - 1, r];
+  //  }
+  //}
 }
