@@ -21,6 +21,16 @@ public partial class Player {
         return false;
       }
     }
+    public bool InUpdraft {
+      get {
+        foreach (var inhabitant in GameManager.S.Board[Row, Col].Inhabitants) {
+          if (inhabitant is UpdraftTile) {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
 
     public SingleTileEntityObject gameObject;
 

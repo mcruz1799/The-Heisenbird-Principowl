@@ -736,8 +736,8 @@ MonoBehaviour:
   xAccelerationAerial: 1
   xDeceleration: 1
   xSpeedMax: 3
-  ySpeedMax: 10
-  ySpeedMin: -3
+  maxRiseSpeed: 3
+  maxFallSpeed: 3
   skidAndTurnThreshold: 3
   skidSpeed: 1
 --- !u!4 &1140926056
