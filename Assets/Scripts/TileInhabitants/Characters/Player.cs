@@ -133,8 +133,8 @@ public partial class Player : ITurnTaker, IDamageable {
     switch (action) {
       case Action.Jump: JumpAction(); break;
       case Action.Drop: DropAction(); break;
-      case Action.MoveLeft: MoveAction(-1); break;
-      case Action.MoveRight: MoveAction(1); break;
+      case Action.MoveLeft: MoveLeftAction(); break;
+      case Action.MoveRight: MoveRightAction(); break;
       case Action.Wait: WaitAction(); break;
       default: throw new System.ArgumentException("Illegal enum value detected");
     }
@@ -207,30 +207,33 @@ public partial class Player : ITurnTaker, IDamageable {
     }
   }
 
-  private void MoveAction(int xDir) {
+  private void MoveLeftAction() {
     State &= ~PlayerStates.RightWallSliding;
     State &= ~PlayerStates.LeftWallSliding;
 
-    if (xDir < 0) {
-      if (IsGrounded && XVelocity >= gameObject.skidAndTurnThreshold) {
-        State |= PlayerStates.SkidTurning; //Set skid flag
-        XVelocity = gameObject.skidSpeed;
-      } else {
-        if (XVelocity > 0) {
-          XVelocity = 0;
-        }
-        XVelocity -= XAcceleration;
+    if (IsGrounded && XVelocity >= gameObject.skidAndTurnThreshold) {
+      State |= PlayerStates.SkidTurning; //Set skid flag
+      XVelocity = gameObject.skidSpeed;
+    } else {
+      if (XVelocity > 0) {
+        XVelocity = 0;
       }
-    } else if (xDir > 0) {
-      if (IsGrounded && XVelocity <= -gameObject.skidAndTurnThreshold) {
-        State |= PlayerStates.SkidTurning; //Set skid flag
-        XVelocity = -gameObject.skidSpeed;
-      } else {
-        if (XVelocity < 0) {
-          XVelocity = 0;
-        }
-        XVelocity += XAcceleration;
+      XVelocity -= XAcceleration;
+    }
+  }
+
+  private void MoveRightAction() {
+    State &= ~PlayerStates.RightWallSliding;
+    State &= ~PlayerStates.LeftWallSliding;
+
+    if (IsGrounded && XVelocity <= -gameObject.skidAndTurnThreshold) {
+      State |= PlayerStates.SkidTurning; //Set skid flag
+      XVelocity = -gameObject.skidSpeed;
+    } else {
+      if (XVelocity < 0) {
+        XVelocity = 0;
       }
+      XVelocity += XAcceleration;
     }
   }
 
