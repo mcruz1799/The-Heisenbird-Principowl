@@ -31,9 +31,6 @@ public class GameManager : MonoBehaviour {
     Board = new Board(boardMaker.NumRows, boardMaker.NumCols, boardMaker.tilePrefab, boardMaker.transform);
     boardMaker.PopulateBoard();
 
-    //Turn off all the toggled platforms at the start. (So players have to toggle them to begin climbing.)
-    PlatformToggleManager.Toggle(PlatformAndBeetleColor.Red);
-
     Player = new Player(_playerObject);
     if (Board == null || Player == null) {
       throw new System.Exception("Failed to initialize GameManager");

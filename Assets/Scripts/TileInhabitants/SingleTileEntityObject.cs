@@ -24,9 +24,9 @@ public class SingleTileEntityObject : MonoBehaviour {
     Vector3 currentPos = transform.position;
     float t = 0f;
     while (t < 1) {
+      yield return null;
       t += Time.deltaTime / timeToMove;
       transform.position = Vector3.Lerp(currentPos, position, t);
-      yield return null;
     }
   }
 }
