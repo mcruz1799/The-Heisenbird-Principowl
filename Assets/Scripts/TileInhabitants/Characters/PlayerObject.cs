@@ -36,7 +36,7 @@ public sealed class PlayerObject : SingleTileEntityObject {
   [Range(1, 5)] public int maxFallSpeed = 3;
 
   [Header("Skidding when turning")]
-  [Range(3, 3)] public int skidAndTurnThreshold = 3;
+  [Range(3, 99)] public int skidAndTurnThreshold = 3;
   [Range(1, 2)] public int skidSpeed = 1; //Must be less than skidAndTurnThreshold
 
   private void Awake() {

@@ -153,12 +153,19 @@ public partial class Player : ITurnTaker, IDamageable {
       List<Vector2Int> moveWaypoints = TopLeft.CalculateMoveWaypoints(XVelocity, YVelocity);
 
       //Skip the first waypoint because it's just our current position
+      bool yCollisionFlag = false;
       for (int i = 1; i < moveWaypoints.Count; i++) {
         Vector2Int waypoint = moveWaypoints[i];
+        if (yCollisionFlag) {
+          waypoint.y = TopLeft.Row;
+        }
 
         //Guaranteed that exactly one of these is +/- 1.
         int xDir = waypoint.x - TopLeft.Col;
         int yDir = waypoint.y - TopLeft.Row;
+        if (xDir == 0 && yDir == 0) {
+          continue;
+        }
         Direction moveDirection = 
           xDir == 1 ? Direction.East : 
           xDir == -1 ? Direction.West : 
@@ -168,7 +175,11 @@ public partial class Player : ITurnTaker, IDamageable {
 
         bool moveSuccessful = PerformMove(moveDirection);
         if (!moveSuccessful) {
-          break;
+          if (yDir != 0) {
+            yCollisionFlag = true;
+          } else {
+            break;
+          }
         }
       }
     }

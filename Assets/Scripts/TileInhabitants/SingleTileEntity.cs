@@ -14,7 +14,9 @@ public abstract class SingleTileEntity : ITileInhabitant {
 
   public SingleTileEntity(SingleTileEntityObject gameObject) {
     this.gameObject = gameObject;
+    gameObject.animateMovement = false;
     SetPosition(gameObject.spawnRow, gameObject.spawnCol, out bool success);
+    gameObject.animateMovement = true;
     if (!success) {
       throw new System.Exception("Failed to initialize SingleTileEntity");
     }

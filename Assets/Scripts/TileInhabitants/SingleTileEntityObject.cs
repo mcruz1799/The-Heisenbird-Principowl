@@ -7,17 +7,22 @@ public class SingleTileEntityObject : MonoBehaviour {
   //When constructing a SingleTileEntity, SetPosition(spawnRow, spawnCol) gets called.
   [HideInInspector] public int spawnRow;
   [HideInInspector] public int spawnCol;
+  public bool animateMovement = true;
+  protected virtual float MoveAnimationTime => GameManager.S.TimeBetweenTurns;
 
   private Coroutine movementCoroutine;
 
   public void SetPosition(int row, int col) {
     Vector3 newPosition = GameManager.S.Board[row, col].transform.position;
     newPosition.z = transform.position.z;
-    // transform.position = newPosition;
-    if (movementCoroutine != null) {
-      StopCoroutine(movementCoroutine);
+    if (animateMovement) {
+      if (movementCoroutine != null) {
+        StopCoroutine(movementCoroutine);
+      }
+      movementCoroutine = StartCoroutine(MoveToPosition(transform, newPosition, MoveAnimationTime));
+    } else {
+      transform.position = newPosition;
     }
-    movementCoroutine = StartCoroutine(MoveToPosition(transform, newPosition, GameManager.S.TimeBetweenTurns));
   }
 
   private IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove) {
