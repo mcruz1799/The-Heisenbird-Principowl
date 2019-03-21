@@ -35,7 +35,7 @@ public class FollowerEnemy : Enemy
   }
 
   private void FollowPlayer(){
-    if(Mathf.Abs(homeTileCol - this.Col) > e.followRange){
+    if(Mathf.Abs(homeTileCol - this.Col) > e.maxDistFromHome){
       //If we are too far from home point, return to home
       isFollowing = false;
       return;
@@ -44,6 +44,10 @@ public class FollowerEnemy : Enemy
     int distanceToPlayer = GameManager.S.Player.Col - this.Col;
     XVelocity = Mathf.Abs(XVelocity);
     if(distanceToPlayer < 0) XVelocity *= -1;
+    else if (distanceToPlayer == 0){
+      //XVelocity = 0;
+      return;
+    }
     List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, 0);
     for (int i = 1; i < moveWaypoints.Count; i++) {
       Vector2Int waypoint = moveWaypoints[i];
