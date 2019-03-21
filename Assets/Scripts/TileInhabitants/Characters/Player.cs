@@ -87,6 +87,8 @@ public partial class Player : ITurnTaker, IDamageable {
   }
 
   public void OnTurn() {
+
+    //Adjust fall speed based on presence of updrafts
     int originalMaxFallSpeed = gameObject.maxFallSpeed;
     foreach (PlayerSubEntity entity in entities) {
       if (entity.InUpdraft) {
@@ -94,15 +96,15 @@ public partial class Player : ITurnTaker, IDamageable {
       }
     }
 
+    //If the player is stunned, disregard their input
     if (turnsStunned > 0) {
       turnsStunned -= 1;
       selectedAction = Action.Wait;
     }
 
-    if (knockback == null) {
-      PerformAction(selectedAction);
-      Attack();
-    } else {
+    //Apply knockback to the player from the previous turn
+    //If there isn't any, respond the player's input instead
+    if (knockback != null) {
       if (knockback.Value == Direction.East || knockback.Value == Direction.West) {
         PerformMove(Direction.North);
       }
@@ -111,6 +113,9 @@ public partial class Player : ITurnTaker, IDamageable {
           break;
         }
       }
+    } else {
+      PerformAction(selectedAction);
+      Attack();
     }
 
     knockback = null;
