@@ -14,17 +14,13 @@ public class FlammableTile : SingleTileEntity, ITurnTaker
     this.isOnFire = false;
     this.updraftTileMaker = gameObject.updraftTileMaker;
     GameManager.S.RegisterTurnTaker(this);
-    SetPosition(gameObject.spawnRow, gameObject.spawnCol, out bool success);
-    if (!success) {
-      throw new System.Exception("Failed to initialize FlammableTile");
-    }
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other){
-    if (other is Platform) {
+    /*if (other is Platform) {
       Platform platform = (Platform)other;
       return platform.IsActive;
-    }
+    }*/
     return false;
   }
 

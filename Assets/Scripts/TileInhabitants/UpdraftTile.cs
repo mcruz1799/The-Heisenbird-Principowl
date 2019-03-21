@@ -8,10 +8,6 @@ public class UpdraftTile : SingleTileEntity
 
   public UpdraftTile(UpdraftTileObject updraftObject) : base(updraftObject) {
     this.updraftObject = updraftObject;
-    SetPosition(updraftObject.spawnRow, updraftObject.spawnCol, out bool success);
-    if (!success) {
-      throw new System.Exception("Failed to initialize UpdraftTile");
-    }
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other){

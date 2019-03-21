@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -702,7 +702,7 @@ PrefabInstance:
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
       propertyPath: asciiMappings.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
@@ -757,6 +757,17 @@ PrefabInstance:
       propertyPath: asciiMappings.Array.data[3].maker
       value: 
       objectReference: {fileID: 3954388177857958443, guid: 7f76d6fec4f14364483f1ec8efc6014e,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[4].ascii
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[4].maker
+      value: 
+      objectReference: {fileID: 1911326765392429814, guid: e8b49486e4e1f39448d9017c115c9d92,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90b68b8d319dfe44c9b319e8d39f2431, type: 3}
