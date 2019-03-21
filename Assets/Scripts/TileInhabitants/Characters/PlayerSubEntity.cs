@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface PlayerLabel { }
+
 public partial class Player {
-  public sealed class PlayerSubEntity : SingleTileEntity, IDamageable {
+  private sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel {
     private readonly Player parent;
 
     public bool IsGrounded {

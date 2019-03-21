@@ -26,7 +26,7 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IDamageable {
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other) {
-    if (other is Player.PlayerSubEntity || other is Enemy) {
+    if (other is PlayerLabel || other is Enemy) {
       return true;
     }
 
@@ -78,7 +78,7 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IDamageable {
 
   //Enemies can only attack the player, not each other
   private bool CanAttack(IDamageable other) {
-    return other is Player.PlayerSubEntity;
+    return other is PlayerLabel;
   }
 
   private void Attack(IDamageable other) {
