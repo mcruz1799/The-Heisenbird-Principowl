@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -702,7 +702,7 @@ PrefabInstance:
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
       propertyPath: asciiMappings.Array.size
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
@@ -735,7 +735,7 @@ PrefabInstance:
         type: 3}
       propertyPath: asciiMappings.Array.data[0].maker
       value: 
-      objectReference: {fileID: 7006597351876090859, guid: a7ba06c6bf341ad46b84433263d6a997,
+      objectReference: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98,
         type: 3}
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
@@ -747,6 +747,50 @@ PrefabInstance:
       propertyPath: level
       value: 
       objectReference: {fileID: 4900000, guid: c043a555747246f4ea896157d72c5dd4, type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[3].ascii
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[3].maker
+      value: 
+      objectReference: {fileID: 4286497281413670092, guid: b04736134479bb247b4832fbffbd908b,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[4].ascii
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[4].maker
+      value: 
+      objectReference: {fileID: 778994390425347126, guid: 3c26165c1d5c7b6419eff3368f49925f,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[5].ascii
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[5].maker
+      value: 
+      objectReference: {fileID: 5626947023956191393, guid: 18e2fbca2846eb448a78a5bfc0c0037d,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[6].ascii
+      value: 62
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[6].maker
+      value: 
+      objectReference: {fileID: 3375514513087832611, guid: f04ef8cdcd01bb84a8f75d53bda3e89f,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90b68b8d319dfe44c9b319e8d39f2431, type: 3}
 --- !u!114 &1023114304 stripped
