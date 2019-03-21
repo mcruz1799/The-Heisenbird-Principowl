@@ -49,6 +49,7 @@ public partial class Player : ITurnTaker, IDamageable {
   }
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   public bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
+  public bool IsStunned => turnsStunned > 0;
 
 
   //
