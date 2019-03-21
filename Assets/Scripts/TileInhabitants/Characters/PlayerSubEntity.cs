@@ -77,14 +77,6 @@ public partial class Player {
     //IDamageable
     //
 
-    public int MaxHitpoints => parent.MaxHitpoints;
-    public int Hitpoints => parent.Hitpoints;
-    public bool IsAlive => parent.IsAlive;
-
-    public int CalculateDamage(int baseDamage) {
-      return parent.CalculateDamage(baseDamage);
-    }
-
     public void OnAttacked(int attackPower, Direction attackDirection) {
       parent.OnAttacked(attackPower, attackDirection);
     }

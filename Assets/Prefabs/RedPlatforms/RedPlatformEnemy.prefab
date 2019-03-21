@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 7273775180802752617}
   - component: {fileID: 5863764130154113457}
   m_Layer: 0
-  m_Name: RedPlatformBeetle
+  m_Name: RedPlatformEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,8 +123,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnRow: 0
   spawnCol: 0
+  animateMovement: 1
   _maxHp: 1
-  _attackPower: 1
+  _attackPower: 10
   xSpeedMax: 10
   ySpeedMax: 10
   ySpeedMin: -10

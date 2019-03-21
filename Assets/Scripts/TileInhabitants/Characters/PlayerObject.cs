@@ -5,11 +5,10 @@ using UnityEngine;
 public sealed class PlayerObject : SingleTileEntityObject {
   [Header("INITIALIZATION ONLY")]
 #pragma warning disable 0649
+  //Used in Awake
   [SerializeField] private int _spawnRow;
   [SerializeField] private int _spawnCol;
 #pragma warning restore 0649
-
-  [Range(1000, 1000)] public int maxHp = 1000;
   [Space(10)]
 
   [Header("ADJUSTABLE DURING PLAY MODE")]

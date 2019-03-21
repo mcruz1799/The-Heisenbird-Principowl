@@ -25,6 +25,7 @@ public partial class Player : ITurnTaker, IDamageable {
 
   private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -gameObject.xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? gameObject.xWallJumpPower : 0;
   private int XAcceleration => IsGrounded ? gameObject.xAccelerationGrounded : gameObject.xAccelerationAerial;
+  private int turnsStunned = 0;
 
   //These are for enemy targeting
   public int Row => TopLeft.Row;
@@ -56,7 +57,6 @@ public partial class Player : ITurnTaker, IDamageable {
 
   public Player(PlayerObject gameObject) {
     this.gameObject = gameObject;
-    _damageable = new Damageable(gameObject.maxHp);
     for (int r = 0; r < dim; r++) {
       for (int c = 0; c < dim; c++) {
         SingleTileEntityObject subentityGameObject = new GameObject().AddComponent<SingleTileEntityObject>();
@@ -93,6 +93,11 @@ public partial class Player : ITurnTaker, IDamageable {
       }
     }
 
+    if (turnsStunned > 0) {
+      turnsStunned -= 1;
+      selectedAction = Action.Wait;
+    }
+
     if (knockback == null) {
       PerformAction(selectedAction);
       Attack();
@@ -100,7 +105,11 @@ public partial class Player : ITurnTaker, IDamageable {
       if (knockback.Value == Direction.East || knockback.Value == Direction.West) {
         PerformMove(Direction.North);
       }
-      PerformMove(knockback.Value);
+      for (int i = 0; i < 3; i++) {
+        if (!PerformMove(knockback.Value)) {
+          break;
+        }
+      }
     }
 
     knockback = null;
@@ -367,26 +376,13 @@ public partial class Player : ITurnTaker, IDamageable {
   //IDamageable
   //
 
-  private readonly Damageable _damageable;
-  public int MaxHitpoints => _damageable.MaxHitpoints;
-  public int Hitpoints => _damageable.Hitpoints;
-  public bool IsAlive => _damageable.IsAlive;
-
-
-  public int CalculateDamage(int baseDamage) {
-    return _damageable.CalculateDamage(baseDamage);
-  }
-
   private Direction? knockback = null;
   public void OnAttacked(int attackPower, Direction attackDirection) {
-    _damageable.TakeDamage(attackPower);
-    if (_damageable.IsAlive) {
-      SoundManager.S.PlayerDamaged();
-    } else {
-      SoundManager.S.PlayerDied();
-      UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-    }
+    SoundManager.S.PlayerDamaged();
     knockback = attackDirection;
+    if (turnsStunned <= 0) {
+      turnsStunned = attackPower;
+    }
   }
 
   public void Destroy() {
