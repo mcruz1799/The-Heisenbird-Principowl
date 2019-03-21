@@ -64,6 +64,7 @@ public partial class Player {
           return false;
         }
         if (parent.IsDroppingThroughPlatform && platform.PlayerCanDropThrough && platform.Row == Row - 1) {
+          Debug.LogWarning("Old code, may be incorrect");
           return false;
         }
         return true;
