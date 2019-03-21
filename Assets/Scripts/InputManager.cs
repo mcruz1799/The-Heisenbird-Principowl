@@ -52,7 +52,9 @@ public class InputManager : MonoBehaviour {
       Action action = inputMapping.Value;
 
       if (Input.GetKeyDown(key)) {
-        queuedAction = action;
+        if (action != Action.Jump) {
+          queuedAction = action;
+        }
         playerActionSelections.Add(action);
       }
 

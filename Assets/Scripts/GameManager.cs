@@ -27,7 +27,8 @@ public class GameManager : MonoBehaviour {
     S = this;
     TileInhabitantObjectHolder = new GameObject().transform;
     TileInhabitantObjectHolder.name = "TileInhabitantObjectHolder";
-    Board = new Board(boardMaker.numRows, boardMaker.numCols, boardMaker.tilePrefab, boardMaker.transform);
+    boardMaker.Initialize();
+    Board = new Board(boardMaker.NumRows, boardMaker.NumCols, boardMaker.tilePrefab, boardMaker.transform);
     boardMaker.PopulateBoard();
 
     Player = new Player(_playerObject);

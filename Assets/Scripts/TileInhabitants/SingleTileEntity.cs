@@ -14,7 +14,9 @@ public abstract class SingleTileEntity : ITileInhabitant {
 
   public SingleTileEntity(SingleTileEntityObject gameObject) {
     this.gameObject = gameObject;
+    gameObject.animateMovement = false;
     SetPosition(gameObject.spawnRow, gameObject.spawnCol, out bool success);
+    gameObject.animateMovement = true;
     if (!success) {
       throw new System.Exception("Failed to initialize SingleTileEntity");
     }
@@ -125,6 +127,11 @@ public abstract class SingleTileEntity : ITileInhabitant {
       Col = newCol;
       gameObject.SetPosition(Row, Col);
     }
+  }
+
+  public virtual void Destroy() {
+    Object.Destroy(gameObject.gameObject);
+    GameManager.S.Board[Row, Col].Remove(this);
   }
 
   //

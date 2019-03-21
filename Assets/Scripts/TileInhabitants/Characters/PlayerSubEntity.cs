@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface PlayerLabel { }
+
 public partial class Player {
-  public sealed class PlayerSubEntity : SingleTileEntity, IDamageable {
+  private sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel {
     private readonly Player parent;
 
     public bool IsGrounded {
@@ -18,6 +20,16 @@ public partial class Player {
           return true;
         }
 
+        return false;
+      }
+    }
+    public bool InUpdraft {
+      get {
+        foreach (var inhabitant in GameManager.S.Board[Row, Col].Inhabitants) {
+          if (inhabitant is UpdraftTile) {
+            return true;
+          }
+        }
         return false;
       }
     }
@@ -65,16 +77,12 @@ public partial class Player {
     //IDamageable
     //
 
-    public int MaxHitpoints => parent.MaxHitpoints;
-    public int Hitpoints => parent.Hitpoints;
-    public bool IsAlive => parent.IsAlive;
-
-    public int CalculateDamage(int baseDamage) {
-      return parent.CalculateDamage(baseDamage);
+    public void OnAttacked(int attackPower, Direction attackDirection) {
+      parent.OnAttacked(attackPower, attackDirection);
     }
 
-    public void TakeDamage(int baseDamage) {
-      parent.TakeDamage(baseDamage);
+    public override void Destroy() {
+      base.Destroy();
     }
   }
 }

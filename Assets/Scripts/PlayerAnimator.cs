@@ -19,5 +19,7 @@ public class PlayerAnimator : MonoBehaviour {
       idleGrounded.FlipX = false;
       //midair.FlipX = false;
     }
+
+    idleGrounded.FlipY = Player.IsStunned;
   }
 }

@@ -25,6 +25,7 @@ public partial class Player : ITurnTaker, IDamageable {
 
   private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -gameObject.xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? gameObject.xWallJumpPower : 0;
   private int XAcceleration => IsGrounded ? gameObject.xAccelerationGrounded : gameObject.xAccelerationAerial;
+  private int turnsStunned = 0;
 
   //These are for enemy targeting
   public int Row => TopLeft.Row;
@@ -44,10 +45,11 @@ public partial class Player : ITurnTaker, IDamageable {
   private int _yVelocity;
   public int YVelocity {
     get => _yVelocity;
-    private set => _yVelocity = Mathf.Clamp(value, gameObject.ySpeedMin, gameObject.ySpeedMax);
+    private set => _yVelocity = Mathf.Clamp(value, -gameObject.maxFallSpeed, gameObject.maxRiseSpeed);
   }
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   public bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
+  public bool IsStunned => turnsStunned > 0;
 
 
   //
@@ -56,7 +58,6 @@ public partial class Player : ITurnTaker, IDamageable {
 
   public Player(PlayerObject gameObject) {
     this.gameObject = gameObject;
-    _damageable = new Damageable(gameObject.maxHp);
     for (int r = 0; r < dim; r++) {
       for (int c = 0; c < dim; c++) {
         SingleTileEntityObject subentityGameObject = new GameObject().AddComponent<SingleTileEntityObject>();
@@ -86,9 +87,40 @@ public partial class Player : ITurnTaker, IDamageable {
   }
 
   public void OnTurn() {
-    PerformAction(selectedAction);
-    Attack();
+    int originalMaxFallSpeed = gameObject.maxFallSpeed;
+    foreach (PlayerSubEntity entity in entities) {
+      if (entity.InUpdraft) {
+        gameObject.maxFallSpeed = 1;
+      }
+    }
+
+    if (turnsStunned > 0) {
+      turnsStunned -= 1;
+      selectedAction = Action.Wait;
+    }
+
+    if (knockback == null) {
+      PerformAction(selectedAction);
+      Attack();
+    } else {
+      if (knockback.Value == Direction.East || knockback.Value == Direction.West) {
+        PerformMove(Direction.North);
+      }
+      for (int i = 0; i < 3; i++) {
+        if (!PerformMove(knockback.Value)) {
+          break;
+        }
+      }
+    }
+
+    knockback = null;
+    gameObject.maxFallSpeed = originalMaxFallSpeed;
   }
+
+
+  //
+  //Attacking
+  //
 
   //Attack enemies below self
   private void Attack() {
@@ -101,7 +133,7 @@ public partial class Player : ITurnTaker, IDamageable {
           }
           IDamageable victim = (IDamageable)below;
           if (CanAttack(victim)) {
-            victim.TakeDamage(gameObject.attackPower);
+            victim.OnAttacked(gameObject.attackPower, Direction.South);
           }
         }
       }
@@ -121,8 +153,8 @@ public partial class Player : ITurnTaker, IDamageable {
     switch (action) {
       case Action.Jump: JumpAction(); break;
       case Action.Drop: DropAction(); break;
-      case Action.MoveLeft: MoveAction(-1); break;
-      case Action.MoveRight: MoveAction(1); break;
+      case Action.MoveLeft: MoveLeftAction(); break;
+      case Action.MoveRight: MoveRightAction(); break;
       case Action.Wait: WaitAction(); break;
       default: throw new System.ArgumentException("Illegal enum value detected");
     }
@@ -131,12 +163,19 @@ public partial class Player : ITurnTaker, IDamageable {
       List<Vector2Int> moveWaypoints = TopLeft.CalculateMoveWaypoints(XVelocity, YVelocity);
 
       //Skip the first waypoint because it's just our current position
+      bool yCollisionFlag = false;
       for (int i = 1; i < moveWaypoints.Count; i++) {
         Vector2Int waypoint = moveWaypoints[i];
+        if (yCollisionFlag) {
+          waypoint.y = TopLeft.Row;
+        }
 
         //Guaranteed that exactly one of these is +/- 1.
         int xDir = waypoint.x - TopLeft.Col;
         int yDir = waypoint.y - TopLeft.Row;
+        if (xDir == 0 && yDir == 0) {
+          continue;
+        }
         Direction moveDirection = 
           xDir == 1 ? Direction.East : 
           xDir == -1 ? Direction.West : 
@@ -146,7 +185,11 @@ public partial class Player : ITurnTaker, IDamageable {
 
         bool moveSuccessful = PerformMove(moveDirection);
         if (!moveSuccessful) {
-          break;
+          if (yDir != 0) {
+            yCollisionFlag = true;
+          } else {
+            break;
+          }
         }
       }
     }
@@ -195,30 +238,33 @@ public partial class Player : ITurnTaker, IDamageable {
     }
   }
 
-  private void MoveAction(int xDir) {
+  private void MoveLeftAction() {
     State &= ~PlayerStates.RightWallSliding;
     State &= ~PlayerStates.LeftWallSliding;
 
-    if (xDir < 0) {
-      if (IsGrounded && XVelocity >= gameObject.skidAndTurnThreshold) {
-        State |= PlayerStates.SkidTurning; //Set skid flag
-        XVelocity = gameObject.skidSpeed;
-      } else {
-        if (XVelocity > 0) {
-          XVelocity = 0;
-        }
-        XVelocity -= XAcceleration;
+    if (IsGrounded && XVelocity >= gameObject.skidAndTurnThreshold) {
+      State |= PlayerStates.SkidTurning; //Set skid flag
+      XVelocity = gameObject.skidSpeed;
+    } else {
+      if (XVelocity > 0) {
+        XVelocity = 0;
       }
-    } else if (xDir > 0) {
-      if (IsGrounded && XVelocity <= -gameObject.skidAndTurnThreshold) {
-        State |= PlayerStates.SkidTurning; //Set skid flag
-        XVelocity = -gameObject.skidSpeed;
-      } else {
-        if (XVelocity < 0) {
-          XVelocity = 0;
-        }
-        XVelocity += XAcceleration;
+      XVelocity -= XAcceleration;
+    }
+  }
+
+  private void MoveRightAction() {
+    State &= ~PlayerStates.RightWallSliding;
+    State &= ~PlayerStates.LeftWallSliding;
+
+    if (IsGrounded && XVelocity <= -gameObject.skidAndTurnThreshold) {
+      State |= PlayerStates.SkidTurning; //Set skid flag
+      XVelocity = -gameObject.skidSpeed;
+    } else {
+      if (XVelocity < 0) {
+        XVelocity = 0;
       }
+      XVelocity += XAcceleration;
     }
   }
 
@@ -283,15 +329,15 @@ public partial class Player : ITurnTaker, IDamageable {
         break;
 
       case Direction.East:
-        if (!IsGrounded && selectedAction == Action.MoveLeft) {
-          State |= PlayerStates.LeftWallSliding;
+        if (!IsGrounded && selectedAction == Action.MoveRight) {
+          State |= PlayerStates.RightWallSliding;
           YVelocity = -gameObject.wallSlideSpeed;
         }
         XVelocity = 0;
         break;
 
       case Direction.West:
-        if (!IsGrounded && selectedAction == Action.MoveRight) {
+        if (!IsGrounded && selectedAction == Action.MoveLeft) {
           State |= PlayerStates.LeftWallSliding;
           YVelocity = -gameObject.wallSlideSpeed;
         }
@@ -331,23 +377,20 @@ public partial class Player : ITurnTaker, IDamageable {
   //IDamageable
   //
 
-  private readonly Damageable _damageable;
-  public int MaxHitpoints => _damageable.MaxHitpoints;
-  public int Hitpoints => _damageable.Hitpoints;
-  public bool IsAlive => _damageable.IsAlive;
-
-  public int CalculateDamage(int baseDamage) {
-    return _damageable.CalculateDamage(baseDamage);
+  private Direction? knockback = null;
+  public void OnAttacked(int attackPower, Direction attackDirection) {
+    SoundManager.S.PlayerDamaged();
+    knockback = attackDirection;
+    if (turnsStunned <= 0) {
+      turnsStunned = attackPower;
+    }
   }
 
-  public void TakeDamage(int baseDamage) {
-    _damageable.TakeDamage(baseDamage);
-    if (_damageable.IsAlive) {
-      SoundManager.S.PlayerDamaged();
-    } else {
-      SoundManager.S.PlayerDied();
-      UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+  public void Destroy() {
+    foreach (PlayerSubEntity entity in entities) {
+      entity.Destroy();
     }
+    GameManager.S.UnregisterTurnTaker(this);
   }
 
 

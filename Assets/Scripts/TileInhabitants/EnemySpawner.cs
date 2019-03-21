@@ -34,7 +34,7 @@ public class EnemySpawner : SingleTileEntity, ITurnTaker {
     if (turnsUntilRespawn <= 0) {
       turnsUntilRespawn = gameObject.turnsBeforeRespawn;
       foreach (ITileInhabitant inhabitant in GameManager.S.Board[Row, Col].Inhabitants) {
-        if (inhabitant is Enemy || inhabitant is Platform || inhabitant is Player.PlayerSubEntity) {
+        if (inhabitant is Enemy || inhabitant is Platform || inhabitant is PlayerLabel) {
           return;
         }
       }
