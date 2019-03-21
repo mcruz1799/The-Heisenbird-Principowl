@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f6bab189a65b38040be7351c87c54748, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -138,10 +138,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnRow: 0
   spawnCol: 0
+  animateMovement: 1
   _maxHp: 1
   _attackPower: 1
   xSpeedMax: 5
   ySpeedMax: 5
   ySpeedMin: -1
-  aggroRange: 0
-  followRange: 0
+  aggroRange: 5
+  maxDistFromHome: 5
