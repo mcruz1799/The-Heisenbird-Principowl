@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3180133396497284347
+--- !u!1 &5776274008664056414
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3180133396497284341}
-  - component: {fileID: 3180133396497284346}
+  - component: {fileID: 5776274008664056400}
+  - component: {fileID: 5776274008664056415}
   m_Layer: 0
-  m_Name: Level0
+  m_Name: Level1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3180133396497284341
+--- !u!4 &5776274008664056400
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3180133396497284347}
+  m_GameObject: {fileID: 5776274008664056414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,33 +31,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3180133396497284346
+--- !u!114 &5776274008664056415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3180133396497284347}
+  m_GameObject: {fileID: 5776274008664056414}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a333e425d40de2347b34c161878f020e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numRows: 100
-  numCols: 60
+  level: {fileID: 4900000, guid: c043a555747246f4ea896157d72c5dd4, type: 3}
   tilePrefab: {fileID: 6910328573096434756, guid: 9c96cd149f5ea024f9075f2852a5eaf8,
     type: 3}
-  colorMappings:
-  - color: {r: 0.19215687, g: 0.5254902, b: 0.87058824, a: 1}
-    maker: {fileID: 5642321969307607725, guid: 02ba6cd464b97a5489ed15f5fa8ab12a, type: 3}
-  - color: {r: 0.5803922, g: 0.31764707, b: 0.007843138, a: 1}
-    maker: {fileID: 7006597351876090859, guid: a7ba06c6bf341ad46b84433263d6a997, type: 3}
-  - color: {r: 1, g: 0, b: 0, a: 1}
+  asciiMappings:
+  - ascii: 61
+    maker: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98, type: 3}
+  - ascii: 69
     maker: {fileID: 7815367375816864579, guid: 47c84b98f4ce1624a9875c38f577480b, type: 3}
-  - color: {r: 0.6784314, g: 0.0627451, b: 0.0627451, a: 1}
-    maker: {fileID: 3119395089931153236, guid: 7145052736f07d945a7a07e08d1f7472, type: 3}
-  level: {fileID: 2800000, guid: 90ad0e114545f314f9a0eda813f3e2e6, type: 3}
-  x0: 0
-  y0: 0
-  pixelWidth: 10
-  pixelHeight: 10
+  - ascii: 101
+    maker: {fileID: 3119395089931153236, guid: 3239e28711530b44bacd6c1f6564461d, type: 3}
+  - ascii: 42
+    maker: {fileID: 4286497281413670092, guid: b04736134479bb247b4832fbffbd908b, type: 3}
+  - ascii: 60
+    maker: {fileID: 778994390425347126, guid: 3c26165c1d5c7b6419eff3368f49925f, type: 3}
+  - ascii: 45
+    maker: {fileID: 5626947023956191393, guid: 18e2fbca2846eb448a78a5bfc0c0037d, type: 3}
+  - ascii: 62
+    maker: {fileID: 3375514513087832611, guid: f04ef8cdcd01bb84a8f75d53bda3e89f, type: 3}
