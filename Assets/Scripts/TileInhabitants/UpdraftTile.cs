@@ -6,12 +6,14 @@ public class UpdraftTile : SingleTileEntity
 {
   private readonly UpdraftTileObject updraftObject;
 
+  public bool IsActive {
+    get => updraftObject.isActive;
+    set => updraftObject.isActive = value;
+  }
+
   public UpdraftTile(UpdraftTileObject updraftObject) : base(updraftObject) {
     this.updraftObject = updraftObject;
-    SetPosition(updraftObject.spawnRow, updraftObject.spawnCol, out bool success);
-    if (!success) {
-      throw new System.Exception("Failed to initialize UpdraftTile");
-    }
+    this.IsActive = false;
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other){

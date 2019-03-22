@@ -702,7 +702,7 @@ PrefabInstance:
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
       propertyPath: asciiMappings.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
@@ -757,6 +757,28 @@ PrefabInstance:
       propertyPath: asciiMappings.Array.data[3].maker
       value: 
       objectReference: {fileID: 3954388177857958443, guid: 7f76d6fec4f14364483f1ec8efc6014e,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[4].ascii
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[4].maker
+      value: 
+      objectReference: {fileID: 1911326765392429814, guid: e8b49486e4e1f39448d9017c115c9d92,
+        type: 3}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[5].ascii
+      value: 117
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+        type: 3}
+      propertyPath: asciiMappings.Array.data[5].maker
+      value: 
+      objectReference: {fileID: 1866301506325420567, guid: 85172b1df0eb0a24e9e11b6474c13550,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90b68b8d319dfe44c9b319e8d39f2431, type: 3}

@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd3a2b44a8c51fe49821bc9ba6c16148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flammableTilePrefab: {fileID: 8011249461864014758, guid: fa6f30ee0aa0d414784d2e631c1e96b7,
+  flammableTilePrefab: {fileID: 2473837647286573644, guid: 37da0718d5f27874e98a095678dc44b7,
     type: 3}
