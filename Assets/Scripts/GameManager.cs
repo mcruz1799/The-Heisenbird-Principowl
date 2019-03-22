@@ -78,12 +78,16 @@ public class GameManager : MonoBehaviour {
 
       turnTakers.ExceptWith(toRemove);
       toRemove.Clear();
-      checkCompletion();
+      CheckCompletion();
     }
   }
 
-  public void stopLevel()
-  {
+
+  //
+  //Level completion
+  //
+
+  public void StopLevel() {
     currentState = GameState.Stopped;
     StopCoroutine(TurnTakerRoutine());
 
@@ -93,36 +97,30 @@ public class GameManager : MonoBehaviour {
     turnTakers.Clear();
   }
 
-  public void LoadMenu()
-  {
+  public void LoadMenu() {
     SceneManager.LoadScene("MainMenu");
   }
+
   //TODO: Change this behaviour to load different levels.
-  public void LoadNextLevel()
-  {
+  public void LoadNextLevel() {
     SceneManager.LoadScene("Level2");
   }
 
-  public void Quit()
-  {
+  public void Quit() {
     Application.Quit();
   }
 
-  private void revealLevelComplete()
-  {
+  private void RevealLevelComplete() {
     LevelCompleteUI.SetActive(true);
   }
 
-  private void checkCompletion()
-  {
+  private void CheckCompletion() {
     int col = CompletionX;
     int row = CompletionY;
     Tile t = Board[row, col];
     if (Player.Occupies().Contains(t)) {
-      Debug.Log("Working.");
-      stopLevel();
-      revealLevelComplete();
+      StopLevel();
+      RevealLevelComplete();
     }
   }
-
 }
