@@ -1792,6 +1792,9 @@ MonoBehaviour:
   timeBetweenTurns: 0.1
   _playerObject: {fileID: 1140926055}
   boardMaker: {fileID: 1023114304}
+  CompletionX: 9
+  CompletionY: 3
+  LevelCompleteUI: {fileID: 0}
 --- !u!4 &2140197682
 Transform:
   m_ObjectHideFlags: 0
