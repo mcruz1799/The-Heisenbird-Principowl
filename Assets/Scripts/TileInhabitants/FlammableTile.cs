@@ -6,13 +6,11 @@ public class FlammableTile : SingleTileEntity, ITurnTaker
 {
 
   private readonly FlammableTileObject gameObject;
-  private UpdraftTileMaker updraftTileMaker;
   private bool isOnFire;
 
   public FlammableTile(FlammableTileObject gameObject) : base(gameObject) {
     this.gameObject = gameObject;
     this.isOnFire = false;
-    this.updraftTileMaker = gameObject.updraftTileMaker;
     GameManager.S.RegisterTurnTaker(this);
   }
 
