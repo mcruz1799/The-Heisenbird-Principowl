@@ -1677,71 +1677,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[2]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[3]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[4]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[5]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[6]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[7]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[8]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: walkSpeedProgression.Array.data[9]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: skidAndTurnThreshold
-      value: 99
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: _spawnRow
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975024, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1797,11 +1732,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8120240370992088049, guid: 4cd7ef9996934a34f859b050a682d036,
-        type: 3}
-      propertyPath: sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 5f84c129d1a9ab54d8ed8ec12a501bbb,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd7ef9996934a34f859b050a682d036, type: 3}
