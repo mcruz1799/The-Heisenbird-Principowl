@@ -15,27 +15,7 @@ public sealed class Tile : MonoBehaviour {
     return observers.Remove(observer);
   }
 
-  //Check whether an inhabitant can be added to this Tile
-  public bool CanAdd(ITileInhabitant newInhabitant) {
-    bool alreadyAdded = inhabitants.Contains(newInhabitant);
-
-    //As an example, a Player cannot be added to a Tile that contains a Wall
-    bool conflictsWithInhabitant = false;
-    foreach (ITileInhabitant other in inhabitants) {
-      if (newInhabitant.IsBlockedBy(other)) {
-        conflictsWithInhabitant = true;
-        break;
-      }
-    }
-
-    return !alreadyAdded && !conflictsWithInhabitant;
-  }
-
   public void Add(ITileInhabitant newInhabitant) {
-    if (!CanAdd(newInhabitant)) {
-      throw new System.ArgumentException("Cannot add inhabitant");
-    }
-
     inhabitants.Add(newInhabitant);
     foreach (ITileObserver observer in observers) {
       observer.OnInhabitantEntered(newInhabitant);

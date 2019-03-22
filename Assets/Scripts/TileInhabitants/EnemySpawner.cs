@@ -11,10 +11,6 @@ public class EnemySpawner : SingleTileEntity, ITurnTaker {
     this.gameObject = gameObject;
   }
 
-  protected override bool IsBlockedByCore(ITileInhabitant other) {
-    return false;
-  }
-
   public static EnemySpawner Make(EnemySpawnerObject enemySpawnerPrefab, int row, int col, Transform parent = null) {
     enemySpawnerPrefab = Object.Instantiate(enemySpawnerPrefab);
     enemySpawnerPrefab.transform.parent = parent;

@@ -4,52 +4,65 @@ using UnityEngine;
 
 public class FlammableTile : SingleTileEntity, ITurnTaker {
   private readonly FlammableTileObject gameObject;
-  private bool isOnFire;
-
-  private UpdraftTileMaker updraftTileMaker;
+  private readonly UpdraftTileMaker updraftTileMaker;
 
   public FlammableTile(FlammableTileObject gameObject) : base(gameObject) {
     this.gameObject = gameObject;
-    this.isOnFire = false;
-    this.updraftTileMaker = gameObject.updraftTileMaker;
+    updraftTileMaker = gameObject.updraftTileMaker;
     GameManager.S.RegisterTurnTaker(this);
   }
 
-  protected override bool IsBlockedByCore(ITileInhabitant other){
-    /*if (other is Platform) {
-      Platform platform = (Platform)other;
-      return platform.IsActive;
-    }*/
-    return false;
+  public override bool CanSetPosition(int newRow, int newCol) {
+    if (!base.CanSetPosition(newRow, newCol)) {
+      return false;
+    }
+
+    foreach (ITileInhabitant other in GameManager.S.Board[newRow, newCol].Inhabitants) {
+      if (toIgnore.Contains(other)) {
+        continue;
+      }
+
+      if (other is Platform) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
+  private bool isOnFire = false;
+  private bool hasCreatedUpdrafts = false;
   public void OnTurn() {
-    if (GetWisp()){
-      SetOnFire();
+    //If not on fire, check for wisps.  If one is found, set self on fire
+    if (!isOnFire && GetWisp()){
+      isOnFire = true;
+    }
+
+    //If on fire, 10% chance to set adjacent FlammableTiles on fire
+    if (isOnFire && Random.Range(0, 10) == 0) {
+      ActivateAdjacentTiles();
+    }
+
+    //Create updrafts if on fire and we haven't done so yet
+    if (isOnFire && !hasCreatedUpdrafts) {
+      MakeUpdrafts();
+      hasCreatedUpdrafts = true;
     }
   }
 
-  private void SetOnFire(){
-    if (isOnFire) return;
-    isOnFire = true;
-    ActivateAdjacentTiles();
-    MakeUpdrafts();
-  }
-
   private bool GetWisp(){
-    IReadOnlyCollection<ITileInhabitant> inhabitants = GameManager.S.Board[Row, Col].Inhabitants;
-      ITileInhabitant follower = this;
-      foreach (ITileInhabitant habiter in inhabitants){
-        if (habiter is FollowerEnemySubEntity){
-          follower = habiter;
-          break;
-        }
+    foreach (ITileInhabitant other in GameManager.S.Board[Row, Col].Inhabitants) {
+      if (toIgnore.Contains(other)) {
+        continue;
       }
-      if (follower != this){
-        ((FollowerEnemySubEntity)follower).OnAttacked(100000, Direction.West);
+
+      FollowerEnemySubEntity wisp = other is FollowerEnemySubEntity ? (FollowerEnemySubEntity)other : null;
+      if (wisp != null) {
+        wisp.OnAttacked(int.MaxValue, Direction.East);
         return true;
       }
-      return false;
+    }
+    return false;
   }
 
   private void ActivateAdjacentTiles(){
@@ -61,15 +74,17 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
       foreach (ITileInhabitant inhabitant in adjacent.Inhabitants) {
         FlammableTile flammableTile = inhabitant is FlammableTile ? (FlammableTile)inhabitant : null;
         if (flammableTile != null) {
-          flammableTile.SetOnFire();
+          flammableTile.isOnFire = true;
         }
       }
     }
   }
 
-  private void MakeUpdrafts(){
-    for (int i = 1; i <= gameObject.numUpdraftTiles; i++){
-      updraftTileMaker.Make(Row + i, Col);
+  private void MakeUpdrafts() {
+    int row = Row + 1;
+    while (CanSetPosition(row, Col)) {
+      updraftTileMaker.Make(row, Col);
+      row += 1;
     }
   }
 

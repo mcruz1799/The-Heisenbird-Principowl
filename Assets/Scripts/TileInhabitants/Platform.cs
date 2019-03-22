@@ -18,8 +18,22 @@ public class Platform : SingleTileEntity {
     PlatformToggleManager.AddPlatform(this);
   }
 
-  protected override bool IsBlockedByCore(ITileInhabitant other) {
-    return other is Platform || other is PlayerLabel || other is IEnemy;
+  public override bool CanSetPosition(int newRow, int newCol) {
+    if (!base.CanSetPosition(newRow, newCol)) {
+      return false;
+    }
+
+    foreach (ITileInhabitant other in GameManager.S.Board[newRow, newCol].Inhabitants) {
+      if (toIgnore.Contains(other)) {
+        continue;
+      }
+
+      if (other is Platform || other is PlayerLabel || other is IEnemy) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   public static Platform Make(PlatformObject platformPrefab, int row, int col, Transform parent = null) {

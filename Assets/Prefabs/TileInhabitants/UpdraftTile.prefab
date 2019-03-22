@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: bcf444b9e89d1a247a783a8de97c7f2e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,5 +108,3 @@ MonoBehaviour:
   spawnRow: 0
   spawnCol: 0
   animateMovement: 1
-  isActive: 0
-  sprite: {fileID: 3710758423501891383}

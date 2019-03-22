@@ -20,17 +20,27 @@ public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamagea
     this.parent = parent;
   }
 
-  protected override bool IsBlockedByCore(ITileInhabitant other) {
-    if (other is PlayerLabel || other is IEnemy) {
-      return true;
+  public override bool CanSetPosition(int newRow, int newCol) {
+    if (!base.CanSetPosition(newRow, newCol)) {
+      return false;
     }
 
-    if (other is Platform) {
-      Platform platform = (Platform)other;
-      return platform.IsActive;
+    foreach (ITileInhabitant other in GameManager.S.Board[newRow, newCol].Inhabitants) {
+      if (toIgnore.Contains(other)) {
+        continue;
+      }
+
+      if (other is PlayerLabel || other is IEnemy) {
+        return false;
+      }
+
+      if (other is Platform) {
+        Platform platform = (Platform)other;
+        return !platform.IsActive;
+      }
     }
 
-    return false;
+    return true;
   }
 
   public abstract void Attack();

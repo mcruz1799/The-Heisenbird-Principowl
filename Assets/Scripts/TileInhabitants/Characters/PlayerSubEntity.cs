@@ -16,7 +16,7 @@ public partial class Player {
         }
 
         //If you can't be added to the Tile, it counts as ground.
-        if (!GameManager.S.Board[Row - 1, Col].CanAdd(this)) {
+        if (!CanSetPosition(Row - 1, Col)) {
           return true;
         }
         
@@ -46,27 +46,37 @@ public partial class Player {
     //SingleTileEntity
     //
 
-    protected override bool IsBlockedByCore(ITileInhabitant other) {
-      if (other is IEnemy) {
-        return true;
+    public override bool CanSetPosition(int newRow, int newCol) {
+      if (!base.CanSetPosition(newRow, newCol)) {
+        return false;
       }
 
-      if (other is Platform) {
-        Platform platform = (Platform)other;
-        if (!platform.IsActive) {
+      foreach (ITileInhabitant other in GameManager.S.Board[newRow, newCol].Inhabitants) {
+        if (toIgnore.Contains(other)) {
+          continue;
+        }
+
+        if (other is IEnemy) {
           return false;
         }
-        if (platform.PlayerCanJumpThrough && platform.Row == Row + 1) {
+
+        if (other is Platform) {
+          Platform platform = (Platform)other;
+          if (!platform.IsActive) {
+            continue;
+          }
+          if (platform.PlayerCanJumpThrough && platform.Row == Row + 1) {
+            continue;
+          }
+          if (parent.IsDroppingThroughPlatform && platform.PlayerCanDropThrough && platform.Row == Row - 1) {
+            Debug.LogWarning("Old code, may be incorrect");
+            continue;
+          }
           return false;
         }
-        if (parent.IsDroppingThroughPlatform && platform.PlayerCanDropThrough && platform.Row == Row - 1) {
-          Debug.LogWarning("Old code, may be incorrect");
-          return false;
-        }
-        return true;
       }
 
-      return false;
+      return true;
     }
 
 
