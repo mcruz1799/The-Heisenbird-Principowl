@@ -50,11 +50,11 @@ public class PlayerAnimator : MonoBehaviour {
   }
 
   private void disableAllAnimators(){
-    idleGrounded.IsPaused = false;
+    idleGrounded.IsPaused = true;
     idleGrounded.IsVisible = false;
-    jumping.IsPaused = false;
+    jumping.IsPaused = true;
     jumping.IsVisible = false;
-    running.IsPaused = false;
+    running.IsPaused = true;
     running.IsVisible = false;
   }
 
