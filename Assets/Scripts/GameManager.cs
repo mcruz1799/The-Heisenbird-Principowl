@@ -22,7 +22,16 @@ public class GameManager : MonoBehaviour {
   //Initialized here so that other classes can safely call RegisterTurnTaker inside of Awake
   private ISet<ITurnTaker> turnTakers = new HashSet<ITurnTaker>();
 
-  
+  //Game States so the GameManager knows when to stop and start the TurnTaker Routine.
+  private enum GameState
+  {
+    Running = 0,
+    Stopped = 1
+  }
+
+  private GameState currentState = GameState.Stopped;
+
+
   private void Awake() {
     S = this;
     TileInhabitantObjectHolder = new GameObject().transform;
@@ -35,6 +44,7 @@ public class GameManager : MonoBehaviour {
     if (Board == null || Player == null) {
       throw new System.Exception("Failed to initialize GameManager");
     }
+    currentState = GameState.Running;
     StartCoroutine(TurnTakerRoutine());
   }
 
@@ -49,7 +59,7 @@ public class GameManager : MonoBehaviour {
   }
 
   private IEnumerator TurnTakerRoutine() {
-    while (true) {
+    while (currentState == GameState.Running) {
       yield return new WaitForSeconds(timeBetweenTurns);
 
       Player.SelectAction(InputManager.S.GetPlayerAction());
@@ -66,5 +76,36 @@ public class GameManager : MonoBehaviour {
     }
   }
 
+  public void stopLevel()
+  {
+    currentState = GameState.Stopped;
+    StopCoroutine(TurnTakerRoutine());
+
+    turnTakers.ExceptWith(toRemove);
+    toAdd.Clear();
+    toRemove.Clear();
+    turnTakers.Clear();
+  }
+
+  public void clearLevel()
+  {
+    foreach (Transform tileInhabitant in TileInhabitantObjectHolder) {
+      Destroy(tileInhabitant.gameObject); //Destroy everything but the player.
+    }
+  }
+
+  public void startNext(int level)
+  {
+    boardMaker.Initialize(level);
+    Board = new Board(boardMaker.NumRows, boardMaker.NumCols, boardMaker.tilePrefab, boardMaker.transform);
+    boardMaker.PopulateBoard();
+
+    Player = new Player(_playerObject);
+    if (Board == null || Player == null) {
+      throw new System.Exception("Failed to initialize GameManager");
+    }
+    currentState = GameState.Running;
+    StartCoroutine(TurnTakerRoutine());
+  }
 
 }

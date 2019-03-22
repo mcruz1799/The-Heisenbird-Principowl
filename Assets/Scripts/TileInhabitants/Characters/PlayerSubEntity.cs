@@ -25,7 +25,7 @@ public partial class Player {
     }
     public bool InUpdraft {
       get {
-        foreach (var inhabitant in GameManager.S.Board[Row, Col].Inhabitants) {
+        foreach (ITileInhabitant inhabitant in GameManager.S.Board[Row, Col].Inhabitants) {
           if (inhabitant is UpdraftTile) {
             return true;
           }
@@ -41,17 +41,13 @@ public partial class Player {
       this.gameObject = gameObject;
     }
 
-    public new List<Vector2Int> CalculateMoveWaypoints(int xDelta, int yDelta) {
-      return base.CalculateMoveWaypoints(xDelta, yDelta);
-    }
-
 
     //
     //SingleTileEntity
     //
 
     protected override bool IsBlockedByCore(ITileInhabitant other) {
-      if (other is Enemy) {
+      if (other is IEnemy) {
         return true;
       }
 
@@ -64,6 +60,7 @@ public partial class Player {
           return false;
         }
         if (parent.IsDroppingThroughPlatform && platform.PlayerCanDropThrough && platform.Row == Row - 1) {
+          Debug.LogWarning("Old code, may be incorrect");
           return false;
         }
         return true;
@@ -79,10 +76,6 @@ public partial class Player {
 
     public void OnAttacked(int attackPower, Direction attackDirection) {
       parent.OnAttacked(attackPower, attackDirection);
-    }
-
-    public override void Destroy() {
-      base.Destroy();
     }
   }
 }
