@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour {
   [Range(0.01f, 2f)] [SerializeField] private float timeBetweenTurns = 0.01f;
   [SerializeField] private PlayerObject _playerObject;
   [SerializeField] private BoardObject boardMaker;
+  [SerializeField] private int CompletionX;
+  [SerializeField] private int CompletionY;
 #pragma warning restore 0649
 
   public Player Player { get; private set; }
@@ -74,6 +76,7 @@ public class GameManager : MonoBehaviour {
 
       turnTakers.ExceptWith(toRemove);
       toRemove.Clear();
+      checkCompletion();
     }
   }
 
@@ -101,6 +104,10 @@ public class GameManager : MonoBehaviour {
   public void Quit()
   {
     Application.Quit();
+  }
+
+  private void checkCompletion()
+  {
   }
 
 }
