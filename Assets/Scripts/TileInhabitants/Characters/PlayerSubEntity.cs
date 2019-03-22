@@ -62,12 +62,28 @@ public partial class Player {
 
         if (other is Platform) {
           Platform platform = (Platform)other;
+
+          //Ignore inactive platforms
           if (!platform.IsActive) {
             continue;
           }
-          if (platform.PlayerCanJumpThrough && platform.Row == Row + 1) {
-            continue;
+
+          //If the player can jump through the platform, ignore it unless you're the bottom of the player and are above it
+          if (platform.PlayerCanJumpThrough) {
+            bool isBottom = false;
+            foreach (PlayerSubEntity entity in parent.Bottom()) {
+              if (entity == this) {
+                isBottom = true;
+                break;
+              }
+            }
+            bool isImmediatelyAbove = Row > platform.Row;
+            if (!(isBottom && isImmediatelyAbove)) {
+              continue;
+            }
           }
+
+
           if (parent.IsDroppingThroughPlatform && platform.PlayerCanDropThrough && platform.Row == Row - 1) {
             Debug.LogWarning("Old code, may be incorrect");
             continue;

@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightBranch
       objectReference: {fileID: 0}
+    - target: {fileID: 8738449733998245654, guid: cd77938106776dc40b66e84bd7dd330c,
+        type: 3}
+      propertyPath: playerCanJumpThrough
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8507473958968533667, guid: cd77938106776dc40b66e84bd7dd330c,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
