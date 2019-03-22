@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour {
   public static GameManager S { get; private set; }
@@ -85,27 +86,6 @@ public class GameManager : MonoBehaviour {
     toAdd.Clear();
     toRemove.Clear();
     turnTakers.Clear();
-  }
-
-  public void clearLevel()
-  {
-    foreach (Transform tileInhabitant in TileInhabitantObjectHolder) {
-      Destroy(tileInhabitant.gameObject); //Destroy everything but the player.
-    }
-  }
-
-  public void startNext(int level)
-  {
-    boardMaker.Initialize(level);
-    Board = new Board(boardMaker.NumRows, boardMaker.NumCols, boardMaker.tilePrefab, boardMaker.transform);
-    boardMaker.PopulateBoard();
-
-    Player = new Player(_playerObject);
-    if (Board == null || Player == null) {
-      throw new System.Exception("Failed to initialize GameManager");
-    }
-    currentState = GameState.Running;
-    StartCoroutine(TurnTakerRoutine());
   }
 
 }

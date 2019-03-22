@@ -46,9 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnRow: 2
   spawnCol: 3
-  _spawnRow: 2
+  animateMovement: 1
+  _spawnRow: 9
   _spawnCol: 3
-  maxHp: 1000
   graphicsHolder: {fileID: 8120240372263986906}
   attackPower: 1
   gravity: 1
@@ -60,8 +60,8 @@ MonoBehaviour:
   xAccelerationAerial: 1
   xDeceleration: 1
   xSpeedMax: 3
-  ySpeedMax: 10
-  ySpeedMin: -3
+  maxRiseSpeed: 3
+  maxFallSpeed: 3
   skidAndTurnThreshold: 3
   skidSpeed: 1
 --- !u!1 &8120240370992088062
