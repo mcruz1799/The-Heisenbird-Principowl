@@ -1602,8 +1602,9 @@ MonoBehaviour:
   _playerObject: {fileID: 505494344}
   boardMakerPrefab: {fileID: 7044392509325897440, guid: 17094645cd93ad84f8182f6372bfd93f,
     type: 3}
-  CompletionX: 0
-  CompletionY: 0
+  nextScene: MainMenu
+  completionRow: 9
+  completionCol: 62
   LevelCompleteUI: {fileID: 0}
 --- !u!4 &1987882785
 Transform:

@@ -11,8 +11,11 @@ public class GameManager : MonoBehaviour {
   [Range(0.01f, 2f)] [SerializeField] private float timeBetweenTurns = 0.01f;
   [SerializeField] private PlayerObject _playerObject;
   [SerializeField] private BoardObject boardMakerPrefab;
-  [SerializeField] private int CompletionX = 0;
-  [SerializeField] private int CompletionY = 0;
+
+  [Header("Level Completion")]
+  [SerializeField] private string nextScene = "MainMenu";
+  [SerializeField] private int completionRow = 0;
+  [SerializeField] private int completionCol = 0;
   [SerializeField] private GameObject LevelCompleteUI;
 #pragma warning restore 0649
 
@@ -27,10 +30,9 @@ public class GameManager : MonoBehaviour {
   private ISet<ITurnTaker> turnTakers = new HashSet<ITurnTaker>();
 
   //Game States so the GameManager knows when to stop and start the TurnTaker Routine.
-  private enum GameState
-  {
-    Running = 0,
-    Stopped = 1
+  private enum GameState {
+    Running,
+    Stopped,
   }
 
   private GameState currentState = GameState.Stopped;
@@ -103,7 +105,7 @@ public class GameManager : MonoBehaviour {
 
   //TODO: Change this behaviour to load different levels.
   public void LoadNextLevel() {
-    SceneManager.LoadScene("Level2");
+    SceneManager.LoadScene(nextScene);
   }
 
   public void Quit() {
@@ -115,12 +117,12 @@ public class GameManager : MonoBehaviour {
   }
 
   private void CheckCompletion() {
-    int col = CompletionX;
-    int row = CompletionY;
-    Tile t = Board[row, col];
-    if (Player.Occupies().Contains(t)) {
-      StopLevel();
-      RevealLevelComplete();
+    if (Board.IsPositionLegal(completionRow, completionCol)) {
+      Tile t = Board[completionRow, completionCol];
+      if (Player.Occupies().Contains(t)) {
+        StopLevel();
+        RevealLevelComplete();
+      }
     }
   }
 }
