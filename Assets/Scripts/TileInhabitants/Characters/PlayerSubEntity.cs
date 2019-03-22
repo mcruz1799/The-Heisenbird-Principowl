@@ -19,7 +19,7 @@ public partial class Player {
         if (!GameManager.S.Board[Row - 1, Col].CanAdd(this)) {
           return true;
         }
-
+        
         return false;
       }
     }

@@ -27,6 +27,8 @@ public partial class Player : ITurnTaker, IDamageable {
   private int XAcceleration => IsGrounded ? gameObject.xAccelerationGrounded : gameObject.xAccelerationAerial;
   private int turnsStunned = 0;
 
+  private int jumpGraceTurns = 0;
+
   //These are for enemy targeting
   public int Row => TopLeft.Row;
   public int Col => TopLeft.Col;
@@ -87,6 +89,7 @@ public partial class Player : ITurnTaker, IDamageable {
   }
 
   public void OnTurn() {
+    bool isGroundedAtStartOfTurn = IsGrounded;
 
     //Adjust fall speed based on presence of updrafts
     int originalMaxFallSpeed = gameObject.maxFallSpeed;
@@ -120,6 +123,18 @@ public partial class Player : ITurnTaker, IDamageable {
 
     knockback = null;
     gameObject.maxFallSpeed = originalMaxFallSpeed;
+
+    if (jumpGraceTurns > 0) {
+      jumpGraceTurns -= 1;
+    }
+
+    if (!IsGrounded && isGroundedAtStartOfTurn) {
+      jumpGraceTurns = gameObject.jumpGraceTurns;
+    }
+
+    if (selectedAction == Action.Jump) {
+      jumpGraceTurns = 0;
+    }
   }
 
 
@@ -221,13 +236,12 @@ public partial class Player : ITurnTaker, IDamageable {
   }
 
   private void JumpAction() {
-    if (IsGrounded) {
-      YVelocity = gameObject.jumpPower;
-      SoundManager.S.PlayerJump();
-
-    } else if (IsWallSliding) {
+    if (IsWallSliding) {
       YVelocity = gameObject.yWallJumpPower;
       XVelocity = XWallJumpPower;
+      SoundManager.S.PlayerJump();
+    } else {
+      YVelocity = gameObject.jumpPower;
       SoundManager.S.PlayerJump();
     }
     State &= ~PlayerStates.RightWallSliding;
@@ -362,7 +376,7 @@ public partial class Player : ITurnTaker, IDamageable {
   private Action selectedAction = Action.Wait;
 
   public bool CanSelectAction(Action action) {
-    if (action == Action.Jump && !(IsGrounded || IsWallSliding)) {
+    if (action == Action.Jump && !(IsGrounded || IsWallSliding || jumpGraceTurns > 0)) {
       return false;
     }
 
