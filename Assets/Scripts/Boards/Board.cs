@@ -19,6 +19,8 @@ public class Board {
     float yOffset = -tileHeight / 2f * Rows;
     for (int row = 0; row < Rows; row++) {
       for (int col = 0; col < Cols; col++) {
+        //Tile t = Object.Instantiate(tilePrefab);
+        //t.transform.parent = tileHolder;
         board[row, col] = Object.Instantiate(original: tilePrefab, parent: tileHolder);
         board[row, col].transform.position = new Vector3(tileWidth * col + xOffset, tileHeight * row + yOffset, 0);
       }

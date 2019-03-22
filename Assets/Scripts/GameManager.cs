@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 #pragma warning disable 0649
   [Range(0.01f, 2f)] [SerializeField] private float timeBetweenTurns = 0.01f;
   [SerializeField] private PlayerObject _playerObject;
-  [SerializeField] private BoardObject boardMaker;
+  [SerializeField] private BoardObject boardMakerPrefab;
   [SerializeField] private int CompletionX = 0;
   [SerializeField] private int CompletionY = 0;
   [SerializeField] private GameObject LevelCompleteUI;
@@ -40,9 +40,10 @@ public class GameManager : MonoBehaviour {
     S = this;
     TileInhabitantObjectHolder = new GameObject().transform;
     TileInhabitantObjectHolder.name = "TileInhabitantObjectHolder";
-    boardMaker.Initialize();
-    Board = new Board(boardMaker.NumRows, boardMaker.NumCols, boardMaker.tilePrefab, boardMaker.transform);
-    boardMaker.PopulateBoard();
+    boardMakerPrefab = Instantiate(boardMakerPrefab);
+    boardMakerPrefab.Initialize();
+    Board = new Board(boardMakerPrefab.NumRows, boardMakerPrefab.NumCols, boardMakerPrefab.tilePrefab, boardMakerPrefab.transform);
+    boardMakerPrefab.PopulateBoard();
 
     Player = new Player(_playerObject);
     if (Board == null || Player == null) {
