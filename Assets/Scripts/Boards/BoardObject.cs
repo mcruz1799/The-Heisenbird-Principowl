@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class BoardObject : MonoBehaviour {
 #pragma warning disable 0649
-  [SerializeField] private TextAsset[] levels;
+  [SerializeField] private TextAsset level;
+  public Tile tilePrefab;
   [SerializeField] private ASCIIToTileInhabitantMaker[] asciiMappings;
 #pragma warning restore 0649
-
-  public Tile tilePrefab;
 
   public int NumRows { get; private set; }
   public int NumCols { get; private set; }
@@ -18,7 +17,6 @@ public class BoardObject : MonoBehaviour {
 
   public void Initialize(int currLevel = 0) {
     //Calculate the number of rows and columns
-    TextAsset level = levels[currLevel];
     string[] lines = level.text.Split('\n');
     NumRows = lines.Length;
     NumCols = 1;
