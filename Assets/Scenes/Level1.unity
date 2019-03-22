@@ -1603,7 +1603,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenTurns: 0.1
   _playerObject: {fileID: 1140926055}
-  boardMakerPrefab: {fileID: 0}
+  boardMakerPrefab: {fileID: 5776274008664056415, guid: 90b68b8d319dfe44c9b319e8d39f2431,
+    type: 3}
   CompletionX: 43
   CompletionY: 104
   LevelCompleteUI: {fileID: 384263357}
