@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour {
 #pragma warning disable 0649
   [SerializeField] private SpriteAnimator idleGrounded;
+  [SerializeField] private SpriteAnimator jumping;
+  [SerializeField] private SpriteAnimator running;
+  private SpriteAnimator current_animator = null;
+
   //[SerializeField] private ISpriteAnimator midair;
 #pragma warning restore 0649
 
@@ -12,14 +16,49 @@ public class PlayerAnimator : MonoBehaviour {
 
   private void Update() {
     //Flip PlayerGraphic Orientation
-    if (Player.XVelocity < 0) {
-      idleGrounded.FlipX = true;
-      //midair.FlipX = true;
-    } else if (Player.XVelocity > 0) {
-      idleGrounded.FlipX = false;
-      //midair.FlipX = false;
+    if (Player.YVelocity != 0) {
+      if(!jumping.gameObject.activeSelf){
+        disableAllAnimators();
+        jumping.IsVisible = true;
+        jumping.IsPaused = false;
+        jumping.StartFromFirstFrame();
+        current_animator = jumping;
+      }
+      this.flipPlayerX(jumping);
     }
+    else if (Player.XVelocity != 0){
+      if(!running.gameObject.activeSelf){
+        disableAllAnimators();
+        running.IsVisible = true;
+        running.IsPaused = false;
+        running.StartFromFirstFrame();
+        current_animator = running;
+      }
+      this.flipPlayerX(running);
+    }
+    else{
+      if(!idleGrounded.gameObject.activeSelf){
+        disableAllAnimators();
+        idleGrounded.IsVisible = true;
+        idleGrounded.IsPaused = false;
+        idleGrounded.StartFromFirstFrame();
+        current_animator = idleGrounded;
+      }
+      this.flipPlayerX(idleGrounded);
+    }
+    if(current_animator) current_animator.FlipY = Player.IsStunned;
+  }
 
-    idleGrounded.FlipY = Player.IsStunned;
+  private void disableAllAnimators(){
+    idleGrounded.IsPaused = false;
+    idleGrounded.IsVisible = false;
+    jumping.IsPaused = false;
+    jumping.IsVisible = false;
+    running.IsPaused = false;
+    running.IsVisible = false;
+  }
+
+  private void flipPlayerX(SpriteAnimator s){
+    s.FlipX = Player.XVelocity >= 0 ? false : true;
   }
 }
