@@ -137,6 +137,14 @@ public partial class Player : ITurnTaker, IDamageable {
     }
   }
 
+  public ISet<Tile> Occupies() {
+    ISet<Tile> result = new HashSet<Tile>();
+    foreach (PlayerSubEntity entity in entities) {
+      result.UnionWith(entity.Occupies());
+    }
+    return result;
+  }
+
 
   //
   //Attacking
