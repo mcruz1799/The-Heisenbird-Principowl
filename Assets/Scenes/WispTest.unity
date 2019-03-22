@@ -714,7 +714,7 @@ PrefabInstance:
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
       propertyPath: asciiMappings.Array.size
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3180133396497284346, guid: 90b68b8d319dfe44c9b319e8d39f2431,
         type: 3}
