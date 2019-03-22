@@ -6,8 +6,14 @@ public class UpdraftTile : SingleTileEntity
 {
   private readonly UpdraftTileObject updraftObject;
 
+  public bool IsActive {
+    get => updraftObject.isActive;
+    set => updraftObject.isActive = value;
+  }
+
   public UpdraftTile(UpdraftTileObject updraftObject) : base(updraftObject) {
     this.updraftObject = updraftObject;
+    this.IsActive = false;
   }
 
   protected override bool IsBlockedByCore(ITileInhabitant other){

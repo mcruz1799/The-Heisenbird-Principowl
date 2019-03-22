@@ -6,13 +6,11 @@ public class FlammableTile : SingleTileEntity, ITurnTaker
 {
 
   private readonly FlammableTileObject gameObject;
-  private UpdraftTileMaker updraftTileMaker;
   private bool isOnFire;
 
   public FlammableTile(FlammableTileObject gameObject) : base(gameObject) {
     this.gameObject = gameObject;
     this.isOnFire = false;
-    this.updraftTileMaker = gameObject.updraftTileMaker;
     GameManager.S.RegisterTurnTaker(this);
   }
 
@@ -27,16 +25,23 @@ public class FlammableTile : SingleTileEntity, ITurnTaker
   public void OnTurn() {
     if (!isOnFire){
       IReadOnlyCollection<ITileInhabitant> inhabitants = GameManager.S.Board[Row, Col].Inhabitants;
+      ITileInhabitant follower = this;
       foreach (ITileInhabitant habiter in inhabitants){
         if (habiter is FollowerEnemy){
-          FollowerEnemy follower = (FollowerEnemy) habiter;
+          follower = habiter;
           isOnFire = true;
-          follower.Destroy();
           for (int i = 1; i <= gameObject.numUpdraftTiles; i++){
-            updraftTileMaker.Make(Row + i, Col, null);
+            IReadOnlyCollection<ITileInhabitant> updrafts = GameManager.S.Board[Row + i, Col].Inhabitants;
+            foreach (ITileInhabitant tile in updrafts){
+              if (tile is UpdraftTile){
+                UpdraftTile ud = (UpdraftTile) tile;
+                ud.IsActive = true;
+              }
+            }
           }
         }
       }
+      if (follower != this) ((FollowerEnemy)follower).Destroy();
     }
   }
 
