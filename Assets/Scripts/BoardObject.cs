@@ -37,7 +37,7 @@ public class BoardObject : MonoBehaviour {
       row += 1;
     }
   }
-  
+
   //Fills GameManager.S.Board with tile inhabitants
   public void PopulateBoard() {
     for (int r = 0; r < NumRows; r++) {
