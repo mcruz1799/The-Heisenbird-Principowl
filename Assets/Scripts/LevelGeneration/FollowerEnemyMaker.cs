@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowerEnemyMaker : TileInhabitantMaker
-{
+public class FollowerEnemyMaker : EnemyMaker {
 #pragma warning disable 0649
   [SerializeField] private FollowerEnemyObject followerEnemyPrefab;
 #pragma warning restore 0649
 
-  public override ITileInhabitant Make(int row, int col, Transform parent = null) {
-    return FollowerEnemy.Make(followerEnemyPrefab, row, col, parent);
+  private IEnemy mostRecentlyMade;
+  public override IEnemy MostRecentlyMade => mostRecentlyMade;
+
+  public override void Make(int row, int col, Transform parent = null) {
+    mostRecentlyMade = FollowerEnemy.Make(followerEnemyPrefab, row, col, parent);
   }
 }

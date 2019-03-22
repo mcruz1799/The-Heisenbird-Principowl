@@ -123,10 +123,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnRow: 0
   spawnCol: 0
-  _maxHp: 1
-  _attackPower: 1
+  animateMovement: 1
+  maxHp: 1
+  attackPower: 1
   xSpeedMax: 10
   ySpeedMax: 10
   ySpeedMin: -10
+  graphicsHolder: {fileID: 3548804471019576312}
   groupColor: 0
   moveCooldown: 3

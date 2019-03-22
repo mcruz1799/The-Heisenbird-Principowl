@@ -146,7 +146,7 @@ public partial class Player : ITurnTaker, IDamageable {
   }
 
   private bool CanAttack(IDamageable other) {
-    return other is Enemy;
+    return other is IEnemy;
   }
 
 

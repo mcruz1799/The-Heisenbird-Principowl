@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7355511319981144025}
   - component: {fileID: 6235150820820840103}
   m_Layer: 0
-  m_Name: PlatformBeetleMaker
+  m_Name: RedPlatformEnemyMaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformBeetlePrefab: {fileID: 5863764130154113457, guid: 915f429eb83ed694ba3066e2b0fe7b35,
     type: 3}
+  dim: 1

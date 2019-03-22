@@ -57,4 +57,22 @@ public class Board {
         throw new System.ArgumentException("Illegal direction enum value");
     }
   }
+
+  public Tile GetInDirections(int row, int col, params Direction[] directions) {
+    foreach (Direction d in directions) {
+      switch (d) {
+        case Direction.North: row += 1; break;
+        case Direction.South: row -= 1; break;
+        case Direction.East:  col += 1; break;
+        case Direction.West:  col -= 1; break;
+
+        default: throw new System.ArgumentException("Illegal direction enum value");
+      }
+    }
+    if (IsPositionLegal(row, col)) {
+      return this[row, col];
+    } else {
+      return null;
+    }
+  }
 }

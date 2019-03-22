@@ -2,62 +2,124 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : SingleTileEntity, ITurnTaker, IDamageable {
+public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
+  where TParent : Enemy<TParent, TSub>
+  where TSub : EnemySubEntity<TParent, TSub> {
 
-  private readonly EnemyObject e;
-  protected abstract Direction AttackDirection { get; }
+  private readonly EnemyObject gameObject;
+  private readonly TSub[,] entities;
+  private readonly int dim;
+  protected TSub TopLeft => entities[0, dim - 1];
 
   private int _xVelocity;
-  protected int XVelocity {
+  public int XVelocity {
     get => _xVelocity;
-    set => _xVelocity = Mathf.Clamp(value, -e.xSpeedMax, e.xSpeedMax);
+    protected set => _xVelocity = Mathf.Clamp(value, -gameObject.xSpeedMax, gameObject.xSpeedMax);
   }
 
   private int _yVelocity;
-  protected int YVelocity {
+  public int YVelocity {
     get => _yVelocity;
-    set => _yVelocity = Mathf.Clamp(value, e.ySpeedMin, e.ySpeedMax);
+    protected set => _yVelocity = Mathf.Clamp(value, gameObject.ySpeedMin, gameObject.ySpeedMax);
   }
 
-  public Enemy(EnemyObject e) : base(e) {
-    this.e = e;
+  public int AttackPower => gameObject.attackStunTurns;
+
+  protected abstract void OnCollision(Direction moveDirection);
+  protected abstract TSub[,] CreateSubEntities(EnemyObject e, int dim);
+
+  public Enemy(EnemyObject gameObject) {
+    _damageable = new Damageable(gameObject.maxHp);
+    this.gameObject = gameObject;
+    this.dim = gameObject.dim;
+    entities = CreateSubEntities(gameObject, dim);
+
+    //Parent graphics to the TopLeft
+    Vector3 relativePosition = gameObject.graphicsHolder.transform.position;
+    gameObject.graphicsHolder.transform.parent = TopLeft.gameObject.transform;
+    gameObject.graphicsHolder.transform.localPosition = relativePosition;
+
+    //Sub entities shouldn't interact with each other
+    foreach (SingleTileEntity entity in entities) {
+      foreach (SingleTileEntity other in entities) {
+        if (other == entity) continue;
+        entity.toIgnore.Add(other);
+      }
+    }
+
     GameManager.S.RegisterTurnTaker(this);
-    _damageable = new Damageable(e._maxHp);
-  }
-
-  protected override bool IsBlockedByCore(ITileInhabitant other) {
-    if (other is PlayerLabel || other is Enemy) {
-      return true;
-    }
-
-    if (other is Platform) {
-      Platform platform = (Platform)other;
-      return platform.IsActive;
-    }
-
-    return false;
   }
 
   public virtual void OnTurn() {
     if (!IsAlive) {
-      OnDeath();
+      Destroy();
       return;
     }
 
-    //TODO: Shouldn't attack every timestep.  ^.-
-    Tile attackedTile = GameManager.S.Board.GetInDirection(Row, Col, AttackDirection);
-    if (attackedTile != null) {
-      foreach (ITileInhabitant inhabitant in attackedTile.Inhabitants) {
-        if (!(inhabitant is IDamageable)) {
-          continue;
+    Attack();
+
+    if (XVelocity != 0 || YVelocity != 0) {
+      List<Vector2Int> moveWaypoints = TopLeft.CalculateMoveWaypoints(XVelocity, YVelocity);
+
+      //Skip the first waypoint because it's just our current position
+      bool yCollisionFlag = false;
+      for (int i = 1; i < moveWaypoints.Count; i++) {
+        Vector2Int waypoint = moveWaypoints[i];
+        if (yCollisionFlag) {
+          waypoint.y = TopLeft.Row;
         }
 
-        IDamageable victim = (IDamageable)inhabitant;
-        if (CanAttack(victim)) {
-          Attack(victim);
+        //Guaranteed that exactly one of these is +/- 1.
+        int xDir = waypoint.x - TopLeft.Col;
+        int yDir = waypoint.y - TopLeft.Row;
+        if (xDir == 0 && yDir == 0) {
+          continue;
+        }
+        Direction moveDirection =
+          xDir == 1 ? Direction.East :
+          xDir == -1 ? Direction.West :
+          yDir == 1 ? Direction.North :
+          yDir == -1 ? Direction.South :
+          throw new System.Exception("Illegal waypoint");
+
+        bool moveSuccessful = PerformMove(moveDirection);
+        if (!moveSuccessful) {
+          if (yDir != 0) {
+            yCollisionFlag = true;
+          } else {
+            break;
+          }
         }
       }
     }
+  }
+
+  //Attempts to move one space in direction.  If the movement fails, calls OnCollision to update state.
+  protected bool PerformMove(Direction moveDirection) {
+    int colDelta = moveDirection == Direction.East ? 1 : moveDirection == Direction.West ? -1 : 0;
+    int rowDelta = moveDirection == Direction.North ? 1 : moveDirection == Direction.South ? -1 : 0;
+
+    //Check that every subentity can make the move
+    foreach (TSub entity in entities) {
+      int newRow = entity.Row + rowDelta;
+      int newCol = entity.Col + colDelta;
+      if (!entity.CanSetPosition(newRow, newCol)) {
+        OnCollision(moveDirection);
+        return false;
+      }
+    }
+
+    //Move all the subentities and the gameObject
+    foreach (TSub entity in entities) {
+      int newRow = entity.Row + rowDelta;
+      int newCol = entity.Col + colDelta;
+
+      entity.SetPosition(newRow, newCol, out bool enteredNewPosition);
+      if (!enteredNewPosition) {
+        throw new System.Exception("Unexpected failure in SetPosition");
+      }
+    }
+    return true;
   }
 
 
@@ -74,24 +136,22 @@ public abstract class Enemy : SingleTileEntity, ITurnTaker, IDamageable {
     _damageable.TakeDamage(_damageable.CalculateDamage(attackPower));
   }
 
-  protected abstract void OnDeath();
-
-  //Enemies can only attack the player, not each other
-  private bool CanAttack(IDamageable other) {
-    return other is PlayerLabel;
-  }
-
-  private void Attack(IDamageable other) {
-    if (!CanAttack(other)) {
-      Debug.LogError("Attempting an illegal attack");
-      return;
+  private void Attack() {
+    foreach (TSub entity in entities) {
+      entity.Attack();
     }
-
-    other.OnAttacked(e._attackPower, AttackDirection);
   }
 
-  public override void Destroy() {
+  public virtual void Destroy() {
+    foreach (SingleTileEntity entity in entities) {
+      entity.Destroy();
+    }
     GameManager.S.UnregisterTurnTaker(this);
-    base.Destroy();
+  }
+
+  protected IEnumerable<TSub> Bottom() {
+    for (int c = 0; c < dim; c++) {
+      yield return entities[c, 0];
+    }
   }
 }

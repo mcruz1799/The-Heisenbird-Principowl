@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawnerObject : SingleTileEntityObject {
-  public TileInhabitantMaker enemyMaker;
+  public EnemyMaker enemyMaker;
   [Range(1, 20)] public int turnsBeforeRespawn = 1;
 }
