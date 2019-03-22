@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
   public static GameManager S { get; private set; }
@@ -86,6 +86,21 @@ public class GameManager : MonoBehaviour {
     toAdd.Clear();
     toRemove.Clear();
     turnTakers.Clear();
+  }
+
+  public void LoadMenu()
+  {
+    SceneManager.LoadScene("MainMenu");
+  }
+  //TODO: Change this behaviour to load different levels.
+  public void LoadNextLevel()
+  {
+    SceneManager.LoadScene("Level2");
+  }
+
+  public void Quit()
+  {
+    Application.Quit();
   }
 
 }
