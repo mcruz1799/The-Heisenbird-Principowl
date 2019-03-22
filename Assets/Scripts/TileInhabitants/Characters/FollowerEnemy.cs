@@ -40,7 +40,7 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
 
   public override void OnTurn() {
     //If player is close enough, we will follow the player >:)
-    if (Mathf.Abs(GameManager.S.Player.Col - TopLeft.Col) <= gameObject.aggroRange && Mathf.Abs(GameManager.S.Player.Row - TopLeft.Row) <= gameObject.aggroRange) {
+    if (Mathf.Abs(GameManager.S.Player.Col - homeTileCol) <= gameObject.aggroRange && Mathf.Abs(GameManager.S.Player.Row - homeTileRow) <= gameObject.aggroRange) {
       isFollowing = true;
     }
 
@@ -81,13 +81,7 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
   private void FollowPlayer() {
     //Check which direction we need to go and change XVelocity accordingly
     int distanceToPlayer = GameManager.S.Player.Col - TopLeft.Col;
-    XVelocity = Mathf.Abs(XVelocity);
-    if (distanceToPlayer < 0) {
-      XVelocity *= -1;
-    } else if (distanceToPlayer == 0) {
-      //XVelocity = 0;
-      return;
-    }
+    XVelocity = System.Math.Sign(distanceToPlayer);
   }
 
   private void ReturnToHome() {
@@ -96,14 +90,10 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
     if (TopLeft.Row == homeTileRow && TopLeft.Col == homeTileCol) {
       XVelocity = 0;
       YVelocity = 0;
-
     } else {
       //Check which direction we need to go and change XVelocity accordingly
       int distanceToHome = homeTileCol - TopLeft.Col;
-      XVelocity = Mathf.Abs(XVelocity);
-      if (distanceToHome < 0) {
-        XVelocity *= -1;
-      }
+      XVelocity = System.Math.Sign(distanceToHome);
     }
   }
 
