@@ -2,88 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformBeetle : Enemy {
-  private readonly PlatformBeetleObject e;
+public class PlatformBeetleSubEntity : EnemySubEntity<PlatformBeetle, PlatformBeetleSubEntity> {
+  private Direction AttackDirection => parent.XVelocity > 0 ? Direction.East : Direction.West;
 
-  protected override Direction AttackDirection => XVelocity > 0 ? Direction.East : Direction.West;
-  public PlatformAndBeetleColor GroupColor => e.groupColor;
-
-  private PlatformBeetle(PlatformBeetleObject e) : base(e) {
-    this.e = e;
-    XVelocity = 1;
+  public PlatformBeetleSubEntity(SingleTileEntityObject gameObject, PlatformBeetle parent) : base(gameObject, parent) {
   }
 
-  private int turnParity;
-  public override void OnTurn() {
-    //It's safe to do this stuff before OnDeath() is check in the base method.
-    //Awful stylistically, but safe.  Please don't add more code unless you really know what you're doing.
-    if (e.moveCooldown != 0) {
-      turnParity += 1;
-      turnParity %= e.moveCooldown;
-    }
-    Move();
-    base.OnTurn();
-  }
-
-  protected override void OnDeath() {
-    SoundManager.S.BeetleDied();
-    PlatformToggleManager.Toggle(GroupColor);
-    Destroy();
-  }
-
-  private void Move() {
-    if (!CanStandAbove(GameManager.S.Board.GetInDirection(Row, Col, Direction.South))) {
-      //Seems like the ground disappeared from beneath me!  D:
-      Fall();
-
-    } else {
-      //Business as usual
-      if (turnParity == 0) {
-        Patrol();
+  public override void Attack() {
+    Tile t = GameManager.S.Board.GetInDirection(Row, Col, AttackDirection);
+    if (t != null) {
+      foreach (ITileInhabitant other in t.Inhabitants) {
+        IDamageable victim = other is IDamageable ? (IDamageable)other : null;
+        if (victim != null && CanAttack(other)) {
+          victim.OnAttacked(parent.AttackPower, AttackDirection);
+        }
       }
     }
   }
 
-  private void Fall() {
-    YVelocity -= 1;
+  public bool IsGrounded => CanStandAbove(GameManager.S.Board.GetInDirection(Row, Col, Direction.South));
 
-    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(0, YVelocity);
-    for (int i = 1; i < moveWaypoints.Count; i++) {
-      Vector2Int waypoint = moveWaypoints[i];
-      int newRow = waypoint.y;
-      int newCol = waypoint.x;
+  public bool WillBeAboveGroundAfterMoveInDirection(Direction direction) {
+    Tile t;
+    t = GameManager.S.Board.GetInDirections(Row, Col, direction, Direction.South);
 
-      if (!CanSetPosition(newRow, newCol)) {
-        YVelocity = 0;
-        break;
-      }
-
-      SetPosition(newRow, newCol, out bool success);
-      if (!success) {
-        throw new System.Exception("Unexpected failure in SetPosition");
-      }
-    }
-  }
-
-  private void Patrol() {
-    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, 0);
-    for (int i = 1; i < moveWaypoints.Count; i++) {
-      Vector2Int waypoint = moveWaypoints[i];
-      int newRow = waypoint.y;
-      int newCol = waypoint.x;
-
-      //Unless I'm falling, my next waypoint must be on the ground.
-      Tile below = GameManager.S.Board.GetInDirection(newRow, newCol, Direction.South);
-      if (!CanSetPosition(newRow, newCol) || !CanStandAbove(below)) {
-        XVelocity *= -1;
-        break;
-      }
-
-      SetPosition(newRow, newCol, out bool success);
-      if (!success) {
-        throw new System.Exception("Unexpected failure in SetPosition");
-      }
-    }
+    return CanStandAbove(t);
   }
 
   private bool CanStandAbove(Tile tile) {
@@ -97,6 +40,119 @@ public class PlatformBeetle : Enemy {
       }
     }
     return false;
+  }
+
+  private bool CanAttack(ITileInhabitant other) {
+    return other is PlayerLabel && !toIgnore.Contains(other);
+  }
+}
+
+public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
+  private readonly PlatformBeetleObject gameObject;
+
+  private Direction _xMoveDirection = Direction.West;
+  private Direction XMoveDirection {
+    get => _xMoveDirection;
+    set {
+      if (value != Direction.West && value != Direction.East) {
+        throw new System.ArgumentException("XMoveDirection must be set to eaither East or West");
+      }
+      _xMoveDirection = value;
+    }
+  }
+  public PlatformAndBeetleColor GroupColor => gameObject.groupColor;
+
+  private PlatformBeetle(PlatformBeetleObject gameObject) : base(gameObject) {
+    this.gameObject = gameObject;
+  }
+
+  private int turnParity;
+  public override void OnTurn() {
+    //It's safe to do this stuff before OnDeath() is check in the base method.
+    //Awful stylistically, but safe.  Please don't add more code unless you really know what you're doing.
+    if (gameObject.moveCooldown != 0) {
+      turnParity += 1;
+      turnParity %= gameObject.moveCooldown;
+    }
+    Move();
+    base.OnTurn();
+  }
+
+  public override void Destroy() {
+    SoundManager.S.BeetleDied();
+    PlatformToggleManager.Toggle(GroupColor);
+    base.Destroy();
+  }
+
+  private class SubEntityGameObject : SingleTileEntityObject {
+    public PlatformBeetle parent;
+    public override float MoveAnimationTime => parent.gameObject.MoveAnimationTime;
+  }
+
+  protected override PlatformBeetleSubEntity[,] CreateSubEntities(EnemyObject e, int dim) {
+    PlatformBeetleSubEntity[,] result = new PlatformBeetleSubEntity[dim, dim];
+    for (int r = 0; r < dim; r++) {
+      for (int c = 0; c < dim; c++) {
+        SubEntityGameObject subentityGameObject = new GameObject().AddComponent<SubEntityGameObject>();
+        subentityGameObject.parent = this;
+        subentityGameObject.name = string.Format("PlatformBeetle[r={0}, c={1}]", r, c); ;
+        subentityGameObject.spawnRow = e.spawnRow + r;
+        subentityGameObject.spawnCol = e.spawnCol + c;
+        subentityGameObject.transform.parent = e.transform;
+        result[c, r] = new PlatformBeetleSubEntity(subentityGameObject, this);
+      }
+    }
+
+    return result;
+  }
+
+  private void Move() {
+    //Compute whether we are partially or entirely off the edge
+    bool partiallyOffEdge = false;
+    YVelocity = -1;
+    foreach (PlatformBeetleSubEntity entity in Bottom()) {
+      if (entity.IsGrounded) {
+        YVelocity = 0;
+      } else {
+        partiallyOffEdge = true;
+      }
+    }
+    if (YVelocity == -1) {
+      partiallyOffEdge = false;
+    }
+
+    XVelocity = 0;
+    if (YVelocity == 0 && turnParity == 0) {
+      if (partiallyOffEdge) {
+        bool willBeFullyOffEdgeAfterMove = true;
+        foreach (PlatformBeetleSubEntity entity in Bottom()) {
+          if (entity.WillBeAboveGroundAfterMoveInDirection(XMoveDirection)) {
+            willBeFullyOffEdgeAfterMove = false;
+            break;
+          }
+        }
+        if (willBeFullyOffEdgeAfterMove) {
+          XMoveDirection = XMoveDirection.Opposite();
+        }
+      } else {
+        foreach (PlatformBeetleSubEntity entity in Bottom()) {
+          if (!entity.WillBeAboveGroundAfterMoveInDirection(XMoveDirection)) {
+            XMoveDirection = XMoveDirection.Opposite();
+            break;
+          }
+        }
+      }
+      XVelocity = XMoveDirection == Direction.West ? -1 : 1;
+    }
+  }
+
+  protected override void OnCollision(Direction moveDirection) {
+    if (moveDirection == Direction.East) {
+      XMoveDirection = Direction.West;
+    }
+    if (moveDirection == Direction.West) {
+      XMoveDirection = Direction.East;
+    }
   }
 
   public static PlatformBeetle Make(PlatformBeetleObject platformBeetlePrefab, int row, int col, Transform parent = null) {

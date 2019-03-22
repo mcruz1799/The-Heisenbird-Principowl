@@ -2,98 +2,107 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowerEnemy : Enemy
-{
-  private readonly FollowerEnemyObject e;
+public class FollowerEnemySubEntity : EnemySubEntity<FollowerEnemy, FollowerEnemySubEntity> {
+  private Direction AttackDirection => parent.XVelocity > 0 ? Direction.East : Direction.West;
+
+  public FollowerEnemySubEntity(SingleTileEntityObject gameObject, FollowerEnemy parent) : base(gameObject, parent) { }
+
+  public override void Attack() {
+    Tile t = GameManager.S.Board.GetInDirection(Row, Col, AttackDirection);
+    if (t != null) {
+      foreach (ITileInhabitant other in t.Inhabitants) {
+        IDamageable victim = other is IDamageable ? (IDamageable)other : null;
+        if (victim != null && CanAttack(other)) {
+          victim.OnAttacked(parent.AttackPower, AttackDirection);
+        }
+      }
+    }
+  }
+
+  private bool CanAttack(ITileInhabitant other) {
+    return other is PlayerLabel && !toIgnore.Contains(other);
+  }
+}
+
+public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
+  private readonly FollowerEnemyObject gameObject;
   private bool isFollowing;
 
-  //to be initialized by the level generator
-  private int homeTileRow;
-  private int homeTileCol;
+  private readonly int homeTileRow;
+  private readonly int homeTileCol;
 
-
-  protected override Direction AttackDirection => XVelocity > 0 ? Direction.East : Direction.West;
-
-  private FollowerEnemy(FollowerEnemyObject e, int homeRow, int homeCol) : base(e) {
-    this.e = e;
-    this.homeTileRow = homeRow;
-    this.homeTileCol = homeCol;
+  private FollowerEnemy(FollowerEnemyObject gameObject, int homeTileRow, int homeTileCol) : base(gameObject) {
+    this.gameObject = gameObject;
+    this.homeTileRow = homeTileRow;
+    this.homeTileCol = homeTileCol;
     XVelocity = 1;
   }
 
   public override void OnTurn() {
-    Move();
+    //If player is close enough, we will follow the player >:)
+    if (Mathf.Abs(GameManager.S.Player.Col - TopLeft.Col) <= gameObject.aggroRange && Mathf.Abs(GameManager.S.Player.Row - TopLeft.Row) <= gameObject.aggroRange) {
+      isFollowing = true;
+    }
+
+    //If we are too far from home point, return to home
+    if (Mathf.Abs(homeTileCol - TopLeft.Col) > gameObject.maxDistFromHome) {
+      isFollowing = false;
+    }
+
+    if (isFollowing) {
+      FollowPlayer();
+    } else {
+      ReturnToHome();
+    }
+
     base.OnTurn();
   }
 
-  private void Move() {
-    if (isFollowing){
-        FollowPlayer();
-        return;
+  protected override FollowerEnemySubEntity[,] CreateSubEntities(EnemyObject e, int dim) {
+    FollowerEnemySubEntity[,] result = new FollowerEnemySubEntity[dim, dim];
+    for (int r = 0; r < dim; r++) {
+      for (int c = 0; c < dim; c++) {
+        SingleTileEntityObject subentityGameObject = new GameObject().AddComponent<SingleTileEntityObject>();
+        subentityGameObject.name = string.Format("FollowerEnemy[r={0}, c={1}]", r, c); ;
+        subentityGameObject.spawnRow = e.spawnRow + r;
+        subentityGameObject.spawnCol = e.spawnCol + c;
+        subentityGameObject.transform.parent = e.transform;
+        result[c, r] = new FollowerEnemySubEntity(subentityGameObject, this);
+      }
     }
-    ReturnToHome();
+
+    return result;
   }
 
-  private void FollowPlayer(){
-    if(Mathf.Abs(homeTileCol - this.Col) > e.maxDistFromHome){
-      //If we are too far from home point, return to home
-      isFollowing = false;
-      return;
-    }
+  protected override void OnCollision(Direction moveDirection) {
+    //Do nothing
+  }
+
+  private void FollowPlayer() {
     //Check which direction we need to go and change XVelocity accordingly
-    int distanceToPlayer = GameManager.S.Player.Col - this.Col;
+    int distanceToPlayer = GameManager.S.Player.Col - TopLeft.Col;
     XVelocity = Mathf.Abs(XVelocity);
-    if(distanceToPlayer < 0) XVelocity *= -1;
-    else if (distanceToPlayer == 0){
+    if (distanceToPlayer < 0) {
+      XVelocity *= -1;
+    } else if (distanceToPlayer == 0) {
       //XVelocity = 0;
       return;
     }
-    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, 0);
-    for (int i = 1; i < moveWaypoints.Count; i++) {
-      Vector2Int waypoint = moveWaypoints[i];
-      int newRow = waypoint.y;
-      int newCol = waypoint.x;
-
-      /*if (!CanSetPosition(newRow, newCol)) {
-        //change this
-        return;
-      }*/
-
-      SetPosition(newRow, newCol, out bool success);
-      if (!success) {
-        throw new System.Exception("Unexpected failure in SetPosition");
-      }
-    }
   }
 
-  private void ReturnToHome(){
-    //If player is close enough, we will follow the player >:)
-    if(Mathf.Abs(GameManager.S.Player.Col - this.Col) <= e.aggroRange && Mathf.Abs(GameManager.S.Player.Row - this.Row) <= e.aggroRange){
-        isFollowing = true;
-        return;
-    }
+  private void ReturnToHome() {
+    //If we are home, don't move
+    //Otherwise, move towards the player in the x-direction only
+    if (TopLeft.Row == homeTileRow && TopLeft.Col == homeTileCol) {
+      XVelocity = 0;
+      YVelocity = 0;
 
-    //If we are home, don't do anything 
-    if(this.Row == homeTileRow && this.Col == homeTileCol) return;
-
-    //Check which direction we need to go and change XVelocity accordingly
-    int distanceToHome = homeTileCol - this.Col;
-    XVelocity = Mathf.Abs(XVelocity);
-    if(distanceToHome < 0) XVelocity *= -1;
-    List<Vector2Int> moveWaypoints = CalculateMoveWaypoints(XVelocity, 0);
-    for (int i = 1; i < moveWaypoints.Count; i++) {
-      Vector2Int waypoint = moveWaypoints[i];
-      int newRow = waypoint.y;
-      int newCol = waypoint.x;
-
-      if (!CanSetPosition(newRow, newCol)) {
-        //We just have to wait until this tile opens up :/
-        return;
-      }
-
-      SetPosition(newRow, newCol, out bool success);
-      if (!success) {
-        throw new System.Exception("Unexpected failure in SetPosition");
+    } else {
+      //Check which direction we need to go and change XVelocity accordingly
+      int distanceToHome = homeTileCol - TopLeft.Col;
+      XVelocity = Mathf.Abs(XVelocity);
+      if (distanceToHome < 0) {
+        XVelocity *= -1;
       }
     }
   }
@@ -104,11 +113,5 @@ public class FollowerEnemy : Enemy
     followerEnemyPrefab.spawnRow = row;
     followerEnemyPrefab.spawnCol = col;
     return new FollowerEnemy(followerEnemyPrefab, row, col);
-  }
-
-  protected override void OnDeath() {
-    Object.Destroy(e.gameObject);
-    GameManager.S.Board[Row, Col].Remove(this);
-    GameManager.S.UnregisterTurnTaker(this);
   }
 }

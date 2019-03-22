@@ -8,7 +8,7 @@ public class UpdraftTileMaker : TileInhabitantMaker
   [SerializeField] private UpdraftTileObject updraftTilePrefab;
 #pragma warning restore 0649
 
-  public override ITileInhabitant Make(int row, int col, Transform parent = null) {
-    return UpdraftTile.Make(updraftTilePrefab, row, col, parent);
+  public override void Make(int row, int col, Transform parent = null) {
+    UpdraftTile.Make(updraftTilePrefab, row, col, parent);
   }
 }

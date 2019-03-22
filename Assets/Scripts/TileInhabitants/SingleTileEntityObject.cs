@@ -8,7 +8,7 @@ public class SingleTileEntityObject : MonoBehaviour {
   [HideInInspector] public int spawnRow;
   [HideInInspector] public int spawnCol;
   public bool animateMovement = true;
-  protected virtual float MoveAnimationTime => GameManager.S.TimeBetweenTurns;
+  public virtual float MoveAnimationTime => GameManager.S.TimeBetweenTurns;
 
   private Coroutine movementCoroutine;
 

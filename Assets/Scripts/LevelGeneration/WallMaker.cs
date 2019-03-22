@@ -7,7 +7,7 @@ public class WallMaker : TileInhabitantMaker {
   [SerializeField] private PlatformObject wallPrefab;
 #pragma warning restore 0649
 
-  public override ITileInhabitant Make(int row, int col, Transform parent = null) {
-    return Platform.Make(wallPrefab, row, col, parent);
+  public override void Make(int row, int col, Transform parent = null) {
+    Platform.Make(wallPrefab, row, col, parent);
   }
 }

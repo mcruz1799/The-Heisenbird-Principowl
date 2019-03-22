@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlammableTile : SingleTileEntity, ITurnTaker
-{
-
+public class FlammableTile : SingleTileEntity, ITurnTaker {
   private readonly FlammableTileObject gameObject;
   private UpdraftTileMaker updraftTileMaker;
   private bool isOnFire;
