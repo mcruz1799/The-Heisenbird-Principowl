@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour {
   [Range(0.01f, 2f)] [SerializeField] private float timeBetweenTurns = 0.01f;
   [SerializeField] private PlayerObject _playerObject;
   [SerializeField] private BoardObject boardMaker;
-  [SerializeField] private int CompletionX;
-  [SerializeField] private int CompletionY;
+  [SerializeField] private int CompletionX = 0;
+  [SerializeField] private int CompletionY = 0;
+  [SerializeField] private GameObject LevelCompleteUI;
 #pragma warning restore 0649
 
   public Player Player { get; private set; }
@@ -106,8 +107,20 @@ public class GameManager : MonoBehaviour {
     Application.Quit();
   }
 
+  private void revealLevelComplete()
+  {
+    LevelCompleteUI.SetActive(true);
+  }
+
   private void checkCompletion()
   {
+    int row = CompletionX;
+    int col = CompletionY;
+    Tile t = Board[row, col];
+    if (Player.Occupies().Contains(t)) {
+      stopLevel();
+      revealLevelComplete();
+    }
   }
 
 }
