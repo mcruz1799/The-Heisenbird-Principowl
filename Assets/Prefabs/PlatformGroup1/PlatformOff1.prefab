@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8121892613739722495}
   - component: {fileID: 9215325318308815690}
   m_Layer: 0
-  m_Name: RedPlatformOn
+  m_Name: PlatformOff1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,8 +92,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnRow: 0
   spawnCol: 0
-  isActive: 1
-  colorGroup: 2
+  animateMovement: 1
+  isActive: 0
+  colorGroup: 1
   playerCanDropThrough: 0
   playerCanJumpThrough: 0
   sprite: {fileID: 8121892613739722495}

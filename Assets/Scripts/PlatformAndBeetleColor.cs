@@ -2,16 +2,4 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlatformAndBeetleColor { None, Cyan, Red}
-
-//public static class PlatformAndBeetleColorExtensions {
-//  public static Color32 RgbColor(this PlatformAndBeetleColor color) {
-//    switch (color) {
-//      case PlatformAndBeetleColor.Cyan:
-//        return Color.cyan;
-
-//      default:
-//        throw new System.ArgumentException("Illegal enum value");
-//    }
-//  }
-//}
+public enum PlatformAndBeetleColor { None, Group1, Group2, Group3, Group4, Group5 }

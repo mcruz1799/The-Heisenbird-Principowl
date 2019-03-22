@@ -61,7 +61,7 @@ MonoBehaviour:
   - {fileID: 21300026, guid: 39238b359dbbc724196ea9725432fbbd, type: 3}
   initialIsVisible: 0
   initialIsLooping: 1
-  _framesPerSprite: 1
+  _framesPerSprite: 2
 --- !u!212 &385876259
 SpriteRenderer:
   m_ObjectHideFlags: 0
