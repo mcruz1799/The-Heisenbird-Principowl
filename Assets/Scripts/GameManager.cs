@@ -114,8 +114,8 @@ public class GameManager : MonoBehaviour {
 
   private void checkCompletion()
   {
-    int row = CompletionX;
-    int col = CompletionY;
+    int col = CompletionX;
+    int row = CompletionY;
     Tile t = Board[row, col];
     if (Player.Occupies().Contains(t)) {
       stopLevel();
