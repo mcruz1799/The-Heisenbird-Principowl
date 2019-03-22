@@ -9,7 +9,6 @@ public class UpdraftTileMaker : TileInhabitantMaker
 #pragma warning restore 0649
 
   public override void Make(int row, int col, Transform parent = null) {
-    Debug.Log("making");
     UpdraftTile.Make(updraftTilePrefab, row, col, parent);
   }
 }
