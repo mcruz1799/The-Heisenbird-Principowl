@@ -21,7 +21,7 @@ public class PlayerAnimator : MonoBehaviour {
 
   private void Update() {
     animators.ForEach(a => DisableAnimator(a));
-    animators.ForEach(a => a.FlipX = Player.XVelocity > 0 ? false : true);
+    animators.ForEach(a => a.FlipX = Player.XVelocity > 0 ? false : Player.XVelocity > 0 ? true : a.FlipX);
     animators.ForEach(a => a.FlipY = Player.IsStunned);
 
     if (Player.YVelocity != 0) {
