@@ -17,7 +17,7 @@ public class PlayerAnimator : MonoBehaviour {
   private void Update() {
     //Flip PlayerGraphic Orientation
     if (Player.YVelocity != 0) {
-      if(!jumping.gameObject.activeSelf){
+      if(jumping.IsPaused){
         disableAllAnimators();
         jumping.IsVisible = true;
         jumping.IsPaused = false;
@@ -27,7 +27,7 @@ public class PlayerAnimator : MonoBehaviour {
       this.flipPlayerX(jumping);
     }
     else if (Player.XVelocity != 0){
-      if(!running.gameObject.activeSelf){
+      if(running.IsPaused){
         disableAllAnimators();
         running.IsVisible = true;
         running.IsPaused = false;
@@ -37,7 +37,7 @@ public class PlayerAnimator : MonoBehaviour {
       this.flipPlayerX(running);
     }
     else{
-      if(!idleGrounded.gameObject.activeSelf){
+      if(idleGrounded.IsPaused){
         disableAllAnimators();
         idleGrounded.IsVisible = true;
         idleGrounded.IsPaused = false;
