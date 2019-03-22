@@ -80,13 +80,17 @@ public class GameManager : MonoBehaviour {
   {
     currentState = GameState.Stopped;
     StopCoroutine(TurnTakerRoutine());
+
+    turnTakers.ExceptWith(toRemove);
+    toAdd.Clear();
+    toRemove.Clear();
+    turnTakers.Clear();
   }
 
   public void clearLevel()
   {
-    Transform t = TileInhabitantObjectHolder.transform;
-    foreach (Transform tileInhabitant in t) {
-      if (t.GetComponent<Player>() == null) Destroy(t.gameObject); //Destroy everything but the player.
+    foreach (Transform tileInhabitant in TileInhabitantObjectHolder) {
+      Destroy(tileInhabitant.gameObject); //Destroy everything but the player.
     }
   }
 
