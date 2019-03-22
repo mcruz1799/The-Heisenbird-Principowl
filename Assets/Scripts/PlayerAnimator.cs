@@ -40,6 +40,7 @@ public class PlayerAnimator : MonoBehaviour {
     animator.IsVisible = false;
   }
 
+
   private void EnableAnimator(ISpriteAnimator animator) {
     if (!animator.IsVisible) {
       animator.IsPaused = false;
