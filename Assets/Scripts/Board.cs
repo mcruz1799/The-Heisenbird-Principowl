@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//A board of tiles, indexed by [row, col]
 public class Board {
   private readonly Tile[,] board;
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+//Contains information for initializing a board
+//Configurable via the Unity inspector
 public class BoardObject : MonoBehaviour {
 #pragma warning disable 0649
   [SerializeField] private TextAsset level;
