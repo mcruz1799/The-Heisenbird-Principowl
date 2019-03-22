@@ -18,6 +18,7 @@ MonoBehaviour:
   updraftTileMaker: {fileID: 1866301506325420567, guid: 85172b1df0eb0a24e9e11b6474c13550,
     type: 3}
   numUpdraftTiles: 5
+  numFireTiles: 10
 --- !u!1001 &1518164319751119851
 PrefabInstance:
   m_ObjectHideFlags: 0

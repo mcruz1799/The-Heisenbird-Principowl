@@ -24,45 +24,52 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
   }
 
   public void OnTurn() {
-    if (!isOnFire){
-      if (GetWisp()){
-        isOnFire = true;
-        //set nearby tiles on fire
-        ActivateAdjacentTiles();
-      }
+    if (GetWisp()){
+      SetOnFire();
     }
-      
+  }
+
+  private void SetOnFire(){
+    if (isOnFire) return;
+    isOnFire = true;
+    ActivateAdjacentTiles();
+    MakeUpdrafts();
   }
 
   private bool GetWisp(){
     IReadOnlyCollection<ITileInhabitant> inhabitants = GameManager.S.Board[Row, Col].Inhabitants;
       ITileInhabitant follower = this;
       foreach (ITileInhabitant habiter in inhabitants){
-        if (habiter is FollowerEnemy){
+        if (habiter is FollowerEnemySubEntity){
           follower = habiter;
+          break;
         }
       }
       if (follower != this){
-        ((FollowerEnemy)follower).Destroy();
+        ((FollowerEnemySubEntity)follower).OnAttacked(100000, Direction.West);
         return true;
       }
       return false;
   }
 
   private void ActivateAdjacentTiles(){
-    for(int i = 1; i <= gameObject.numFireTiles; i++){
-      IReadOnlyCollection<ITileInhabitant> inhabitants = GameManager.S.Board[Row, Col + i].Inhabitants;
-      foreach (ITileInhabitant habiter in inhabitants){
-        if (habiter is FlammableTile){
-          MakeUpdrafts(Row, Col + i);
+    foreach (Direction d in System.Enum.GetValues(typeof(Direction))) {
+      Tile adjacent = GameManager.S.Board.GetInDirection(Row, Col, d);
+      if (adjacent == null) {
+        continue;
+      }
+      foreach (ITileInhabitant inhabitant in adjacent.Inhabitants) {
+        FlammableTile flammableTile = inhabitant is FlammableTile ? (FlammableTile)inhabitant : null;
+        if (flammableTile != null) {
+          flammableTile.SetOnFire();
         }
       }
     }
   }
 
-  private void MakeUpdrafts(int Row, int Col){
+  private void MakeUpdrafts(){
     for (int i = 1; i <= gameObject.numUpdraftTiles; i++){
-      //set tiles above this true
+      updraftTileMaker.Make(Row + i, Col);
     }
   }
 
