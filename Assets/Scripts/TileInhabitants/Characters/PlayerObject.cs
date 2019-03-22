@@ -19,6 +19,7 @@ public sealed class PlayerObject : SingleTileEntityObject {
   [Range(1, 5)] public int gravity = 1;
   [Range(1, 4)] public int jumpPower = 3;
 
+  public bool wallJumpingEnabled = false;
   [Range(1, 4)] public int xWallJumpPower = 1;
   [Range(1, 4)] public int yWallJumpPower = 1;
   [Range(1, 1)] public int wallSlideSpeed = 1;

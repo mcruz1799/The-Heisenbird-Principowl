@@ -48,7 +48,7 @@ public partial class Player : ITurnTaker, IDamageable {
     private set => _yVelocity = Mathf.Clamp(value, -gameObject.maxFallSpeed, gameObject.maxRiseSpeed);
   }
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
-  public bool IsWallSliding => State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding);
+  public bool IsWallSliding => gameObject.wallJumpingEnabled && (State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding));
   public bool IsStunned => turnsStunned > 0;
 
 
