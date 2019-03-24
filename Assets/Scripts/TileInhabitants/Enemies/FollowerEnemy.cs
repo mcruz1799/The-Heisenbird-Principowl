@@ -42,12 +42,14 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
     //If player is close enough, we will follow the player >:)
     if (Mathf.Abs(GameManager.S.Player.Col - homeTileCol) <= gameObject.aggroRange && Mathf.Abs(GameManager.S.Player.Row - homeTileRow) <= gameObject.aggroRange) {
       isFollowing = true;
-    }
-
-    //If we are too far from home point, return to home
-    if (Mathf.Abs(homeTileCol - TopLeft.Col) > gameObject.maxDistFromHome) {
+    } else {
       isFollowing = false;
     }
+
+    ////If we are too far from home point, return to home
+    //if (Mathf.Abs(homeTileCol - TopLeft.Col) > gameObject.maxDistFromHome) {
+    //  isFollowing = false;
+    //}
 
     if (isFollowing) {
       FollowPlayer();

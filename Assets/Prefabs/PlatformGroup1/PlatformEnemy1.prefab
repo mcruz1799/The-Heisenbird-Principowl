@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 7273775180802752617}
   - component: {fileID: 5863764130154113457}
   m_Layer: 0
-  m_Name: RedPlatformEnemy
+  m_Name: PlatformEnemy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,5 +162,5 @@ MonoBehaviour:
   ySpeedMax: 10
   ySpeedMin: -10
   graphicsHolder: {fileID: 3356153000875350279}
-  groupColor: 2
+  groupColor: 1
   moveCooldown: 3
