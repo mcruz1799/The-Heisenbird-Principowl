@@ -62,6 +62,7 @@ public class PlatformerCamera : MonoBehaviour
             Vector3 NewCameraPosition = new Vector3(CameraPosition.x + XDiff, CameraPosition.y, CameraPosition.z);
             StartCoroutine(MoveCameraX(NewCameraPosition,XDiff,SmoothMovementX));
         }
+        LeftFocus = CameraPosition.x - FocusLength/2;
         
     }
 
