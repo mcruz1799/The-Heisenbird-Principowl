@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CutSceneManager : MonoBehaviour
 {   
@@ -15,6 +16,7 @@ public class CutSceneManager : MonoBehaviour
 
     private IEnumerator CutSceneRoutine()
     {
+        GameManager.S.CurrentState = GameManager.GameState.Stopped;
         foreach(RawImage slide in Slides)
         {
             slide.gameObject.SetActive(true);
@@ -23,11 +25,12 @@ public class CutSceneManager : MonoBehaviour
                 continue;
         }
         //start the game here
+        GameManager.S.CurrentState = GameManager.GameState.Running;
         yield return null;
     }
     // Update is called once per frame
     void Update()
     {
-        
+        //start the cutscene routine when appropriate
     }
 }

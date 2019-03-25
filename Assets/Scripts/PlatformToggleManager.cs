@@ -16,6 +16,8 @@ public class PlatformToggleManager {
   public static void Toggle(PlatformAndBeetleColor colorGroup) {
     foreach (Platform platform in platforms) {
       if (colorGroup != PlatformAndBeetleColor.None && platform.ColorGroup == colorGroup) {
+        if (platform.IsActive) SoundManager.S.PlatformToggleOff();
+        else SoundManager.S.PlatformToggleOn();
         platform.IsActive = !platform.IsActive;
       }
     }
