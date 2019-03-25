@@ -5,11 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class MenuLoader : MonoBehaviour
 {
+  [SerializeField] GameObject MainMenuGUI;
+  [SerializeField] GameObject LevelSelectGUI;
+
   public void LoadScene(string s){
     SceneManager.LoadScene(s);
   }
 
   public void Quit(){
     Application.Quit();
+  }
+
+  public void LoadLevels()
+  {
+
+    MainMenuGUI.SetActive(false);
+    LevelSelectGUI.SetActive(true);
   }
 }
