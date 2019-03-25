@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
   public static SoundManager S { get; private set; }
-  private AudioSource audioSource;
-  public AudioClip HeadBonk;
-  public AudioClip Landed;
-  public AudioClip Jump;
-  public AudioClip Damaged;
-  public AudioClip PlayerDeath;
-  public AudioClip BeetleDeath;
+  [SerializeField] private AudioSource audioSource;
+  [SerializeField] private AudioClip HeadBonk;
+  [SerializeField] private AudioClip Landed;
+  [SerializeField] private AudioClip Jump;
+  [SerializeField] private AudioClip Damaged;
+  [SerializeField] private AudioClip PlayerDeath;
+  [SerializeField] private AudioClip BeetleDeath;
+  [SerializeField] private AudioClip PlatformOn;
+  [SerializeField] private AudioClip PlatformOff;
   
 
   private void Awake() {
@@ -44,6 +46,16 @@ public class SoundManager : MonoBehaviour {
   }
   public void BeetleDied(){
     audioSource.clip = BeetleDeath;
+    audioSource.Play();
+  }
+
+  public void PlatformToggleOn(){
+    audioSource.clip = PlatformOn;
+    audioSource.Play();
+  }
+
+  public void PlatformToggleOff(){
+    audioSource.clip = PlatformOff;
     audioSource.Play();
   }
 }
