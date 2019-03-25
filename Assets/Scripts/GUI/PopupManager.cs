@@ -19,7 +19,7 @@ public class PopupManager : MonoBehaviour
 
     // Start is called before the first frame update
     private void Update() {
-        int level = SceneManager.GetActiveScene();
+        
     }
     private IEnumerator Level1Routine()
     {
