@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,5 +21,10 @@ public class Timer : MonoBehaviour {
       timeRemaining -= 1;
       timerText.text = timeRemaining.ToString();
     }
+  }
+
+  public int currentTimeLeft()
+  {
+    return timeRemaining;
   }
 }
