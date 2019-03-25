@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
   public static SoundManager S { get; private set; }
+
+#pragma warning disable 0649
   [SerializeField] private AudioSource audioSource;
   [SerializeField] private AudioClip HeadBonk;
   [SerializeField] private AudioClip Landed;
@@ -13,7 +15,8 @@ public class SoundManager : MonoBehaviour {
   [SerializeField] private AudioClip BeetleDeath;
   [SerializeField] private AudioClip PlatformOn;
   [SerializeField] private AudioClip PlatformOff;
-  
+#pragma warning restore 0649
+
 
   private void Awake() {
     S = this;
