@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 //Based off persistence from: https://unity3d.com/learn/tutorials/topics/scripting/introduction-saving-and-loading
@@ -146,6 +147,17 @@ public class BinarySaver : MonoBehaviour
     p.levels[2] = level3;
 
     return p;
+  }
+
+
+  public void SaveCompletion(int score)
+  {
+    String currentLevel = SceneManager.GetActiveScene().name;
+    int index = Int32.Parse(currentLevel.Substring(currentLevel.Length -1));
+    LevelProgress progress = currentSave.levels[index];
+    progress.completed = true;
+    progress.score = score;
+    Save();
   }
 
 
