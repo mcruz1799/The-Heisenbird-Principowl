@@ -22,4 +22,10 @@ public class MenuLoader : MonoBehaviour
     MainMenuGUI.SetActive(false);
     LevelSelectGUI.SetActive(true);
   }
+
+  public void LoadMenu()
+  {
+    MainMenuGUI.SetActive(true);
+    LevelSelectGUI.SetActive(false);
+  }
 }
