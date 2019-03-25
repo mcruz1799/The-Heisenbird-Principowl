@@ -31,13 +31,13 @@ public class GameManager : MonoBehaviour {
   private ISet<ITurnTaker> turnTakers = new HashSet<ITurnTaker>();
 
   //Game States so the GameManager knows when to stop and start the TurnTaker Routine.
-  private enum GameState {
+  public enum GameState {
     Running,
     Stopped,
   }
 
   private GameState currentState = GameState.Stopped;
-
+  public GameState CurrentState{get{return currentState;}set{currentState=value;}}
 
   private void Awake() {
     S = this;
