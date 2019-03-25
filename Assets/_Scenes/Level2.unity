@@ -991,6 +991,7 @@ GameObject:
   - component: {fileID: 1088558398}
   - component: {fileID: 1088558397}
   - component: {fileID: 1088558396}
+  - component: {fileID: 1088558401}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1104,6 +1105,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1088558401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088558395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f87e4989c5e703e428df4339d59e2c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showMainBehavior: 1
+  showInnerGlowBehavior: 0
+  rtFormat: 2
+  blurShader: {fileID: 4800000, guid: 1855d9636fad3914bacc4a543165c974, type: 3}
+  compositeShader: {fileID: 4800000, guid: e384de4389ba527479054baf0ddb1d3e, type: 3}
+  selectiveRenderShader: {fileID: 4800000, guid: c04b7cae8accdfb4e9c2648823ff39d7,
+    type: 3}
+  glowLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  glowType: 0
+  glowTint: {r: 1, g: 1, b: 1, a: 0}
+  blurSpreadInner: 0.6
+  blurIterations: 5
+  glowIntensityInner: 0.4
+  samples: 2
 --- !u!1 &1312436430
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,12 +1547,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39a4daa933a4814d9566b60af933d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
   HeadBonk: {fileID: 8300000, guid: 7604c3cbc373949b18bdb5e08fd36cfe, type: 3}
   Landed: {fileID: 0}
   Jump: {fileID: 8300000, guid: 0c5bdd9aa9f1500428eec88a44cb1225, type: 3}
   Damaged: {fileID: 8300000, guid: 306d138953f904cb494847f7e6eaec30, type: 3}
   PlayerDeath: {fileID: 8300000, guid: 9ed1f4ecc2f4c4d3eb9bc83045d26ed8, type: 3}
   BeetleDeath: {fileID: 8300000, guid: 2646744c46e4c4177887a47d4e9640b2, type: 3}
+  PlatformOn: {fileID: 0}
+  PlatformOff: {fileID: 0}
 --- !u!4 &1533469423
 Transform:
   m_ObjectHideFlags: 0
@@ -1611,6 +1643,7 @@ MonoBehaviour:
   completionRow: 9
   completionCol: 62
   LevelCompleteUI: {fileID: 0}
+  Timer: {fileID: 0}
 --- !u!4 &1987882785
 Transform:
   m_ObjectHideFlags: 0
