@@ -51,14 +51,13 @@ public class BinarySaver : MonoBehaviour
 
   public void Save(string saveName = null)
   {
-    string folderPath = Path.Combine(Application.persistentDataPath, folderName);
+    string folderPath = PathCombine(Application.persistentDataPath, folderName);
     if (!Directory.Exists(folderPath))
       Directory.CreateDirectory(folderPath);
 
     if (saveName != null) currentSave.saveName = saveName;
-    string dataPath = Path.Combine(folderPath, currentSave.saveName + fileExtension);
+    string dataPath = PathCombine(folderPath, currentSave.saveName + fileExtension);
     SaveProgress(currentSave, dataPath);
-    Debug.Log("Progress Saved.");
   }
 
   public void Load(string saveName = null)
@@ -81,7 +80,7 @@ public class BinarySaver : MonoBehaviour
   //Loads the Save that has been most recently saved. (Will most likely result in loading the previous user's save.)
   private OverallProgress LoadMostRecent()
   {
-    string folderPath = Path.Combine(Application.persistentDataPath, folderName);
+    string folderPath = PathCombine(Application.persistentDataPath, folderName);
     try {
       FileInfo[] files = new DirectoryInfo(folderPath).GetFiles("*.*");
       string latestFile = "";
@@ -115,9 +114,9 @@ public class BinarySaver : MonoBehaviour
   //Loads the Progress Data from the directory.
   private OverallProgress LoadProgress(string path)
   {
+    string filePath = PathCombine(PathCombine(Application.persistentDataPath, folderName), path);
     BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-    using (FileStream fileStream = File.Open(path, FileMode.Open)) {
+    using (FileStream fileStream = File.Open(filePath, FileMode.Open)) {
       return (OverallProgress)binaryFormatter.Deserialize(fileStream);
     }
   }
@@ -125,7 +124,7 @@ public class BinarySaver : MonoBehaviour
   //Returns a list of the file paths from the BinaryProgressData directory.
   static string[] GetFilePaths()
   {
-    string folderPath = Path.Combine(Application.persistentDataPath, folderName);
+    string folderPath = PathCombine(Application.persistentDataPath, folderName);
 
     return Directory.GetFiles(folderPath, fileExtension);
   }
@@ -154,10 +153,22 @@ public class BinarySaver : MonoBehaviour
   {
     String currentLevel = SceneManager.GetActiveScene().name;
     int index = Int32.Parse(currentLevel.Substring(currentLevel.Length -1));
-    LevelProgress progress = currentSave.levels[index];
+    LevelProgress progress = currentSave.levels[index-1];
     progress.completed = true;
-    progress.score = score;
+    progress.score = (progress.score >= score) ? progress.score : score;
     Save();
+    DebugCurrentProgress(currentSave);
+  }
+
+  //Based on solution found here: https://stackoverflow.com/questions/53102/why-does-path-combine-not-properly-concatenate-filenames-that-start-with-path-di
+  private static string PathCombine(string path1, string path2)
+  {
+    if (Path.IsPathRooted(path2)) {
+      path2 = path2.TrimStart(Path.DirectorySeparatorChar);
+      path2 = path2.TrimStart(Path.AltDirectorySeparatorChar);
+    }
+
+    return Path.Combine(path1, path2);
   }
 
 
