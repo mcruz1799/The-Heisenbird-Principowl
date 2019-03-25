@@ -34,7 +34,12 @@ public class EnemySpawner : SingleTileEntity, ITurnTaker {
           return;
         }
       }
-      gameObject.enemyMaker.Make(Row, Col, gameObject.transform);
+      try {
+        gameObject.enemyMaker.Make(Row, Col, gameObject.transform);
+      } catch {
+        Debug.LogError("Failed attempt to create an enemy");
+        return;
+      }
       enemy = gameObject.enemyMaker.MostRecentlyMade;
     }
   }
