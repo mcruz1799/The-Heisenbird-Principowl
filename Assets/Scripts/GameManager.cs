@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
   }
 
   private GameState currentState = GameState.Stopped;
-
+  public GameState CurrentState{get{return currentState;}set{currentState=value;}}
 
   private void Awake() {
     S = this;
