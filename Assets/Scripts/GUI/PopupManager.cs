@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PopupManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class PopupManager : MonoBehaviour
 
     // Start is called before the first frame update
     private void Update() {
-        
+        int level = SceneManager.GetActiveScene();
     }
     private IEnumerator Level1Routine()
     {
