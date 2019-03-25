@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 //Based off persistence from: https://unity3d.com/learn/tutorials/topics/scripting/introduction-saving-and-loading
@@ -12,7 +13,7 @@ public class BinarySaver : MonoBehaviour
 
   public static BinarySaver S { get; private set; }
 
-  public OverallProgress progress;
+  public OverallProgress currentSave { get; private set; }
 #pragma warning disable 0649
 
   const string folderName = "BinaryProgressData";
@@ -32,7 +33,7 @@ public class BinarySaver : MonoBehaviour
 
     if (p == null) p = CreateDefaultSave();
 
-    progress = p;
+    currentSave = p;
   }
   /*
   void Update()
@@ -54,9 +55,9 @@ public class BinarySaver : MonoBehaviour
     if (!Directory.Exists(folderPath))
       Directory.CreateDirectory(folderPath);
 
-    if (saveName != null) progress.saveName = saveName;
-    string dataPath = Path.Combine(folderPath, progress.saveName + fileExtension);
-    SaveProgress(progress, dataPath);
+    if (saveName != null) currentSave.saveName = saveName;
+    string dataPath = Path.Combine(folderPath, currentSave.saveName + fileExtension);
+    SaveProgress(currentSave, dataPath);
     Debug.Log("Progress Saved.");
   }
 
@@ -65,12 +66,12 @@ public class BinarySaver : MonoBehaviour
     string[] filePaths = GetFilePaths();
 
     if (saveName ==  null) { //Just load the first save.
-      if (filePaths.Length > 0) progress = LoadProgress(filePaths[0]);
+      if (filePaths.Length > 0) currentSave = LoadProgress(filePaths[0]);
     }
     else { //Search for specific save and load it.
       foreach (string path in filePaths) {
         if (path.Equals(saveName)) {
-          progress = LoadProgress(path);
+          currentSave = LoadProgress(path);
           break;
         }
       }
@@ -149,6 +150,17 @@ public class BinarySaver : MonoBehaviour
   }
 
 
+  public void SaveCompletion(int score)
+  {
+    String currentLevel = SceneManager.GetActiveScene().name;
+    int index = Int32.Parse(currentLevel.Substring(currentLevel.Length -1));
+    LevelProgress progress = currentSave.levels[index];
+    progress.completed = true;
+    progress.score = score;
+    Save();
+  }
+
+
   /*
    * 
    * For Testing Purposes.
@@ -163,8 +175,7 @@ public class BinarySaver : MonoBehaviour
     foreach (LevelProgress level in progress.levels) {
       Debug.Log("Level " + level.level +
                 "\n" + "Completed? :" + level.completed +
-                "\n" + "Time Taken :" + level.timeSpent +
-                "\n" + "Total Time :" + level.timeOverall);
+                "\n" + "Score :" + level.score);
     }
   }
 

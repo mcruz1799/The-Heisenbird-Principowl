@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
   [SerializeField] private int completionRow = 0;
   [SerializeField] private int completionCol = 0;
   [SerializeField] private GameObject LevelCompleteUI;
+  [SerializeField] private Timer Timer;
 #pragma warning restore 0649
 
   public Player Player { get; private set; }
@@ -30,13 +31,13 @@ public class GameManager : MonoBehaviour {
   private ISet<ITurnTaker> turnTakers = new HashSet<ITurnTaker>();
 
   //Game States so the GameManager knows when to stop and start the TurnTaker Routine.
-  private enum GameState {
+  public enum GameState {
     Running,
     Stopped,
   }
 
   private GameState currentState = GameState.Stopped;
-
+  public GameState CurrentState{get{return currentState;}set{currentState=value;}}
 
   private void Awake() {
     S = this;
@@ -122,6 +123,7 @@ public class GameManager : MonoBehaviour {
       if (Player.Occupies().Contains(t)) {
         StopLevel();
         RevealLevelComplete();
+        BinarySaver.S.SaveCompletion(Timer.currentTimeLeft());
       }
     }
   }

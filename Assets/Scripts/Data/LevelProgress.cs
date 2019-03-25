@@ -8,7 +8,5 @@ public class LevelProgress
 {
   public int level;
   public bool completed; //Other stats will be null unless this is true.
-  public int timeSpent;
-  public int timeOverall;
-  public int enemiesKilled;
+  public int score;
 }
