@@ -65,6 +65,11 @@ public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
     base.Destroy();
   }
 
+  protected override void OnCollision(Direction moveDirection) {
+    //TODO:
+    return;
+  }
+
   //TODO: modify onturn to throw barrels sometimes?
   public override void OnAttacked(int attackPower, Direction attackDirection){
     //TODO: check what current level is, load new level or end game
