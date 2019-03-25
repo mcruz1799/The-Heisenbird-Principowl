@@ -15,6 +15,7 @@ public class CutSceneManager : MonoBehaviour
 
     private IEnumerator CutSceneRoutine()
     {
+        GameManager.S.GameState = "Stopped";
         foreach(RawImage slide in Slides)
         {
             slide.gameObject.SetActive(true);
