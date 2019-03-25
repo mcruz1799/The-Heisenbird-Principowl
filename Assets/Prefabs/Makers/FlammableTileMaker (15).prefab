@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4905511080150056427}
   - component: {fileID: 1911326765392429814}
   m_Layer: 0
-  m_Name: FlammableTileMaker
+  m_Name: FlammableTileMaker (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd3a2b44a8c51fe49821bc9ba6c16148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flammableTilePrefab: {fileID: 2473837647286573644, guid: 37da0718d5f27874e98a095678dc44b7,
+  flammableTilePrefab: {fileID: 9047210555880496801, guid: 5c0c7a11d73f62848bda447afe341d60,
     type: 3}

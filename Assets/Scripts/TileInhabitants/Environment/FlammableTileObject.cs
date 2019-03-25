@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlammableTileObject : SingleTileEntityObject
-{
+public class FlammableTileObject : SingleTileEntityObject {
   public UpdraftTileMaker updraftTileMaker;
-  [Range(1, 10)] public int numUpdraftTiles;
+  [Range(1, 50)] public int numUpdraftTiles = 1;
 }
