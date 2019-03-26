@@ -42,9 +42,7 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
 
   protected override void OnCollision(Direction moveDirection) {}
 
-  public override void OnTurn(){
-    YVelocity = 0;
-  
+  public override void OnTurn(){  
     //First attack, then move
     //Destroy once we reach the ground
     if (this.TopLeft.Row <= 2) Destroy();
