@@ -46,7 +46,6 @@ public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
   }
 
   public override void OnAttacked(int attackPower, Direction attackDirection){
-    //TODO: do handling for final bonk/create final ending level
     GameManager.S.LoadNextLevel();
   }
 

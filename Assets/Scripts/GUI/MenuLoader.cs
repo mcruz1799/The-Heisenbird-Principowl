@@ -22,7 +22,6 @@ public class MenuLoader : MonoBehaviour
 
   public void LoadLevels()
   {
-
     MainMenuGUI.SetActive(false);
     SelectSaveGUI.SetActive(false);
     LevelSelectGUI.SetActive(true);
@@ -50,6 +49,11 @@ public class MenuLoader : MonoBehaviour
     LevelSelectGUI.SetActive(false);
   }
 
+  public void StartNew()
+  {
+    BinarySaver.S.StartNewSave();
+    LoadScene("Level1");
+  }
 
 }
 
