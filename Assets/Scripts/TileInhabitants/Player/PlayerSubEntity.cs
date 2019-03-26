@@ -4,8 +4,7 @@ using UnityEngine;
 
 public interface PlayerLabel { }
 
-public partial class Player {
-  private sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel {
+  public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel {
     private readonly Player parent;
 
     public bool IsGrounded {
@@ -72,19 +71,12 @@ public partial class Player {
 
           //If the player can jump through the platform, ignore it unless you're the bottom of the player and are above it
           if (platform.PlayerCanJumpThrough) {
-            bool isBottom = false;
-            foreach (PlayerSubEntity entity in parent.Bottom()) {
-              if (entity == this) {
-                isBottom = true;
-                break;
-              }
-            }
+            bool isBottom = parent.SubEntityIsBottom(this);
             bool isImmediatelyAbove = Row > platform.Row;
             if (!(isBottom && isImmediatelyAbove)) {
               continue;
             }
           }
-
 
           if (parent.IsDroppingThroughPlatform && platform.PlayerCanDropThrough && platform.Row == Row - 1) {
             Debug.LogWarning("Old code, may be incorrect");
@@ -106,4 +98,3 @@ public partial class Player {
       parent.OnAttacked(attackPower, attackDirection);
     }
   }
-}

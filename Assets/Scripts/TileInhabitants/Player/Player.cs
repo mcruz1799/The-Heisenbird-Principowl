@@ -15,13 +15,11 @@ public partial class Player : ITurnTaker, IDamageable {
 
   private static readonly int dim = 3;
 
-  private PlayerSubEntity TopLeft => entities[0, dim - 1];
-  private readonly PlayerSubEntity[,] entities = new PlayerSubEntity[dim, dim];
+  private PlayerSubEntity TopLeft => entities[dim - 1, 0];
+  private readonly PlayerSubEntity[,] entities = new PlayerSubEntity[dim, dim]; //Indexed by [row, col]
   private readonly PlayerObject gameObject;
 
   private PlayerStates State { get; set; }
-
-  private bool IsDroppingThroughPlatform => State.HasFlag(PlayerStates.DroppingThroughPlatform);
 
   private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -gameObject.xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? gameObject.xWallJumpPower : 0;
   private int XAcceleration => IsGrounded ? gameObject.xAccelerationGrounded : gameObject.xAccelerationAerial;
@@ -29,7 +27,6 @@ public partial class Player : ITurnTaker, IDamageable {
 
   private int jumpGraceTurns = 0;
 
-  //These are for enemy targeting
   public int Row => TopLeft.Row;
   public int Col => TopLeft.Col;
 
@@ -52,6 +49,7 @@ public partial class Player : ITurnTaker, IDamageable {
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   public bool IsWallSliding => gameObject.wallJumpingEnabled && (State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding));
   public bool IsStunned => turnsStunned > 0;
+  public bool IsDroppingThroughPlatform => State.HasFlag(PlayerStates.DroppingThroughPlatform);
 
 
   //
@@ -72,7 +70,7 @@ public partial class Player : ITurnTaker, IDamageable {
           Destroy();
           throw new System.Exception(string.Format("Failed to create PlayerSubEntity at row {0}, col {1}", gameObject.spawnRow + r, gameObject.spawnCol + c));
         }
-        entities[c, r] = newEntity;
+        entities[r, c] = newEntity;
       }
     }
 
@@ -435,6 +433,15 @@ public partial class Player : ITurnTaker, IDamageable {
     Object.Destroy(gameObject.gameObject);
   }
 
+  public bool SubEntityIsBottom(PlayerSubEntity entity) {
+    foreach (PlayerSubEntity other in Bottom()) {
+      if (other == entity) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   //
   //Side iterators (for use in foreach loops)
@@ -442,7 +449,7 @@ public partial class Player : ITurnTaker, IDamageable {
 
   private IEnumerable<PlayerSubEntity> Bottom() {
     for (int c = 0; c < dim; c++) {
-      yield return entities[c, 0];
+      yield return entities[0, c];
     }
   }
   //private IEnumerable<PlayerSubEntity> Left() {
