@@ -125,8 +125,9 @@ public class BinarySaver : MonoBehaviour
   static string[] GetFilePaths()
   {
     string folderPath = PathCombine(Application.persistentDataPath, folderName);
+    Debug.Log("Directory: " + folderPath);
 
-    return Directory.GetFiles(folderPath, fileExtension);
+    return Directory.GetFiles(folderPath);
   }
 
   public OverallProgress CreateDefaultSave(string saveName = "Atticus")
@@ -148,6 +149,18 @@ public class BinarySaver : MonoBehaviour
     return p;
   }
 
+  public OverallProgress[] LoadSaves()
+  {
+    string[] files = GetFilePaths();
+    Debug.Log("Number of Files: " + files.Length);
+    if (files.Length == 0) return null;
+
+    OverallProgress[] saves = new OverallProgress[files.Length];
+    for (int i = 0; i < files.Length; i++) {
+      saves[i] = LoadProgress(files[i]);
+    }
+    return saves;
+  }
 
   public void SaveCompletion(int score)
   {
