@@ -64,12 +64,12 @@ public class BinarySaver : MonoBehaviour
   {
     string[] filePaths = GetFilePaths();
 
-    if (saveName ==  null) { //Just load the first save.
+    if (saveName == null) { //Just load the first save.
       if (filePaths.Length > 0) currentSave = LoadProgress(filePaths[0]);
     }
     else { //Search for specific save and load it.
       foreach (string path in filePaths) {
-        if (path.Equals(saveName)) {
+        if (path.Contains(saveName)) {
           currentSave = LoadProgress(path);
           break;
         }
@@ -130,9 +130,51 @@ public class BinarySaver : MonoBehaviour
     return Directory.GetFiles(folderPath);
   }
 
-  public OverallProgress CreateDefaultSave(string saveName = "Atticus")
+  public void StartNewSave()
+  {
+    currentSave = CreateRandomSave();
+    Save();
+  }
+
+  private bool StringInFileList(string testString, string[] files)
+  {
+    bool stringIn = false;
+    foreach (string file in files) {
+      Debug.Log(file);
+      if (file.Contains(testString)) {
+        stringIn = true;
+        break;
+      }
+    }
+    return stringIn;
+  }
+
+  public OverallProgress CreateRandomSave()
   {
 
+    string saveName = "Atticus";
+    string[] files = GetFilePaths();
+    while (StringInFileList(saveName,files)) {
+      saveName = RandomString(8);
+    }
+    OverallProgress p = new OverallProgress();
+    p.saveName = saveName;
+    LevelProgress level1 = new LevelProgress();
+    LevelProgress level2 = new LevelProgress();
+    LevelProgress level3 = new LevelProgress();
+    level1.level = 1;
+    level2.level = 2;
+    level3.level = 3;
+    p.levels = new LevelProgress[3];
+    p.levels[0] = level1;
+    p.levels[1] = level2;
+    p.levels[2] = level3;
+
+    return p;
+  }
+
+  public OverallProgress CreateDefaultSave(string saveName = "Atticus")
+  {
     OverallProgress p = new OverallProgress();
     p.saveName = saveName;
     LevelProgress level1 = new LevelProgress();
