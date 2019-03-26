@@ -32,6 +32,7 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
     _damageable = new Damageable(gameObject.maxHp);
     this.gameObject = gameObject;
     dim = gameObject.dim;
+    gameObject.graphicsHolder.enemy = this;
 
     if (dim < 1) {
       throw new System.ArgumentException("Dimension must be positive");

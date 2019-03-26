@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe19860aa624de344a10f5d8d8e5461d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformBeetlePrefab: {fileID: 1768214618775727540, guid: c30156fe578ce8747bf469de77cfeb35,
+  platformBeetlePrefab: {fileID: 3085560893535024292, guid: c30156fe578ce8747bf469de77cfeb35,
     type: 3}
