@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a333e425d40de2347b34c161878f020e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 4900000, guid: d9794d65db1209e4cb7e8280aa23a9a8, type: 3}
+  level: {fileID: 4900000, guid: eb8d2ecf38b2e9e4697a795004b3a87b, type: 3}
   tilePrefab: {fileID: 6910328573096434756, guid: 9c96cd149f5ea024f9075f2852a5eaf8,
     type: 3}
   asciiMappings:
