@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossEnemySubEntity : EnemySubEntity<BossEnemy, BossEnemySubEntity> {
+public class BarrelSubEntity : EnemySubEntity<Barrel, BarrelSubEntity> {
   private Direction AttackDirection => Direction.South;
 
-  public BossEnemySubEntity(SingleTileEntityObject gameObject, BossEnemy parent, out bool success) : base(gameObject, parent, out success) {
+  public BarrelSubEntity(SingleTileEntityObject gameObject, Barrel parent, out bool success) : base(gameObject, parent, out success) {
   }
 
   public override void Attack() {
@@ -47,13 +47,11 @@ public class BossEnemySubEntity : EnemySubEntity<BossEnemy, BossEnemySubEntity> 
   }
 }
 
-public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
-  private readonly BossEnemyObject gameObject;
-  private readonly GameObject barrel;
+public class Barrel : Enemy<Barrel, BarrelSubEntity> {
+  private readonly BarrelObject gameObject;
 
-  private BossEnemy(BossEnemyObject gameObject, out bool success) : base(gameObject, out success) {
+  private Barrel(BarrelObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
-    this.barrel = gameObject.barrel;
   }
 
 
@@ -68,7 +66,6 @@ public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
   }
 
   public override void OnTurn(){
-    //TODO: instantiate barrel every couple of random seconds
     //barrel only breaks on hitting ground, you, or colored platform
     //check platform ColorGroup -> if not None, destroy barrel
     if( /* some condition to throw barrel */ true ){
@@ -82,27 +79,26 @@ public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
   }
 
   private class SubEntityGameObject : SingleTileEntityObject {
-    public BossEnemy parent;
+    public Barrel parent;
     public override float MoveAnimationTime => parent.gameObject.MoveAnimationTime;
   }
 
-  protected override BossEnemySubEntity CreateSubEntity(EnemyObject e, int row, int col, out bool success) {
+  protected override BarrelSubEntity CreateSubEntity(EnemyObject e, int row, int col, out bool success) {
     SubEntityGameObject subentityGameObject = new GameObject().AddComponent<SubEntityGameObject>();
     subentityGameObject.parent = this;
-    subentityGameObject.name = string.Format("BossEnemy[r={0}, c={1}]", row, col); ;
+    subentityGameObject.name = string.Format("Barrel[r={0}, c={1}]", row, col); ;
     subentityGameObject.spawnRow = row;
     subentityGameObject.spawnCol = col;
     subentityGameObject.transform.parent = e.transform;
-    return new BossEnemySubEntity(subentityGameObject, this, out success);
+    return new BarrelSubEntity(subentityGameObject, this, out success);
   }
 
-  public static BossEnemy Make(BossEnemyObject bossEnemyPrefab, int row, int col, Transform parent = null) {
-    bossEnemyPrefab = Object.Instantiate(bossEnemyPrefab);
-    bossEnemyPrefab.transform.parent = parent;
-    bossEnemyPrefab.spawnRow = row;
-    bossEnemyPrefab.spawnCol = col;
-    BossEnemy result = new BossEnemy(bossEnemyPrefab, out bool success);
+  public static Barrel Make(BarrelObject barrelPrefab, int row, int col, Transform parent = null) {
+    barrelPrefab = Object.Instantiate(barrelPrefab);
+    barrelPrefab.transform.parent = parent;
+    barrelPrefab.spawnRow = row;
+    barrelPrefab.spawnCol = col;
+    Barrel result = new Barrel(barrelPrefab, out bool success);
     return success ? result : null;
   }
 }
-

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Player : ITurnTaker, IDamageable {
+public sealed class Player : ITurnTaker, IDamageable {
   [System.Flags] private enum PlayerStates {
     None = 0,
     Grounded = 1 << 0,
@@ -15,13 +15,11 @@ public partial class Player : ITurnTaker, IDamageable {
 
   private static readonly int dim = 3;
 
-  private PlayerSubEntity TopLeft => entities[0, dim - 1];
-  private readonly PlayerSubEntity[,] entities = new PlayerSubEntity[dim, dim];
+  private PlayerSubEntity TopLeft => entities[dim - 1, 0];
+  private readonly PlayerSubEntity[,] entities = new PlayerSubEntity[dim, dim]; //Indexed by [row, col]
   private readonly PlayerObject gameObject;
 
   private PlayerStates State { get; set; }
-
-  private bool IsDroppingThroughPlatform => State.HasFlag(PlayerStates.DroppingThroughPlatform);
 
   private int XWallJumpPower => State.HasFlag(PlayerStates.RightWallSliding) ? -gameObject.xWallJumpPower : State.HasFlag(PlayerStates.LeftWallSliding) ? gameObject.xWallJumpPower : 0;
   private int XAcceleration => IsGrounded ? gameObject.xAccelerationGrounded : gameObject.xAccelerationAerial;
@@ -29,7 +27,6 @@ public partial class Player : ITurnTaker, IDamageable {
 
   private int jumpGraceTurns = 0;
 
-  //These are for enemy targeting
   public int Row => TopLeft.Row;
   public int Col => TopLeft.Col;
 
@@ -52,6 +49,7 @@ public partial class Player : ITurnTaker, IDamageable {
   public bool IsGrounded => State.HasFlag(PlayerStates.Grounded);
   public bool IsWallSliding => gameObject.wallJumpingEnabled && (State.HasFlag(PlayerStates.LeftWallSliding) || State.HasFlag(PlayerStates.RightWallSliding));
   public bool IsStunned => turnsStunned > 0;
+  public bool IsDroppingThroughPlatform => State.HasFlag(PlayerStates.DroppingThroughPlatform);
 
 
   //
@@ -72,7 +70,7 @@ public partial class Player : ITurnTaker, IDamageable {
           Destroy();
           throw new System.Exception(string.Format("Failed to create PlayerSubEntity at row {0}, col {1}", gameObject.spawnRow + r, gameObject.spawnCol + c));
         }
-        entities[c, r] = newEntity;
+        entities[r, c] = newEntity;
       }
     }
 
@@ -113,6 +111,8 @@ public partial class Player : ITurnTaker, IDamageable {
     //Apply knockback to the player from the previous turn
     //If there isn't any, respond the player's input instead
     if (knockback != null) {
+      XVelocity = 0;
+      YVelocity = 0;
       if (knockback.Value == Direction.East || knockback.Value == Direction.West) {
         PerformMove(Direction.North);
       }
@@ -196,11 +196,15 @@ public partial class Player : ITurnTaker, IDamageable {
       List<Vector2Int> moveWaypoints = TopLeft.CalculateMoveWaypoints(XVelocity, YVelocity);
 
       //Skip the first waypoint because it's just our current position
+      bool xCollisionFlag = false;
       bool yCollisionFlag = false;
       for (int i = 1; i < moveWaypoints.Count; i++) {
         Vector2Int waypoint = moveWaypoints[i];
         if (yCollisionFlag) {
           waypoint.y = TopLeft.Row;
+        }
+        if (xCollisionFlag) {
+          waypoint.x = TopLeft.Col;
         }
 
         //Guaranteed that exactly one of these is +/- 1.
@@ -220,8 +224,9 @@ public partial class Player : ITurnTaker, IDamageable {
         if (!moveSuccessful) {
           if (yDir != 0) {
             yCollisionFlag = true;
-          } else {
-            break;
+          }
+          if (xDir != 0) {
+            xCollisionFlag = true;
           }
         }
       }
@@ -245,6 +250,20 @@ public partial class Player : ITurnTaker, IDamageable {
     //Apply gravity
     if (!IsGrounded) {
       YVelocity -= gameObject.gravity;
+    }
+
+    if (IsWallSliding && YVelocity < -gameObject.wallSlideSpeed) {
+      YVelocity = -gameObject.wallSlideSpeed;
+    }
+
+    if (IsDroppingThroughPlatform) {
+      State &= ~PlayerStates.DroppingThroughPlatform;
+      foreach (PlayerSubEntity entity in entities) {
+        if (!entity.CanSetPosition(entity.Row, entity.Col)) {
+          State |= PlayerStates.DroppingThroughPlatform;
+          return;
+        }
+      }
     }
   }
 
@@ -363,7 +382,6 @@ public partial class Player : ITurnTaker, IDamageable {
       case Direction.East:
         if (!IsGrounded && selectedAction == Action.MoveRight) {
           State |= PlayerStates.RightWallSliding;
-          YVelocity = -gameObject.wallSlideSpeed;
         }
         XVelocity = 0;
         break;
@@ -371,7 +389,6 @@ public partial class Player : ITurnTaker, IDamageable {
       case Direction.West:
         if (!IsGrounded && selectedAction == Action.MoveLeft) {
           State |= PlayerStates.LeftWallSliding;
-          YVelocity = -gameObject.wallSlideSpeed;
         }
         XVelocity = 0;
         break;
@@ -423,6 +440,16 @@ public partial class Player : ITurnTaker, IDamageable {
       entity.Destroy();
     }
     GameManager.S.UnregisterTurnTaker(this);
+    Object.Destroy(gameObject.gameObject);
+  }
+
+  public bool SubEntityIsBottom(PlayerSubEntity entity) {
+    foreach (PlayerSubEntity other in Bottom()) {
+      if (other == entity) {
+        return true;
+      }
+    }
+    return false;
   }
 
 
@@ -432,7 +459,7 @@ public partial class Player : ITurnTaker, IDamageable {
 
   private IEnumerable<PlayerSubEntity> Bottom() {
     for (int c = 0; c < dim; c++) {
-      yield return entities[c, 0];
+      yield return entities[0, c];
     }
   }
   //private IEnumerable<PlayerSubEntity> Left() {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossEnemyObject : EnemyObject
+public class BarrelObject : EnemyObject
 {
-    public GameObject barrel;
+
 }

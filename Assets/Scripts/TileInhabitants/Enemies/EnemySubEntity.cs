@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEnemy {
-  bool IsAlive { get; }
-}
-
 public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamageable, IEnemy
   where TParent : Enemy<TParent, TSub>
   where TSub : EnemySubEntity<TParent, TSub> {
 
   protected readonly TParent parent;
-  public SingleTileEntityObject gameObject;
+  public readonly SingleTileEntityObject gameObject;
 
   public bool IsAlive => parent.IsAlive;
+
+  int IEnemy.XVelocity => parent.XVelocity;
+  int IEnemy.YVelocity => parent.YVelocity;
 
   public EnemySubEntity(SingleTileEntityObject gameObject, TParent parent, out bool success) : base(gameObject, out success) {
     if (success) {
