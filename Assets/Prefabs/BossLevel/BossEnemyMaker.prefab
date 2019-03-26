@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3268608362083700227
+--- !u!1 &5991275342808597012
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6251867184235497468}
-  - component: {fileID: 7372579667633675906}
+  - component: {fileID: 6900493489518255152}
+  - component: {fileID: 7745742987168068575}
   m_Layer: 0
-  m_Name: PlatformEnemyMaker2
+  m_Name: BossEnemyMaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6251867184235497468
+--- !u!4 &6900493489518255152
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3268608362083700227}
+  m_GameObject: {fileID: 5991275342808597012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 40.5, y: -141, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7372579667633675906
+--- !u!114 &7745742987168068575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3268608362083700227}
+  m_GameObject: {fileID: 5991275342808597012}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe19860aa624de344a10f5d8d8e5461d, type: 3}
+  m_Script: {fileID: 11500000, guid: e9d0fb0cc5aefdf46bda37d8560f6355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformBeetlePrefab: {fileID: 7083840994393387188, guid: e9f01a0bdaf669c4f9a3ac12cb7adc29,
+  bossEnemyPrefab: {fileID: 416835941687790912, guid: b5cf34cf5b598b44498b48b66bcb5fa0,
     type: 3}

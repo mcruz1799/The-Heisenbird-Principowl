@@ -30,6 +30,8 @@ public sealed class Player : ITurnTaker, IDamageable {
   public int Row => TopLeft.Row;
   public int Col => TopLeft.Col;
 
+  public bool IsInIllegalPosition { get; private set; }
+
 
   //
   //Variables exposed for animations
@@ -92,6 +94,15 @@ public sealed class Player : ITurnTaker, IDamageable {
   }
 
   public void OnTurn() {
+    IsInIllegalPosition = false;
+    foreach (PlayerSubEntity entity in entities) {
+      if (!entity.CanSetPosition(entity.Row, entity.Col)) {
+        YVelocity = 1;
+        XVelocity = 0;
+        IsInIllegalPosition = true;
+      }
+    }
+
     bool isGroundedAtStartOfTurn = IsGrounded;
 
     //Adjust fall speed based on presence of updrafts

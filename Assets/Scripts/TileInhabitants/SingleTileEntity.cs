@@ -72,7 +72,14 @@ public abstract class SingleTileEntity : ITileInhabitant {
   }
 
   public virtual bool CanSetPosition(int newRow, int newCol) {
-    return GameManager.S.Board.IsPositionLegal(newRow, newCol);// && GameManager.S.Board[newRow, newCol].CanAdd(this);
+    return GameManager.S.Board.IsPositionLegal(newRow, newCol);
+  }
+
+  public void SetPosition(int newRow, int newCol) {
+    SetPosition(newRow, newCol, out bool success);
+    if (!success) {
+      Debug.LogError("Illegal call to SetPosition");
+    }
   }
 
   public void SetPosition(int newRow, int newCol, out bool success) {

@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class BossEnemyObject : EnemyObject
 {
-    public GameObject barrel;
+  public BarrelMaker barrelMaker;
+  public int bossHeight;
 }

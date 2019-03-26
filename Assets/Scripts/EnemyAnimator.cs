@@ -5,12 +5,16 @@ using UnityEngine;
 public class EnemyAnimator : MonoBehaviour {
 #pragma warning disable 0649
   [SerializeField] private SpriteAnimator idle;
-  private IEnemy enemy;
-
 #pragma warning restore 0649
-  private void Awake(){
+
+  public IEnemy enemy;
+
+  private void Start() {
     idle.StartFromFirstFrame();
-    enemy = transform.parent.GetComponent<IEnemy>();
+    if (enemy == null) {
+      //enemy field is set in the Enemy script
+      throw new System.Exception("EnemyAnimator isn't initialized.  Enemy field needs to be set.");
+    }
   }
 
   private void LateUpdate() {

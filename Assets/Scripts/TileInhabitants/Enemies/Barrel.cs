@@ -15,31 +15,10 @@ public class BarrelSubEntity : EnemySubEntity<Barrel, BarrelSubEntity> {
         IDamageable victim = other is IDamageable ? (IDamageable)other : null;
         if (victim != null && CanAttack(other)) {
           victim.OnAttacked(parent.AttackPower, AttackDirection);
+          Destroy();
         }
       }
     }
-  }
-
-  public bool IsGrounded => CanStandAbove(GameManager.S.Board.GetInDirection(Row, Col, Direction.South));
-
-  public bool WillBeAboveGroundAfterMoveInDirection(Direction direction) {
-    Tile t;
-    t = GameManager.S.Board.GetInDirections(Row, Col, direction, Direction.South);
-
-    return CanStandAbove(t);
-  }
-
-  private bool CanStandAbove(Tile tile) {
-    if (tile == null) {
-      return true;
-    }
-    foreach (ITileInhabitant inhabitant in tile.Inhabitants) {
-      if (inhabitant is Platform) {
-        Platform platform = (Platform)inhabitant;
-        return platform.IsActive;
-      }
-    }
-    return false;
   }
 
   private bool CanAttack(ITileInhabitant other) {
@@ -56,26 +35,40 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
 
 
   public override void Destroy() {
-    //TODO: replace with boss bonk sound
-    SoundManager.S.BeetleDied();
+    SoundManager.S.PlayerDamaged();
     base.Destroy();
   }
 
-  protected override void OnCollision(Direction moveDirection) {
-    return;
-  }
+  protected override void OnCollision(Direction moveDirection) {}
 
   public override void OnTurn(){
-    //barrel only breaks on hitting ground, you, or colored platform
-    //check platform ColorGroup -> if not None, destroy barrel
-    if( /* some condition to throw barrel */ true ){
-      //instantiate barrel
-    }
-  }
+    YVelocity = 0;
+    //TODO: change z=value to behind platforms
 
-  public override void OnAttacked(int attackPower, Direction attackDirection){
-    //TODO: do handling for final bonk/create final ending level
-    GameManager.S.LoadNextLevel();
+    //First attack, then move
+    //Destroy once we reach the ground
+    if (this.TopLeft.Row == 1) Destroy();
+
+    //First attempt to attack
+    TopLeft.Attack();
+
+    //Then check if anything is beneath us
+    Tile t = GameManager.S.Board.GetInDirection(TopLeft.Row, TopLeft.Col, Direction.South);
+    if (t) {
+      foreach (ITileInhabitant item in t.Inhabitants){
+        if (item is Platform){
+          Platform platform = (Platform) item;
+
+          //If we are above a colored platform, kamikaze
+          if (platform.IsActive && platform.ColorGroup != PlatformAndBeetleColor.None){
+              Destroy();
+          }
+        }
+      }
+    }
+
+    //Nothing below us, we are clear for takeoff
+    YVelocity = -1;
   }
 
   private class SubEntityGameObject : SingleTileEntityObject {

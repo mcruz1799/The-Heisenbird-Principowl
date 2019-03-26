@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2219555714110545931}
-  - component: {fileID: 6455973365233991935}
-  - component: {fileID: 6292178343649974732}
+  - component: {fileID: 7017669415399844454}
+  - component: {fileID: 409425649298576883}
   m_Layer: 0
-  m_Name: Idle
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,21 +27,29 @@ Transform:
   m_GameObject: {fileID: 1003400538383193642}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 9, y: 9, z: 1}
   m_Children: []
   m_Father: {fileID: 3356153000875350276}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6455973365233991935
-SpriteRenderer:
+--- !u!33 &7017669415399844454
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003400538383193642}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &409425649298576883
+MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1003400538383193642}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -49,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 735e495690387b346b796deb2597bf21, type: 2}
+  - {fileID: 2100000, guid: 5f849a0486c377842a4a60a8af171ac4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -61,7 +69,7 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -69,47 +77,6 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 10.26, y: 10.23}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!114 &6292178343649974732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1003400538383193642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c93c1e3125124f4d82bcc0b02e06cf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300002, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300004, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300006, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300008, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300010, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300012, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300014, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300016, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300018, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300020, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300022, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300024, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  - {fileID: 21300026, guid: b08c0f5c62bcf7c438b6996a70aa5c5b, type: 3}
-  initialIsVisible: 1
-  initialIsLooping: 1
-  _framesPerSprite: 3
 --- !u!1 &3356153000875350279
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +86,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3356153000875350276}
-  - component: {fileID: 4242634537000095321}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -142,19 +108,6 @@ Transform:
   m_Father: {fileID: 7273775180802752617}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4242634537000095321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3356153000875350279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21516b9f4d39f63428578c52b58b61e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  idle: {fileID: 6292178343649974732}
 --- !u!1 &9125484902060895156
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,9 +117,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7273775180802752617}
-  - component: {fileID: 5863764130154113457}
+  - component: {fileID: 2658353949176307441}
   m_Layer: 0
-  m_Name: PlatformEnemy1
+  m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,7 +140,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5863764130154113457
+--- !u!114 &2658353949176307441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,18 +149,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 9125484902060895156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1301819dd71537c49ae56e4e91c4cb25, type: 3}
+  m_Script: {fileID: 11500000, guid: ef92f6c2b96ac0244ab6bdbffebf3b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnRow: 0
   spawnCol: 0
   animateMovement: 1
   maxHp: 1
-  dim: 3
-  attackStunTurns: 10
-  xSpeedMax: 10
-  ySpeedMax: 10
-  ySpeedMin: -10
-  graphicsHolder: {fileID: 4242634537000095321}
-  groupColor: 1
-  moveCooldown: 3
+  dim: 1
+  attackStunTurns: 1
+  xSpeedMax: 1
+  ySpeedMax: 1
+  ySpeedMin: -1
+  graphicsHolder: {fileID: 3356153000875350279}

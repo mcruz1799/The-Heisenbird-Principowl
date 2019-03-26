@@ -17,6 +17,6 @@ public abstract class EnemyObject : SingleTileEntityObject {
   [Range(1, 10)] public int ySpeedMax = 1;
   [Range(-10, -1)] public int ySpeedMin = -1;
 
-  public GameObject graphicsHolder;
+  public EnemyAnimator graphicsHolder;
 #pragma warning restore 0649
 }
