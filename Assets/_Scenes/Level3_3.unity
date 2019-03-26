@@ -360,7 +360,7 @@ MonoBehaviour:
   boardMakerPrefab: {fileID: 7044392509325897440, guid: 96a39713559b4964d9c6fe17030773c7,
     type: 3}
   nextScene: GameOver
-  completionRow: 9
+  completionRow: 40
   LevelCompleteUI: {fileID: 1530322392}
   Timer: {fileID: 1613492961}
 --- !u!4 &202333167
@@ -853,7 +853,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 5f84c129d1a9ab54d8ed8ec12a501bbb,
+      objectReference: {fileID: 21300000, guid: 015008c5f8144ca4698d3f5f5ac62ac2,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cd7ef9996934a34f859b050a682d036, type: 3}

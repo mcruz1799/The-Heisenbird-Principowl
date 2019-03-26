@@ -31,6 +31,7 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
 
   private Barrel(BarrelObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
+    this.YVelocity = -1;
   }
 
 
@@ -41,13 +42,10 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
 
   protected override void OnCollision(Direction moveDirection) {}
 
-  public override void OnTurn(){
-    YVelocity = 0;
-    //TODO: change z=value to behind platforms
-
+  public override void OnTurn(){  
     //First attack, then move
     //Destroy once we reach the ground
-    if (this.TopLeft.Row == 1) Destroy();
+    if (this.TopLeft.Row <= 2) Destroy();
 
     //First attempt to attack
     TopLeft.Attack();

@@ -37,12 +37,8 @@ public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
 
   public override void OnTurn(){
     //instantiates barrel every couple of random seconds
-    TimeToWait(Random.Range(5, 15));
-  }
-
-  IEnumerator TimeToWait(int seconds){
-    yield return new WaitForSeconds(seconds);
-    barrelMaker.MakeAndGet(TopLeft.Row - bossHeight, TopLeft.Col + 2, null);
+    int r = Random.Range(0, 11); //30% chance to throw a barrel
+    if (r % 5 == 0) barrelMaker.MakeAndGet(TopLeft.Row - bossHeight, TopLeft.Col + 2, null);
   }
 
   public override void OnAttacked(int attackPower, Direction attackDirection){
