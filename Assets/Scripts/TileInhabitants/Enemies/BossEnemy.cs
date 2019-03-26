@@ -8,39 +8,7 @@ public class BossEnemySubEntity : EnemySubEntity<BossEnemy, BossEnemySubEntity> 
   public BossEnemySubEntity(SingleTileEntityObject gameObject, BossEnemy parent, out bool success) : base(gameObject, parent, out success) {
   }
 
-  public override void Attack() {
-    Tile t = GameManager.S.Board.GetInDirection(Row, Col, AttackDirection);
-    if (t != null) {
-      foreach (ITileInhabitant other in t.Inhabitants) {
-        IDamageable victim = other is IDamageable ? (IDamageable)other : null;
-        if (victim != null && CanAttack(other)) {
-          victim.OnAttacked(parent.AttackPower, AttackDirection);
-        }
-      }
-    }
-  }
-
-  public bool IsGrounded => CanStandAbove(GameManager.S.Board.GetInDirection(Row, Col, Direction.South));
-
-  public bool WillBeAboveGroundAfterMoveInDirection(Direction direction) {
-    Tile t;
-    t = GameManager.S.Board.GetInDirections(Row, Col, direction, Direction.South);
-
-    return CanStandAbove(t);
-  }
-
-  private bool CanStandAbove(Tile tile) {
-    if (tile == null) {
-      return true;
-    }
-    foreach (ITileInhabitant inhabitant in tile.Inhabitants) {
-      if (inhabitant is Platform) {
-        Platform platform = (Platform)inhabitant;
-        return platform.IsActive;
-      }
-    }
-    return false;
-  }
+  public override void Attack() {}
 
   private bool CanAttack(ITileInhabitant other) {
     return other is PlayerLabel && !toIgnore.Contains(other);
@@ -49,31 +17,32 @@ public class BossEnemySubEntity : EnemySubEntity<BossEnemy, BossEnemySubEntity> 
 
 public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
   private readonly BossEnemyObject gameObject;
-  private readonly GameObject barrel;
+  private readonly BarrelMaker barrelMaker;
+  private readonly int bossHeight;
 
   private BossEnemy(BossEnemyObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
-    this.barrel = gameObject.barrel;
+    this.barrelMaker = gameObject.barrelMaker;
+    this.bossHeight = gameObject.bossHeight;
   }
 
 
   public override void Destroy() {
-    //TODO: replace with boss bonk sound
+    //TODO: replace with boss bonk sound, play some destroy animation
     SoundManager.S.BeetleDied();
     base.Destroy();
   }
 
-  protected override void OnCollision(Direction moveDirection) {
-    return;
-  }
+  protected override void OnCollision(Direction moveDirection) {}
 
   public override void OnTurn(){
-    //TODO: instantiate barrel every couple of random seconds
-    //barrel only breaks on hitting ground, you, or colored platform
-    //check platform ColorGroup -> if not None, destroy barrel
-    if( /* some condition to throw barrel */ true ){
-      //instantiate barrel
-    }
+    //instantiates barrel every couple of random seconds
+    TimeToWait(Random.Range(5, 15));
+  }
+
+  IEnumerator TimeToWait(int seconds){
+    yield return new WaitForSeconds(seconds);
+    barrelMaker.MakeAndGet(TopLeft.Row - bossHeight, TopLeft.Col + 2, null);
   }
 
   public override void OnAttacked(int attackPower, Direction attackDirection){
