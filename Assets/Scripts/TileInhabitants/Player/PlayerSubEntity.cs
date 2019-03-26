@@ -50,7 +50,7 @@ public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel
       return false;
     }
 
-    if (parent.IsInIllegalPosition) {
+    if (parent != null && parent.IsInIllegalPosition) {
       return true;
     }
 
