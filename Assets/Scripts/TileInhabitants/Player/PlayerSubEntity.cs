@@ -50,6 +50,10 @@ public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel
       return false;
     }
 
+    if (parent.IsInIllegalPosition) {
+      return true;
+    }
+
     foreach (ITileInhabitant other in GameManager.S.Board[newRow, newCol].Inhabitants) {
       if (other == this || toIgnore.Contains(other)) {
         continue;
