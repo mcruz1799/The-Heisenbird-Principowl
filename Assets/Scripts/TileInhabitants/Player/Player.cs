@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Player : ITurnTaker, IDamageable {
+public sealed class Player : ITurnTaker, IDamageable {
   [System.Flags] private enum PlayerStates {
     None = 0,
     Grounded = 1 << 0,
