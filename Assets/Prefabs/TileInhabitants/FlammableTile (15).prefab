@@ -95,4 +95,4 @@ MonoBehaviour:
   animateMovement: 1
   updraftTileMaker: {fileID: 1866301506325420567, guid: 85172b1df0eb0a24e9e11b6474c13550,
     type: 3}
-  numUpdraftTiles: 15
+  numUpdraftTiles: 34
