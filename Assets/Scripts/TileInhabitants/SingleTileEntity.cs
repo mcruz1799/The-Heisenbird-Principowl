@@ -75,6 +75,13 @@ public abstract class SingleTileEntity : ITileInhabitant {
     return GameManager.S.Board.IsPositionLegal(newRow, newCol);// && GameManager.S.Board[newRow, newCol].CanAdd(this);
   }
 
+  public void SetPosition(int newRow, int newCol) {
+    SetPosition(newRow, newCol, out bool success);
+    if (!success) {
+      Debug.LogError("Illegal call to SetPosition");
+    }
+  }
+
   public void SetPosition(int newRow, int newCol, out bool success) {
     success = CanSetPosition(newRow, newCol);
     if (success) {
