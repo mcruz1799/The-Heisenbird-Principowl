@@ -40,7 +40,7 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
 
   public override void OnTurn() {
     //If player is close enough, we will follow the player >:)
-    if (Mathf.Abs(GameManager.S.Player.Col - homeTileCol) <= gameObject.aggroRange && Mathf.Abs(GameManager.S.Player.Row - homeTileRow) <= gameObject.aggroRange) {
+    if (Mathf.Abs(GameManager.S.Player.Col - homeTileCol) <= gameObject.aggroRange && Mathf.Abs(GameManager.S.Player.Row - homeTileRow) <= gameObject.yAggroRange) {
       isFollowing = true;
     } else {
       isFollowing = false;
