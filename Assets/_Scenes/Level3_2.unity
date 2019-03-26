@@ -1585,7 +1585,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenTurns: 0.1
   _playerObject: {fileID: 757747954}
-  boardMakerPrefab: {fileID: 0}
+  boardMakerPrefab: {fileID: 7044392509325897440, guid: 6bd4a5e72aa31e14fb15ef046ed08944,
+    type: 3}
   nextScene: Level3_3
   completionRow: 9
   LevelCompleteUI: {fileID: 1341080257}
