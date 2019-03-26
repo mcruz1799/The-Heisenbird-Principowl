@@ -198,11 +198,15 @@ public partial class Player : ITurnTaker, IDamageable {
       List<Vector2Int> moveWaypoints = TopLeft.CalculateMoveWaypoints(XVelocity, YVelocity);
 
       //Skip the first waypoint because it's just our current position
+      bool xCollisionFlag = false;
       bool yCollisionFlag = false;
       for (int i = 1; i < moveWaypoints.Count; i++) {
         Vector2Int waypoint = moveWaypoints[i];
         if (yCollisionFlag) {
           waypoint.y = TopLeft.Row;
+        }
+        if (xCollisionFlag) {
+          waypoint.x = TopLeft.Col;
         }
 
         //Guaranteed that exactly one of these is +/- 1.
@@ -222,8 +226,9 @@ public partial class Player : ITurnTaker, IDamageable {
         if (!moveSuccessful) {
           if (yDir != 0) {
             yCollisionFlag = true;
-          } else {
-            break;
+          }
+          if (xDir != 0) {
+            xCollisionFlag = true;
           }
         }
       }
@@ -247,6 +252,10 @@ public partial class Player : ITurnTaker, IDamageable {
     //Apply gravity
     if (!IsGrounded) {
       YVelocity -= gameObject.gravity;
+    }
+
+    if (IsWallSliding && YVelocity < -gameObject.wallSlideSpeed) {
+      YVelocity = -gameObject.wallSlideSpeed;
     }
   }
 
@@ -365,7 +374,6 @@ public partial class Player : ITurnTaker, IDamageable {
       case Direction.East:
         if (!IsGrounded && selectedAction == Action.MoveRight) {
           State |= PlayerStates.RightWallSliding;
-          YVelocity = -gameObject.wallSlideSpeed;
         }
         XVelocity = 0;
         break;
@@ -373,7 +381,6 @@ public partial class Player : ITurnTaker, IDamageable {
       case Direction.West:
         if (!IsGrounded && selectedAction == Action.MoveLeft) {
           State |= PlayerStates.LeftWallSliding;
-          YVelocity = -gameObject.wallSlideSpeed;
         }
         XVelocity = 0;
         break;
