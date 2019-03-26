@@ -5,8 +5,10 @@ using UnityEngine;
 public class UpdraftTile : SingleTileEntity {
   private readonly UpdraftTileObject updraftObject;
 
-  public UpdraftTile(UpdraftTileObject updraftObject) : base(updraftObject) {
-    this.updraftObject = updraftObject;
+  public UpdraftTile(UpdraftTileObject updraftObject, out bool success) : base(updraftObject, out success) {
+    if (success) {
+      this.updraftObject = updraftObject;
+    }
   }
 
   public override bool CanSetPosition(int newRow, int newCol) {
@@ -32,6 +34,7 @@ public class UpdraftTile : SingleTileEntity {
     updraftTilePrefab.transform.parent = parent;
     updraftTilePrefab.spawnRow = row;
     updraftTilePrefab.spawnCol = col;
-    return new UpdraftTile(updraftTilePrefab);
+    UpdraftTile result = new UpdraftTile(updraftTilePrefab, out bool success);
+    return success ? result : null;
   }
 }

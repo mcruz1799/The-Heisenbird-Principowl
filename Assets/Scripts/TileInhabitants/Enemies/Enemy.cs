@@ -26,13 +26,30 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
   public int AttackPower => gameObject.attackStunTurns;
 
   protected abstract void OnCollision(Direction moveDirection);
-  protected abstract TSub[,] CreateSubEntities(EnemyObject e, int dim);
+  protected abstract TSub CreateSubEntity(EnemyObject e, int spawnRow, int spawnCol, out bool success);
 
-  public Enemy(EnemyObject gameObject) {
+  public Enemy(EnemyObject gameObject, out bool success) {
     _damageable = new Damageable(gameObject.maxHp);
     this.gameObject = gameObject;
-    this.dim = gameObject.dim;
-    entities = CreateSubEntities(gameObject, dim);
+    dim = gameObject.dim;
+
+    if (dim < 1) {
+      throw new System.ArgumentException("Dimension must be positive");
+    }
+
+    success = true;
+    entities = new TSub[dim, dim];
+    for (int r = 0; r < dim; r++) {
+      for (int c = 0; c < dim; c++) {
+        TSub subentity = CreateSubEntity(gameObject, gameObject.spawnRow + r, gameObject.spawnCol + c, out success);
+        if (!success) {
+          Destroy();
+          return;
+        }
+        entities[c, r] = subentity;
+      }
+    }
+
 
     //Parent graphics to the TopLeft
     Vector3 relativePosition = gameObject.graphicsHolder.transform.position;
@@ -144,7 +161,9 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
 
   public virtual void Destroy() {
     foreach (SingleTileEntity entity in entities) {
-      entity.Destroy();
+      if (entity != null) {
+        entity.Destroy();
+      }
     }
     GameManager.S.UnregisterTurnTaker(this);
   }

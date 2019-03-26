@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlatformBeetleSubEntity : EnemySubEntity<PlatformBeetle, PlatformBeetleSubEntity> {
   private Direction AttackDirection => parent.XVelocity > 0 ? Direction.East : Direction.West;
 
-  public PlatformBeetleSubEntity(SingleTileEntityObject gameObject, PlatformBeetle parent) : base(gameObject, parent) {
+  public PlatformBeetleSubEntity(SingleTileEntityObject gameObject, PlatformBeetle parent, out bool success) : base(gameObject, parent, out success) {
   }
 
   public override void Attack() {
@@ -62,7 +62,7 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
   }
   public PlatformAndBeetleColor GroupColor => gameObject.groupColor;
 
-  private PlatformBeetle(PlatformBeetleObject gameObject) : base(gameObject) {
+  private PlatformBeetle(PlatformBeetleObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
   }
 
@@ -79,8 +79,10 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
   }
 
   public override void Destroy() {
-    SoundManager.S.BeetleDied();
-    PlatformToggleManager.Toggle(GroupColor);
+    if (gameObject != null) {
+      SoundManager.S.BeetleDied();
+      PlatformToggleManager.Toggle(GroupColor);
+    }
     base.Destroy();
   }
 
@@ -89,21 +91,14 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
     public override float MoveAnimationTime => parent.gameObject.MoveAnimationTime;
   }
 
-  protected override PlatformBeetleSubEntity[,] CreateSubEntities(EnemyObject e, int dim) {
-    PlatformBeetleSubEntity[,] result = new PlatformBeetleSubEntity[dim, dim];
-    for (int r = 0; r < dim; r++) {
-      for (int c = 0; c < dim; c++) {
-        SubEntityGameObject subentityGameObject = new GameObject().AddComponent<SubEntityGameObject>();
-        subentityGameObject.parent = this;
-        subentityGameObject.name = string.Format("PlatformBeetle[r={0}, c={1}]", r, c); ;
-        subentityGameObject.spawnRow = e.spawnRow + r;
-        subentityGameObject.spawnCol = e.spawnCol + c;
-        subentityGameObject.transform.parent = e.transform;
-        result[c, r] = new PlatformBeetleSubEntity(subentityGameObject, this);
-      }
-    }
-
-    return result;
+  protected override PlatformBeetleSubEntity CreateSubEntity(EnemyObject e, int row, int col, out bool success) {
+    SubEntityGameObject subentityGameObject = new GameObject().AddComponent<SubEntityGameObject>();
+    subentityGameObject.parent = this;
+    subentityGameObject.name = string.Format("PlatformBeetleEnemy[r={0}, c={1}]", row, col); ;
+    subentityGameObject.spawnRow = row;
+    subentityGameObject.spawnCol = col;
+    subentityGameObject.transform.parent = e.transform;
+    return new PlatformBeetleSubEntity(subentityGameObject, this, out success);
   }
 
   private void Move() {
@@ -160,6 +155,7 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
     platformBeetlePrefab.transform.parent = parent;
     platformBeetlePrefab.spawnRow = row;
     platformBeetlePrefab.spawnCol = col;
-    return new PlatformBeetle(platformBeetlePrefab);
+    PlatformBeetle result = new PlatformBeetle(platformBeetlePrefab, out bool success);
+    return success ? result : null;
   }
 }

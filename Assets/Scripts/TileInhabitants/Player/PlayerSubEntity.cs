@@ -36,9 +36,11 @@ public partial class Player {
 
     public SingleTileEntityObject gameObject;
 
-    public PlayerSubEntity(SingleTileEntityObject gameObject, Player parent) : base(gameObject) {
-      this.parent = parent;
-      this.gameObject = gameObject;
+    public PlayerSubEntity(SingleTileEntityObject gameObject, Player parent, out bool success) : base(gameObject, out success) {
+      if (success) {
+        this.parent = parent;
+        this.gameObject = gameObject;
+      }
     }
 
 

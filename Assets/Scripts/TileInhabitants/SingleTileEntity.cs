@@ -12,13 +12,13 @@ public abstract class SingleTileEntity : ITileInhabitant {
   public int Row { get; private set; }
   public int Col { get; private set; }
 
-  public SingleTileEntity(SingleTileEntityObject gameObject) {
+  public SingleTileEntity(SingleTileEntityObject gameObject, out bool success) {
     this.gameObject = gameObject;
     gameObject.animateMovement = false;
-    SetPosition(gameObject.spawnRow, gameObject.spawnCol, out bool success);
+    SetPosition(gameObject.spawnRow, gameObject.spawnCol, out success);
     gameObject.animateMovement = true;
     if (!success) {
-      throw new System.Exception(string.Format("Failed to initialize SingleTileEntity at row {0}, col {1}", gameObject.spawnRow, gameObject.spawnCol));
+      Destroy();
     }
   }
 

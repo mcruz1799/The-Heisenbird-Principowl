@@ -67,7 +67,12 @@ public partial class Player : ITurnTaker, IDamageable {
         subentityGameObject.spawnRow = gameObject.spawnRow + r;
         subentityGameObject.spawnCol = gameObject.spawnCol + c;
         subentityGameObject.transform.parent = gameObject.transform;
-        entities[c, r] = new PlayerSubEntity(subentityGameObject, this);
+        PlayerSubEntity newEntity = new PlayerSubEntity(subentityGameObject, this, out bool success);
+        if (!success) {
+          Destroy();
+          throw new System.Exception(string.Format("Failed to create PlayerSubEntity at row {0}, col {1}", gameObject.spawnRow + r, gameObject.spawnCol + c));
+        }
+        entities[c, r] = newEntity;
       }
     }
 

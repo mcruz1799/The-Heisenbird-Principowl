@@ -15,9 +15,11 @@ public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamagea
 
   public bool IsAlive => parent.IsAlive;
 
-  public EnemySubEntity(SingleTileEntityObject gameObject, TParent parent) : base(gameObject) {
-    this.gameObject = gameObject;
-    this.parent = parent;
+  public EnemySubEntity(SingleTileEntityObject gameObject, TParent parent, out bool success) : base(gameObject, out success) {
+    if (success) {
+      this.gameObject = gameObject;
+      this.parent = parent;
+    }
   }
 
   public override bool CanSetPosition(int newRow, int newCol) {
