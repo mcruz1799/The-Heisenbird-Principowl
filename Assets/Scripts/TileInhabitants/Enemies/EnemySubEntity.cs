@@ -11,7 +11,7 @@ public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamagea
   where TSub : EnemySubEntity<TParent, TSub> {
 
   protected readonly TParent parent;
-  public SingleTileEntityObject gameObject;
+  public readonly SingleTileEntityObject gameObject;
 
   public bool IsAlive => parent.IsAlive;
 

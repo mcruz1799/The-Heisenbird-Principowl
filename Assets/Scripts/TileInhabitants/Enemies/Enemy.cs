@@ -7,9 +7,9 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
   where TSub : EnemySubEntity<TParent, TSub> {
 
   private readonly EnemyObject gameObject;
-  private readonly TSub[,] entities;
+  private readonly TSub[,] entities; //[row, col] indexing
   private readonly int dim;
-  protected TSub TopLeft => entities[0, dim - 1];
+  protected TSub TopLeft => entities[dim - 1, 0];
 
   private int _xVelocity;
   public int XVelocity {
@@ -46,7 +46,7 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
           Destroy();
           return;
         }
-        entities[c, r] = subentity;
+        entities[r, c] = subentity;
       }
     }
 
@@ -166,11 +166,12 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
       }
     }
     GameManager.S.UnregisterTurnTaker(this);
+    Object.Destroy(gameObject.gameObject);
   }
 
   protected IEnumerable<TSub> Bottom() {
     for (int c = 0; c < dim; c++) {
-      yield return entities[c, 0];
+      yield return entities[0, c];
     }
   }
 }

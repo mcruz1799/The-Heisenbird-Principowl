@@ -113,6 +113,8 @@ public partial class Player : ITurnTaker, IDamageable {
     //Apply knockback to the player from the previous turn
     //If there isn't any, respond the player's input instead
     if (knockback != null) {
+      XVelocity = 0;
+      YVelocity = 0;
       if (knockback.Value == Direction.East || knockback.Value == Direction.West) {
         PerformMove(Direction.North);
       }
@@ -423,6 +425,7 @@ public partial class Player : ITurnTaker, IDamageable {
       entity.Destroy();
     }
     GameManager.S.UnregisterTurnTaker(this);
+    Object.Destroy(gameObject.gameObject);
   }
 
 
