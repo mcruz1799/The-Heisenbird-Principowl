@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2517660362954861099}
   - component: {fileID: 6003768863289697710}
   m_Layer: 0
-  m_Name: PlatformBeetleSpawner
+  m_Name: PlatformEnemySpawner1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnRow: 0
   spawnCol: 0
+  animateMovement: 1
   enemyMaker: {fileID: 6235150820820840103, guid: f70a64c9905c1c7478b521f70800d2e6,
     type: 3}
   turnsBeforeRespawn: 20

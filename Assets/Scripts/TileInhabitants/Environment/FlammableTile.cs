@@ -6,10 +6,12 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
   private readonly FlammableTileObject gameObject;
   private readonly UpdraftTileMaker updraftTileMaker;
 
-  public FlammableTile(FlammableTileObject gameObject) : base(gameObject) {
-    this.gameObject = gameObject;
-    updraftTileMaker = gameObject.updraftTileMaker;
-    GameManager.S.RegisterTurnTaker(this);
+  private FlammableTile(FlammableTileObject gameObject, out bool success) : base(gameObject, out success) {
+    if (success) {
+      this.gameObject = gameObject;
+      updraftTileMaker = gameObject.updraftTileMaker;
+      GameManager.S.RegisterTurnTaker(this);
+    }
   }
 
   public override bool CanSetPosition(int newRow, int newCol) {
@@ -96,6 +98,7 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
     flammableTilePrefab.transform.parent = parent;
     flammableTilePrefab.spawnRow = row;
     flammableTilePrefab.spawnCol = col;
-    return new FlammableTile(flammableTilePrefab);
+    FlammableTile result = new FlammableTile(flammableTilePrefab, out bool success);
+    return success ? result : null;
   }
 }

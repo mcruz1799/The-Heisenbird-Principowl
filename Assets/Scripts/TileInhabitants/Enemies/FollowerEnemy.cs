@@ -5,7 +5,7 @@ using UnityEngine;
 public class FollowerEnemySubEntity : EnemySubEntity<FollowerEnemy, FollowerEnemySubEntity> {
   private Direction AttackDirection => parent.XVelocity > 0 ? Direction.East : Direction.West;
 
-  public FollowerEnemySubEntity(SingleTileEntityObject gameObject, FollowerEnemy parent) : base(gameObject, parent) { }
+  public FollowerEnemySubEntity(SingleTileEntityObject gameObject, FollowerEnemy parent, out bool success) : base(gameObject, parent, out success) { }
 
   public override void Attack() {
     Tile t = GameManager.S.Board.GetInDirection(Row, Col, AttackDirection);
@@ -31,7 +31,7 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
   private readonly int homeTileRow;
   private readonly int homeTileCol;
 
-  private FollowerEnemy(FollowerEnemyObject gameObject, int homeTileRow, int homeTileCol) : base(gameObject) {
+  private FollowerEnemy(FollowerEnemyObject gameObject, int homeTileRow, int homeTileCol, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
     this.homeTileRow = homeTileRow;
     this.homeTileCol = homeTileCol;
@@ -60,20 +60,13 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
     base.OnTurn();
   }
 
-  protected override FollowerEnemySubEntity[,] CreateSubEntities(EnemyObject e, int dim) {
-    FollowerEnemySubEntity[,] result = new FollowerEnemySubEntity[dim, dim];
-    for (int r = 0; r < dim; r++) {
-      for (int c = 0; c < dim; c++) {
-        SingleTileEntityObject subentityGameObject = new GameObject().AddComponent<SingleTileEntityObject>();
-        subentityGameObject.name = string.Format("FollowerEnemy[r={0}, c={1}]", r, c); ;
-        subentityGameObject.spawnRow = e.spawnRow + r;
-        subentityGameObject.spawnCol = e.spawnCol + c;
-        subentityGameObject.transform.parent = e.transform;
-        result[c, r] = new FollowerEnemySubEntity(subentityGameObject, this);
-      }
-    }
-
-    return result;
+  protected override FollowerEnemySubEntity CreateSubEntity(EnemyObject e, int row, int col, out bool success) {
+    SingleTileEntityObject subentityGameObject = new GameObject().AddComponent<SingleTileEntityObject>();
+    subentityGameObject.name = string.Format("FollowerEnemy[r={0}, c={1}]", row, col); ;
+    subentityGameObject.spawnRow = row;
+    subentityGameObject.spawnCol = col;
+    subentityGameObject.transform.parent = e.transform;
+    return new FollowerEnemySubEntity(subentityGameObject, this, out success);
   }
 
   protected override void OnCollision(Direction moveDirection) {
@@ -104,6 +97,7 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
     followerEnemyPrefab.transform.parent = parent;
     followerEnemyPrefab.spawnRow = row;
     followerEnemyPrefab.spawnCol = col;
-    return new FollowerEnemy(followerEnemyPrefab, row, col);
+    FollowerEnemy result = new FollowerEnemy(followerEnemyPrefab, row, col, out bool success);
+    return success ? result : null;
   }
 }

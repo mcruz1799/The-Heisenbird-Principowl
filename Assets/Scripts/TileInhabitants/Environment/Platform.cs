@@ -13,9 +13,11 @@ public class Platform : SingleTileEntity {
   public bool PlayerCanJumpThrough => gameObject.playerCanJumpThrough;
   public PlatformAndBeetleColor ColorGroup => gameObject.colorGroup;
 
-  private Platform(SingleTileEntityObject gameObject) : base(gameObject) {
-    this.gameObject = (PlatformObject)gameObject;
-    PlatformToggleManager.AddPlatform(this);
+  private Platform(SingleTileEntityObject gameObject, out bool success) : base(gameObject, out success) {
+    if (success) {
+      this.gameObject = (PlatformObject)gameObject;
+      PlatformToggleManager.AddPlatform(this);
+    }
   }
 
   public override bool CanSetPosition(int newRow, int newCol) {
@@ -41,6 +43,7 @@ public class Platform : SingleTileEntity {
     platformPrefab.spawnRow = row;
     platformPrefab.spawnCol = col;
     platformPrefab.transform.parent = parent;
-    return new Platform(platformPrefab);
+    Platform result = new Platform(platformPrefab, out bool success);
+    return success ? result : null;
   }
 }

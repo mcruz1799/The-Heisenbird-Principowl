@@ -6,9 +6,11 @@ public class EnemySpawner : SingleTileEntity, ITurnTaker {
   private readonly EnemySpawnerObject gameObject;
   private IEnemy enemy;
 
-  private EnemySpawner(EnemySpawnerObject gameObject) : base(gameObject) {
-    GameManager.S.RegisterTurnTaker(this);
-    this.gameObject = gameObject;
+  private EnemySpawner(EnemySpawnerObject gameObject, out bool success) : base(gameObject, out success) {
+    if (success) {
+      GameManager.S.RegisterTurnTaker(this);
+      this.gameObject = gameObject;
+    }
   }
 
   public static EnemySpawner Make(EnemySpawnerObject enemySpawnerPrefab, int row, int col, Transform parent = null) {
@@ -16,7 +18,8 @@ public class EnemySpawner : SingleTileEntity, ITurnTaker {
     enemySpawnerPrefab.transform.parent = parent;
     enemySpawnerPrefab.spawnRow = row;
     enemySpawnerPrefab.spawnCol = col;
-    return new EnemySpawner(enemySpawnerPrefab);
+    EnemySpawner result = new EnemySpawner(enemySpawnerPrefab, out bool success);
+    return success ? result : null;
   }
 
   private int turnsUntilRespawn;
@@ -29,18 +32,10 @@ public class EnemySpawner : SingleTileEntity, ITurnTaker {
 
     if (turnsUntilRespawn <= 0) {
       turnsUntilRespawn = gameObject.turnsBeforeRespawn;
-      foreach (ITileInhabitant inhabitant in GameManager.S.Board[Row, Col].Inhabitants) {
-        if (inhabitant is IEnemy || inhabitant is Platform || inhabitant is PlayerLabel) {
-          return;
-        }
+      object makeResult = gameObject.enemyMaker.Make(Row, Col, gameObject.transform);
+      if (makeResult is IEnemy) {
+        enemy = (IEnemy)makeResult;
       }
-      try {
-        gameObject.enemyMaker.Make(Row, Col, gameObject.transform);
-      } catch {
-        Debug.LogError("Failed attempt to create an enemy");
-        return;
-      }
-      enemy = gameObject.enemyMaker.MostRecentlyMade;
     }
   }
 }
