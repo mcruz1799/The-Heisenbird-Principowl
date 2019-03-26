@@ -255,6 +255,16 @@ public sealed class Player : ITurnTaker, IDamageable {
     if (IsWallSliding && YVelocity < -gameObject.wallSlideSpeed) {
       YVelocity = -gameObject.wallSlideSpeed;
     }
+
+    if (IsDroppingThroughPlatform) {
+      State &= ~PlayerStates.DroppingThroughPlatform;
+      foreach (PlayerSubEntity entity in entities) {
+        if (!entity.CanSetPosition(entity.Row, entity.Col)) {
+          State |= PlayerStates.DroppingThroughPlatform;
+          return;
+        }
+      }
+    }
   }
 
   private void JumpAction() {

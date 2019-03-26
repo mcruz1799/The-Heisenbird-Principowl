@@ -51,7 +51,7 @@ public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel
     }
 
     foreach (ITileInhabitant other in GameManager.S.Board[newRow, newCol].Inhabitants) {
-      if (toIgnore.Contains(other)) {
+      if (other == this || toIgnore.Contains(other)) {
         continue;
       }
 
@@ -77,7 +77,6 @@ public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel
         }
 
         if (parent.IsDroppingThroughPlatform && platform.PlayerCanDropThrough && platform.Row == Row - 1) {
-          Debug.LogWarning("Old code, may be incorrect");
           continue;
         }
         return false;
