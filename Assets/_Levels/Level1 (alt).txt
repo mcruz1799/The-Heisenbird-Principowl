@@ -26,13 +26,13 @@
 |<---->                 |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
 |                       |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
 |                       |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
-|                       c             |======================================|                       |
-|<---->                 c             |                                      |                       |
-|                       c             |                                      |                       |
-|                       c             |                                      |                       |
-|                       c             |                                      |                       |
-|<---->                 c             |                                      |                       |
-|                       c             <-------------------------------------->                       |
+|                       C             |======================================|                       |
+|<---->                 C             |                                      |                       |
+|                       C             |                                      |                       |
+|                       C             |                                      |                       |
+|                       C             |                                      |                       |
+|<---->                 C             |                                      |                       |
+|                       C             <-------------------------------------->                       |
 |                       |                                                                            |
 |                       |                                                                            |
 |                       |                                                                            |
