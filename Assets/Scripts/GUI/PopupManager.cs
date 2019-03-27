@@ -6,39 +6,43 @@ using UnityEngine.SceneManagement;
 
 public class PopupManager : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+    // [SerializeField] private GameObject player;
     [SerializeField] [Range(1,120)] private float popupTime;
     [SerializeField] private RawImage popup1;
+
     //target is the player's x position where we want the popup to be initialized
-    [SerializeField] private float target1;
-    private bool target1Flag = false;
+    // [SerializeField] private float target1;
+    // private bool target1Flag = false;
     [SerializeField] private RawImage popup2;
-    [SerializeField] private float target2;
-    private bool target2Flag = false;
+    // [SerializeField] private float target2;
+    // private bool target2Flag = false;
 
     [SerializeField] private RawImage bossPopup;
-    [SerializeField] private float bossTarget;
-    private bool bossTargetFlag = false;
+    // [SerializeField] private float bossTarget;
+    // private bool bossTargetFlag = false;
 
+    private bool Level1Flag = false;
+    private bool Level2Flag = false;
+    private bool BossFlag = false;
     // Start is called before the first frame update
     private void Update() {
         string SceneName = SceneManager.GetActiveScene().name;
         char level = SceneName[SceneName.Length-1];
-        if (level == '1' && !target1Flag)
+        bool bossCheck = (SceneName[SceneName.Length-2] == '_') ? true : false;
+        if (level == '1' && !bossCheck && !Level1Flag)
         {
-            if (player.transform.position.x >= target1)
-            {
-                target1Flag = true;
-                StartCoroutine(Level1Routine());
-            }
+            Level1Flag = true;
+            StartCoroutine(Level1Routine());
         }
-        if (level == '2' && !target2Flag)
+        if (level == '2' && !bossCheck && !Level2Flag)
         {
-            if (player.transform.position.x >= target2)
-            {
-                target2Flag = true;
-                StartCoroutine(Level2Routine());
-            }
+            Level2Flag = true;
+            StartCoroutine(Level2Routine());
+        }
+        if (level == '1' && bossCheck && !BossFlag)
+        {
+            BossFlag = true;
+            StartCoroutine(BossRoutine());
         }
     }
     private IEnumerator Level1Routine()
