@@ -8,8 +8,9 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
 
   private readonly EnemyObject gameObject;
   private readonly TSub[,] entities; //[row, col] indexing
-  private readonly int dim;
-  protected TSub TopLeft => entities[dim - 1, 0];
+  private readonly int width;
+  private readonly int height;
+  protected TSub TopLeft => entities[height - 1, 0];
 
   private int _xVelocity;
   public int XVelocity {
@@ -31,17 +32,18 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
   public Enemy(EnemyObject gameObject, out bool success) {
     _damageable = new Damageable(gameObject.maxHp);
     this.gameObject = gameObject;
-    dim = gameObject.dim;
+    width = gameObject.width;
+    height = gameObject.height;
     gameObject.graphicsHolder.enemy = this;
 
-    if (dim < 1) {
-      throw new System.ArgumentException("Dimension must be positive");
+    if (width < 1 || height < 1) {
+      throw new System.ArgumentException("Dimensions must be positive");
     }
 
     success = true;
-    entities = new TSub[dim, dim];
-    for (int r = 0; r < dim; r++) {
-      for (int c = 0; c < dim; c++) {
+    entities = new TSub[height, width];
+    for (int r = 0; r < height; r++) {
+      for (int c = 0; c < width; c++) {
         TSub subentity = CreateSubEntity(gameObject, gameObject.spawnRow + r, gameObject.spawnCol + c, out success);
         if (!success) {
           Destroy();
@@ -186,7 +188,7 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
   }
 
   protected IEnumerable<TSub> Bottom() {
-    for (int c = 0; c < dim; c++) {
+    for (int c = 0; c < width; c++) {
       yield return entities[0, c];
     }
   }

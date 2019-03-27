@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class EnemyObject : SingleTileEntityObject {
 #pragma warning disable 0649
   [Range(1, 1000)] public int maxHp = 1;
-  [Range(1, 5)] public int dim = 1;
+  [Range(1, 5)] public int width = 3;
+  [Range(1, 5)] public int height = 3;
 
 
   [Header("ADJUSTABLE DURING PLAY MODE")]
