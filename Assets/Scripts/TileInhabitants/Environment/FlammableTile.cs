@@ -6,6 +6,8 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
   private readonly FlammableTileObject gameObject;
   private readonly UpdraftTileMaker updraftTileMaker;
 
+  public bool IsOnFire { get; private set; } = false;
+
   private FlammableTile(FlammableTileObject gameObject, out bool success) : base(gameObject, out success) {
     if (success) {
       this.gameObject = gameObject;
@@ -32,21 +34,20 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
     return true;
   }
 
-  private bool isOnFire = false;
   private bool hasCreatedUpdrafts = false;
   public void OnTurn() {
     //If not on fire, check for wisps.  If one is found, set self on fire
-    if (!isOnFire && GetWisp()){
-      isOnFire = true;
+    if (!IsOnFire && GetWisp()){
+      IsOnFire = true;
     }
 
     //If on fire, 10% chance to set adjacent FlammableTiles on fire
-    if (isOnFire && Random.Range(0, 10) == 0) {
+    if (IsOnFire && Random.Range(0, 10) == 0) {
       ActivateAdjacentTiles();
     }
 
     //Create updrafts if on fire and we haven't done so yet
-    if (isOnFire && !hasCreatedUpdrafts) {
+    if (IsOnFire && !hasCreatedUpdrafts) {
       MakeUpdrafts();
       hasCreatedUpdrafts = true;
     }
@@ -76,7 +77,7 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
       foreach (ITileInhabitant inhabitant in adjacent.Inhabitants) {
         FlammableTile flammableTile = inhabitant is FlammableTile ? (FlammableTile)inhabitant : null;
         if (flammableTile != null) {
-          flammableTile.isOnFire = true;
+          flammableTile.IsOnFire = true;
         }
       }
     }
