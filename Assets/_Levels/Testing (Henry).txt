@@ -14,50 +14,17 @@
 |                                                                                                    |
 |                                                                                                    |
 |                                                                                                    |
-|===================================================================================^^^^^^^^^^^^^^^^^|
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                                     CaB                                           <--------------->|
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                              YD     ===============================================================|
-|                          <-->========                                                              |
-|                             |B aD AD AD                                                            |
-|                             |BaaaAAAAAA                                                            |
-|                             |BXa ZA XA                                                             |
-|                     <------->BBBBBBB                                                               |
-|                                  bbbbbbbbbbb                                                       |
-|                                                                                                    |
-|              <----->                                                                               |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|              <----->                                                                               |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
 |^^^^^^^^^^^^^^^^^^^^^^^=============================================================================|
-|DDDDDDDDDDDDDDDDDDDDDDD|                                                                            |
+|                       |                                                                            |
 |                       |                                                                            |
 |                       |                                                                            |
 |                       |                                                                            |
 |<---->                 |                                                                            |
-|                       |                                                                            |
-|                       |                                                                            |
-|                       |                                                                            |
-|                       |                                                                            |
-|w                      |                                                                            |
-|^^^^^^^^^^^^^^^^^^^^^^^|                                                                            |
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB                                 |
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB                                 |
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB       Z                         |
 |<---->                 |  aaaaaaaaaaa|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
-|aaaaaaaaaaaaaaaaaaaaaaa|  aaaaaaaaaaa|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
+|                       |  aaaaaaaaaaa|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
 |                       |  aaaaaaaaaaa|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
 |                       c             |=======================================                       |
 |<---->                 c             |                                      |                       |
@@ -71,14 +38,43 @@
 |                       |                                                                            |
 |=====                  |                                                                            |
 |=========              |             *    X                    Y            *                       |
+|===================================================================================^^^^^^^^^^^^^^^^^|
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                                     CaB                                           <--------------->|
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                              YD     ===============================================================|
+|                          <-->========                                                              |
+|                             |b AD aD aD                                                            |
+|                             |bAAAaaaaaa                                                            |
+|                             |bXA Za Xa                                                             |
+|                     <-------|bbbbbbbbbbbbbbbbbbbbbbbbbbb                                           |
+|                     <-------|bbbbbbbbbbbbbbbbbbbbbbbbbbb                                           |
+|                     <-------|bbbbbbbbbbbbbbbbbbbbbbbbbbb                                           |
+|                                  BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB                            |
+|                                                                                                    |
+|              <----->                                                                               |
+|                                                                                                    |
+|                                                                                                    |
+|                                                                                                    |
+|                                                                                                    |
+|              <----->                                                                               |
+|                                                                                                    |
+|                                                                                                    |
+|                                                                                                    |
+|                                                                                                    |
 |========================================================================================^^^^^^^^^^^^|
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                        <---------->|
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
+|                                                                                      D             |
+|                                                                                      D             |
+|                                                                                      D             |
+|                                                                                      D <---------->|
+|                                                                                      D             |
+|                                                                                      D             |
+|                                                                                 *w   D             |
 |                                                             ACACACACACACA==========================|
 |                                                                                                    |
 |                                                                                                    |
