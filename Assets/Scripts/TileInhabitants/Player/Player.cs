@@ -180,6 +180,7 @@ public sealed class Player : ITurnTaker, IDamageable {
           if (CanAttack(victim)) {
             victim.OnAttacked(gameObject.attackPower, Direction.South);
             enemyJumpBonus = 1;
+            YVelocity = 1;
           }
         }
       }
