@@ -1638,7 +1638,7 @@ MonoBehaviour:
   boardMakerPrefab: {fileID: 5776274008664056415, guid: 0bf61fc18862f2c44b0fcf1fda053a0e,
     type: 3}
   nextScene: Level2
-  completionRow: 65
+  completionRow: 68
   completionCol: 0
   LevelCompleteUI: {fileID: 384263357}
   Timer: {fileID: 1041129684}
