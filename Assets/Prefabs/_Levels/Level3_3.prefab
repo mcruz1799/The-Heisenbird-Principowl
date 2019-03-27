@@ -47,7 +47,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 6910328573096434756, guid: 9c96cd149f5ea024f9075f2852a5eaf8,
     type: 3}
   asciiMappings:
-  - ascii: 45
+  - ascii: 61
     maker: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98, type: 3}
   - ascii: 124
     maker: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98, type: 3}
@@ -59,7 +59,7 @@ MonoBehaviour:
     maker: {fileID: 4286497281413670092, guid: b04736134479bb247b4832fbffbd908b, type: 3}
   - ascii: 60
     maker: {fileID: 778994390425347126, guid: 3c26165c1d5c7b6419eff3368f49925f, type: 3}
-  - ascii: 61
+  - ascii: 45
     maker: {fileID: 5626947023956191393, guid: 18e2fbca2846eb448a78a5bfc0c0037d, type: 3}
   - ascii: 62
     maker: {fileID: 3375514513087832611, guid: f04ef8cdcd01bb84a8f75d53bda3e89f, type: 3}
@@ -77,5 +77,5 @@ MonoBehaviour:
     maker: {fileID: 723565017015932324, guid: 78017420b75bfc641be88b2782cbe60c, type: 3}
   - ascii: 100
     maker: {fileID: 3119395089931153236, guid: 3239e28711530b44bacd6c1f6564461d, type: 3}
-  - ascii: 81
+  - ascii: 79
     maker: {fileID: 7745742987168068575, guid: f8ae828a026c2904eaef4837b23e1cb2, type: 3}
