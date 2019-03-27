@@ -26,7 +26,7 @@ public sealed class Player : ITurnTaker, IDamageable {
   private int turnsStunned = 0;
 
   private int jumpGraceTurns = 0;
-  private int enemyJumpBonus = 0; //For jumping on an enemy
+  private bool justJumpedOnEnemy = false;
 
   public int Row => TopLeft.Row;
   public int Col => TopLeft.Col;
@@ -116,7 +116,7 @@ public sealed class Player : ITurnTaker, IDamageable {
 
     foreach (PlayerSubEntity entity in entities) {
       if (entity.InFire) {
-        YVelocity = gameObject.jumpPower;
+        YVelocity = gameObject.onFireJumpPower;
       }
     }
 
@@ -185,8 +185,8 @@ public sealed class Player : ITurnTaker, IDamageable {
           IDamageable victim = (IDamageable)below;
           if (CanAttack(victim)) {
             victim.OnAttacked(gameObject.attackPower, Direction.South);
-            enemyJumpBonus = 1;
-            YVelocity = 1;
+            justJumpedOnEnemy = true;
+            YVelocity = gameObject.enemyBounce;
           }
         }
       }
@@ -289,7 +289,7 @@ public sealed class Player : ITurnTaker, IDamageable {
     }
 
     //Reset enemy jump bonus
-    enemyJumpBonus = 0;
+    justJumpedOnEnemy = false;
   }
 
   private void JumpAction() {
@@ -298,7 +298,7 @@ public sealed class Player : ITurnTaker, IDamageable {
       XVelocity = XWallJumpPower;
       SoundManager.S.PlayerJump();
     } else {
-      YVelocity = gameObject.jumpPower + enemyJumpBonus;
+      YVelocity = gameObject.jumpPower + (justJumpedOnEnemy ? gameObject.enemyJumpBonus : 0);
       SoundManager.S.PlayerJump();
     }
     State &= ~PlayerStates.RightWallSliding;
