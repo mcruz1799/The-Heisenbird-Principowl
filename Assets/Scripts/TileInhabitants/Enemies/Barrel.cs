@@ -22,7 +22,7 @@ public class BarrelSubEntity : EnemySubEntity<Barrel, BarrelSubEntity> {
   }
 
   private bool CanAttack(ITileInhabitant other) {
-    return other is PlayerLabel && !toIgnore.Contains(other);
+    return other is IPlayer && !toIgnore.Contains(other);
   }
 }
 
@@ -58,7 +58,7 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
           Platform platform = (Platform) item;
 
           //If we are above a colored platform, kamikaze
-          if (platform.IsActive && platform.ColorGroup != PlatformAndBeetleColor.None){
+          if (platform.IsActive && platform.ColorGroup != PlatformToggleGroup.None){
               Destroy();
           }
         }

@@ -8,7 +8,7 @@ public class PlatformObject : SingleTileEntityObject {
   public bool isActive = true;
 
   //Platforms in the same group as a Beetle are toggled on/off when the Beetle is killed
-  public PlatformAndBeetleColor colorGroup;
+  public PlatformToggleGroup colorGroup;
 
   public bool playerCanDropThrough;
   public bool playerCanJumpThrough;

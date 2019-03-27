@@ -274,6 +274,9 @@ MonoBehaviour:
   gravity: 1
   jumpPower: 3
   jumpGraceTurns: 1
+  enemyBounce: 2
+  enemyJumpBonus: 1
+  onFireJumpPower: 4
   wallJumpingEnabled: 0
   xWallJumpPower: 2
   yWallJumpPower: 2

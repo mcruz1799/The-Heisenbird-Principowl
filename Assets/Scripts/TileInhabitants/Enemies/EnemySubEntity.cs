@@ -31,7 +31,7 @@ public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamagea
         continue;
       }
 
-      if (other is PlayerLabel || other is IEnemy) {
+      if (other is IPlayer || other is IEnemy) {
         return false;
       }
 

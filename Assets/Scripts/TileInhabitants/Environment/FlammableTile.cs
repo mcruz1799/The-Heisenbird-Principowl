@@ -85,12 +85,14 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
 
   private void MakeUpdrafts() {
     int row = Row;
-    while (CanSetPosition(row + 1, Col)) {
+    while (true) {
       if (row - Row >= gameObject.numUpdraftTiles) {
         break;
       }
       row += 1;
-      updraftTileMaker.Make(row, Col);
+      if (updraftTileMaker.Make(row, Col) == null) {
+        break;
+      }
     }
   }
 

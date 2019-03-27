@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
   [Header("Level Completion")]
   [SerializeField] private string nextScene = "MainMenu";
   [SerializeField] private int completionRow = 0;
+  [SerializeField] private int completionCol = 0;
   [SerializeField] private GameObject LevelCompleteUI;
   [SerializeField] private Timer Timer;
 #pragma warning restore 0649
@@ -117,7 +118,7 @@ public class GameManager : MonoBehaviour {
   }
 
   private void CheckCompletion() {
-    if (Player.Row >= completionRow) {
+    if (Player.Row >= completionRow && Player.Col >= completionCol) {
       StopLevel();
       RevealLevelComplete();
       BinarySaver.S.SaveCompletion(Timer.currentTimeLeft());

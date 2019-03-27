@@ -21,7 +21,7 @@ public class UpdraftTile : SingleTileEntity {
         continue;
       }
 
-      if (other is Platform) {
+      if (other is Platform || other is FlammableTile) {
         return false;
       }
     }

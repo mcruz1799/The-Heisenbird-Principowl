@@ -2,4 +2,4 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlayer { }
+public enum PlatformToggleGroup { None, Group1, Group2, Group3, Group4, Group5 }

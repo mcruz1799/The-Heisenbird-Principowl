@@ -13,9 +13,9 @@ public class PlatformToggleManager {
     return platforms.Remove(platform);
   }
 
-  public static void Toggle(PlatformAndBeetleColor colorGroup) {
+  public static void Toggle(PlatformToggleGroup colorGroup) {
     foreach (Platform platform in platforms) {
-      if (colorGroup != PlatformAndBeetleColor.None && platform.ColorGroup == colorGroup) {
+      if (colorGroup != PlatformToggleGroup.None && platform.ColorGroup == colorGroup) {
         if (platform.IsActive) SoundManager.S.PlatformToggleOff();
         else SoundManager.S.PlatformToggleOn();
         platform.IsActive = !platform.IsActive;
