@@ -170,7 +170,8 @@ MonoBehaviour:
   spawnCol: 0
   animateMovement: 1
   maxHp: 1
-  dim: 1
+  width: 1
+  height: 1
   attackStunTurns: 1
   xSpeedMax: 5
   ySpeedMax: 5
