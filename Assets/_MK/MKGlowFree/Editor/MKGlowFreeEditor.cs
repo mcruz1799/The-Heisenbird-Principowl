@@ -31,8 +31,10 @@ namespace MK.Glow
         }
 
         private const string m_Style = "box";
-        private ColorPickerHDRConfig colorPickerHDRConfig = new ColorPickerHDRConfig(0f, 99f, 1 / 99f, 3f);
-        private static GUIContent glowTintLabel = new GUIContent("Glow Tint", "The glows coloration in full screen mode(only FullscreenGlowType)");
+#pragma warning disable CS0612 // Type or member is obsolete
+    private ColorPickerHDRConfig colorPickerHDRConfig = new ColorPickerHDRConfig(0f, 99f, 1 / 99f, 3f);
+#pragma warning restore CS0612 // Type or member is obsolete
+    private static GUIContent glowTintLabel = new GUIContent("Glow Tint", "The glows coloration in full screen mode(only FullscreenGlowType)");
 
         private SerializedProperty glowType;
         private SerializedProperty samples;
@@ -102,8 +104,10 @@ namespace MK.Glow
                 {
                     threshold.floatValue = EditorGUILayout.FloatField("Threshold", threshold.floatValue);
                 }
-                glowTint.colorValue = EditorGUILayout.ColorField(glowTintLabel, glowTint.colorValue, false, false, false, colorPickerHDRConfig);
-            }
+#pragma warning disable CS0618 // Type or member is obsolete
+        glowTint.colorValue = EditorGUILayout.ColorField(glowTintLabel, glowTint.colorValue, false, false, false, colorPickerHDRConfig);
+#pragma warning restore CS0618 // Type or member is obsolete
+      }
             if (HandleBehavior("Glow Inner", ref showInnerGlowBehavior))
             {
                 EditorGUILayout.Slider(blurSpreadInner, 0.0f, 2.0f, "Spread Inner");
