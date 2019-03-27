@@ -282,7 +282,7 @@ MonoBehaviour:
   xAccelerationAerial: 1
   xDeceleration: 2
   xSpeedMax: 3
-  maxRiseSpeed: 3
+  maxRiseSpeed: 4
   maxFallSpeed: 3
   skidAndTurnThreshold: 99
   skidSpeed: 1

@@ -26,6 +26,7 @@ public sealed class Player : ITurnTaker, IDamageable {
   private int turnsStunned = 0;
 
   private int jumpGraceTurns = 0;
+  private int enemyJumpBonus = 0; //For jumping on an enemy
 
   public int Row => TopLeft.Row;
   public int Col => TopLeft.Col;
@@ -178,6 +179,7 @@ public sealed class Player : ITurnTaker, IDamageable {
           IDamageable victim = (IDamageable)below;
           if (CanAttack(victim)) {
             victim.OnAttacked(gameObject.attackPower, Direction.South);
+            enemyJumpBonus = 1;
           }
         }
       }
@@ -263,10 +265,12 @@ public sealed class Player : ITurnTaker, IDamageable {
       YVelocity -= gameObject.gravity;
     }
 
+    //Account for wall-sliding
     if (IsWallSliding && YVelocity < -gameObject.wallSlideSpeed) {
       YVelocity = -gameObject.wallSlideSpeed;
     }
 
+    //Update drop-through-platform state
     if (IsDroppingThroughPlatform) {
       State &= ~PlayerStates.DroppingThroughPlatform;
       foreach (PlayerSubEntity entity in entities) {
@@ -276,6 +280,9 @@ public sealed class Player : ITurnTaker, IDamageable {
         }
       }
     }
+
+    //Reset enemy jump bonus
+    enemyJumpBonus = 0;
   }
 
   private void JumpAction() {
@@ -284,7 +291,7 @@ public sealed class Player : ITurnTaker, IDamageable {
       XVelocity = XWallJumpPower;
       SoundManager.S.PlayerJump();
     } else {
-      YVelocity = gameObject.jumpPower;
+      YVelocity = gameObject.jumpPower + enemyJumpBonus;
       SoundManager.S.PlayerJump();
     }
     State &= ~PlayerStates.RightWallSliding;
