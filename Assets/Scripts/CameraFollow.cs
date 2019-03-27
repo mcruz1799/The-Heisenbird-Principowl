@@ -98,7 +98,7 @@ public class CameraFollow : MonoBehaviour {
     currentTargets = null;
   }
 
-  private void PanToPlayer(float TimeBetween)
+  public void PanToPlayer(float TimeBetween)
   {
     Vector3 currentPosition = transform.position;
     Vector3 targetPosition = toFollow.position + localOffset;
