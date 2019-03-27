@@ -11,7 +11,7 @@ public class Platform : SingleTileEntity {
   }
   public bool PlayerCanDropThrough => gameObject.playerCanDropThrough;
   public bool PlayerCanJumpThrough => gameObject.playerCanJumpThrough;
-  public PlatformAndBeetleColor ColorGroup => gameObject.colorGroup;
+  public PlatformToggleGroup ColorGroup => gameObject.colorGroup;
 
   private Platform(SingleTileEntityObject gameObject, out bool success) : base(gameObject, out success) {
     if (success) {
@@ -30,7 +30,7 @@ public class Platform : SingleTileEntity {
         continue;
       }
 
-      if (other is Platform || other is PlayerLabel || other is IEnemy) {
+      if (other is Platform || other is IPlayer || other is IEnemy) {
         return false;
       }
     }

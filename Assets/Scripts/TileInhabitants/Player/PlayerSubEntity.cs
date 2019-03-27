@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel {
+public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, IPlayer {
   private readonly Player parent;
 
   public bool IsGrounded {
