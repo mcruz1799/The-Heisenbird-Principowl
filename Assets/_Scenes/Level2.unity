@@ -1641,6 +1641,7 @@ MonoBehaviour:
     type: 3}
   nextScene: Level3_1
   completionRow: 99
+  completionCol: 60
   LevelCompleteUI: {fileID: 1713488708}
   Timer: {fileID: 147467390}
 --- !u!4 &1987882785
