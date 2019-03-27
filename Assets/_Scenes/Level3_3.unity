@@ -360,7 +360,8 @@ MonoBehaviour:
   boardMakerPrefab: {fileID: 7044392509325897440, guid: 96a39713559b4964d9c6fe17030773c7,
     type: 3}
   nextScene: GameOver
-  completionRow: 40
+  completionRow: 100
+  completionCol: 0
   LevelCompleteUI: {fileID: 1530322392}
   Timer: {fileID: 1613492961}
 --- !u!4 &202333167

@@ -32,6 +32,7 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
   private Barrel(BarrelObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
     this.YVelocity = -1;
+    this.XVelocity = 0;
   }
 
 
@@ -52,14 +53,14 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
 
     //Then check if anything is beneath us
     Tile t = GameManager.S.Board.GetInDirection(TopLeft.Row, TopLeft.Col, Direction.South);
-    if (t) {
+    if (t != null) {
       foreach (ITileInhabitant item in t.Inhabitants){
         if (item is Platform){
           Platform platform = (Platform) item;
 
           //If we are above a colored platform, kamikaze
-          if (platform.IsActive && platform.ColorGroup != PlatformToggleGroup.None){
-              Destroy();
+          if (platform.IsActive && platform.ColorGroup != PlatformToggleGroup.None) {
+            Destroy();
           }
         }
       }
@@ -67,6 +68,8 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
 
     //Nothing below us, we are clear for takeoff
     YVelocity = -1;
+
+    base.OnTurn();
   }
 
   private class SubEntityGameObject : SingleTileEntityObject {
