@@ -177,3 +177,4 @@ MonoBehaviour:
   ySpeedMin: -1
   graphicsHolder: {fileID: 7081610370125272136}
   aggroRange: 100
+  yAggroRange: 5
