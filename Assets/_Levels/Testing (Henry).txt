@@ -53,18 +53,24 @@
 |                       |                                                                            |
 |w                      |                                                                            |
 |^^^^^^^^^^^^^^^^^^^^^^^|                                                                            |
+|                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB                                 |
+|                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB                                 |
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB       Z                         |
-|AbAbAbAbAbAbAbAbAbAbAbA|  aaaaaaaaaaaBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
-|                       c             ========================================                       |
-|<---->                 c                                                                            |
-|                       c                                                                            |
-|                       c                                                                            |
-|                       c                                                                            |
-|<---->                 c                                                                            |
-|                       c                                                                            |
+|<---->                 |  aaaaaaaaaaa|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
+|aaaaaaaaaaaaaaaaaaaaaaa|  aaaaaaaaaaa|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
+|                       |  aaaaaaaaaaa|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
+|                       c             |=======================================                       |
+|<---->                 c             |                                      |                       |
+|                       c             |                                      |                       |
+|                       c             |                                      |                       |
+|                       c             |                                      |                       |
+|<---->                 c             |                                      |                       |
+|                       c             <-------------------------------------->                       |
+|                       |                                                                            |
+|                       |                                                                            |
 |                       |                                                                            |
 |=====                  |                                                                            |
-|=========              |            X                          Y                                    |
+|=========              |             *    X                    Y            *                       |
 |========================================================================================^^^^^^^^^^^^|
 |                                                                                                    |
 |                                                                                                    |
@@ -73,16 +79,17 @@
 |                                                                                                    |
 |                                                                                                    |
 |                                                                                                    |
-|                                                             AAAAAAAAAAAAA==========================|
+|                                                             ACACACACACACA==========================|
 |                                                                                                    |
 |                                                                                                    |
-|                            CCCCC                                bbbbb                              |
-|                            C   C                                                                   |
-|                            C   C                                                                   |
-|                            Cy  C                                                                   |
-|                            CCCCC                                                                   |
-|                                                                                                    |
-|                                           *-----*     *                                            |
+|                                                                 bbbbb                              |
+|                                                                 CCCCC                              |
+|                                                                 C   C                              |
+|                                           =-----=               C   C                              |
+|                                           =     =               Cy  C                              |
+|                                           =     =               CCCCC                              |
+|                                           =     =                                                  |
+|                                      <---------->     *                                            |
 |                                           =     =     =                                            |
 |                                           =     =     =                                            |
 |                                           =x    =z    =                                            |
