@@ -20,7 +20,7 @@ public class FollowerEnemySubEntity : EnemySubEntity<FollowerEnemy, FollowerEnem
   }
 
   private bool CanAttack(ITileInhabitant other) {
-    return other is PlayerLabel && !toIgnore.Contains(other);
+    return other is IPlayer && !toIgnore.Contains(other);
   }
 }
 

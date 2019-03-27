@@ -2,4 +2,4 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface PlayerLabel { }
+public interface IPlayer { }
