@@ -68,14 +68,28 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
     GameManager.S.RegisterTurnTaker(this);
   }
 
-  public virtual void OnTurn() {
+  protected abstract void OnTurnCore();
+
+  public void OnTurn() {
+
+    //Destroy self if dead
     if (!IsAlive) {
       Destroy();
       return;
     }
 
-    Attack();
+    //Destroy self if in illegal position
+    foreach (TSub entity in entities) {
+      if (!entity.CanSetPosition(entity.Row, entity.Col)) {
+        Destroy();
+        return;
+      }
+    }
 
+    OnTurnCore();
+
+    //Attack then move
+    Attack();
     if (XVelocity != 0 || YVelocity != 0) {
       List<Vector2Int> moveWaypoints = TopLeft.CalculateMoveWaypoints(XVelocity, YVelocity);
 
@@ -151,7 +165,7 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
   public bool IsAlive => _damageable.IsAlive;
 
   public virtual void OnAttacked(int attackPower, Direction attackDirection) {
-    _damageable.TakeDamage(_damageable.CalculateDamage(attackPower));
+    _damageable.TakeDamage(attackPower);
   }
 
   private void Attack() {
@@ -161,6 +175,7 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
   }
 
   public virtual void Destroy() {
+    _damageable.TakeDamage(int.MaxValue);
     foreach (SingleTileEntity entity in entities) {
       if (entity != null) {
         entity.Destroy();

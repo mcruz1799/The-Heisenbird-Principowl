@@ -67,7 +67,7 @@ public class PlatformToggleEnemy : Enemy<PlatformToggleEnemy, PlatformToggleEnem
   }
 
   private int turnParity;
-  public override void OnTurn() {
+  protected override void OnTurnCore() {
     //It's safe to do this stuff before OnDeath() is check in the base method.
     //Awful stylistically, but safe.  Please don't add more code unless you really know what you're doing.
     if (gameObject.moveCooldown != 0) {
@@ -75,7 +75,6 @@ public class PlatformToggleEnemy : Enemy<PlatformToggleEnemy, PlatformToggleEnem
       turnParity %= gameObject.moveCooldown;
     }
     Move();
-    base.OnTurn();
   }
 
   public override void Destroy() {

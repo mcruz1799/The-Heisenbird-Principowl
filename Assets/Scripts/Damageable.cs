@@ -12,14 +12,11 @@ public class Damageable {
     Hitpoints = MaxHitpoints;
   }
 
-  public int CalculateDamage(int baseDamage) {
-    return baseDamage;
-  }
-
   public void TakeDamage(int baseDamage) {
-    Hitpoints -= CalculateDamage(baseDamage);
-    if (Hitpoints < 0) {
+    if (baseDamage > Hitpoints) {
       Hitpoints = 0;
+    } else {
+      Hitpoints -= baseDamage;
     }
   }
 }

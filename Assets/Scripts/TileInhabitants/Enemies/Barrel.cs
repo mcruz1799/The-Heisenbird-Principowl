@@ -15,7 +15,8 @@ public class BarrelSubEntity : EnemySubEntity<Barrel, BarrelSubEntity> {
         IDamageable victim = other is IDamageable ? (IDamageable)other : null;
         if (victim != null && CanAttack(other)) {
           victim.OnAttacked(parent.AttackPower, AttackDirection);
-          Destroy();
+          parent.Destroy();
+          return;
         }
       }
     }
@@ -32,6 +33,7 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
   private Barrel(BarrelObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
     this.YVelocity = -1;
+    this.XVelocity = 0;
   }
 
 
@@ -40,26 +42,29 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
     base.Destroy();
   }
 
-  protected override void OnCollision(Direction moveDirection) {}
+  protected override void OnCollision(Direction moveDirection) {
+    //Do nothing
+  }
 
-  public override void OnTurn(){  
+  protected override void OnTurnCore(){
     //First attack, then move
     //Destroy once we reach the ground
-    if (this.TopLeft.Row <= 2) Destroy();
+    if (TopLeft.Row <= 2) {
+      Destroy();
+      return;
+    }
 
-    //First attempt to attack
-    TopLeft.Attack();
-
-    //Then check if anything is beneath us
+    //Check if anything is beneath us
     Tile t = GameManager.S.Board.GetInDirection(TopLeft.Row, TopLeft.Col, Direction.South);
-    if (t) {
+    if (t != null) {
       foreach (ITileInhabitant item in t.Inhabitants){
         if (item is Platform){
           Platform platform = (Platform) item;
 
           //If we are above a colored platform, kamikaze
-          if (platform.IsActive && platform.ColorGroup != PlatformToggleGroup.None){
-              Destroy();
+          if (platform.IsActive && platform.ColorGroup != PlatformToggleGroup.None) {
+            Destroy();
+            return;
           }
         }
       }

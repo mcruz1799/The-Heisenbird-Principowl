@@ -27,7 +27,7 @@ public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamagea
     }
 
     foreach (ITileInhabitant other in GameManager.S.Board[newRow, newCol].Inhabitants) {
-      if (toIgnore.Contains(other)) {
+      if (toIgnore.Contains(other) || other == this) {
         continue;
       }
 
