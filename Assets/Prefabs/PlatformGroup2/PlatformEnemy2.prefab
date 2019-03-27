@@ -204,7 +204,7 @@ MonoBehaviour:
   animateMovement: 1
   maxHp: 1
   dim: 3
-  attackStunTurns: 10
+  attackStunTurns: 5
   xSpeedMax: 10
   ySpeedMax: 10
   ySpeedMin: -10
