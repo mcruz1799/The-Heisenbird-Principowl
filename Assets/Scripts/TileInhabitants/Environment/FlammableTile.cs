@@ -92,7 +92,7 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
       }
       row += 1;
 
-      object obj = updraftTileMaker.Make(row, Col);
+      object obj = updraftTileMaker.Make(row, Col, gameObject.transform);
       UpdraftTile updraft = obj == null ? null : (UpdraftTile)obj;
       if (updraft == null) {
         break;
