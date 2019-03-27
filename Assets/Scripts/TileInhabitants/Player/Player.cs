@@ -455,7 +455,7 @@ public sealed class Player : ITurnTaker, IDamageable {
   public void OnAttacked(int attackPower, Direction attackDirection) {
     SoundManager.S.PlayerDamaged();
     knockback = attackDirection;
-    if (turnsStunned <= 0) {
+    if (turnsStunned <= 1) {
       turnsStunned = attackPower;
     }
   }
