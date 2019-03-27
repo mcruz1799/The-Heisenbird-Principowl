@@ -58,7 +58,7 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
           Platform platform = (Platform) item;
 
           //If we are above a colored platform, kamikaze
-          if (platform.IsActive && platform.ColorGroup != PlatformAndBeetleColor.None){
+          if (platform.IsActive && platform.ColorGroup != PlatformToggleGroup.None){
               Destroy();
           }
         }

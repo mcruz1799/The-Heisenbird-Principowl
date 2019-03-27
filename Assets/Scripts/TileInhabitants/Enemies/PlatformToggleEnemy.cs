@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformBeetleSubEntity : EnemySubEntity<PlatformBeetle, PlatformBeetleSubEntity> {
+public class PlatformToggleEnemySubEntity : EnemySubEntity<PlatformToggleEnemy, PlatformToggleEnemySubEntity> {
   private Direction AttackDirection => parent.XVelocity > 0 ? Direction.East : Direction.West;
 
-  public PlatformBeetleSubEntity(SingleTileEntityObject gameObject, PlatformBeetle parent, out bool success) : base(gameObject, parent, out success) {
+  public PlatformToggleEnemySubEntity(SingleTileEntityObject gameObject, PlatformToggleEnemy parent, out bool success) : base(gameObject, parent, out success) {
   }
 
   public override void Attack() {
@@ -47,8 +47,8 @@ public class PlatformBeetleSubEntity : EnemySubEntity<PlatformBeetle, PlatformBe
   }
 }
 
-public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
-  private readonly PlatformBeetleObject gameObject;
+public class PlatformToggleEnemy : Enemy<PlatformToggleEnemy, PlatformToggleEnemySubEntity> {
+  private readonly PlatformToggleEnemyObject gameObject;
 
   private Direction _xMoveDirection = Direction.West;
   private Direction XMoveDirection {
@@ -60,9 +60,9 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
       _xMoveDirection = value;
     }
   }
-  public PlatformAndBeetleColor GroupColor => gameObject.groupColor;
+  public PlatformToggleGroup GroupColor => gameObject.groupColor;
 
-  private PlatformBeetle(PlatformBeetleObject gameObject, out bool success) : base(gameObject, out success) {
+  private PlatformToggleEnemy(PlatformToggleEnemyObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
   }
 
@@ -87,25 +87,25 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
   }
 
   private class SubEntityGameObject : SingleTileEntityObject {
-    public PlatformBeetle parent;
+    public PlatformToggleEnemy parent;
     public override float MoveAnimationTime => parent.gameObject.MoveAnimationTime;
   }
 
-  protected override PlatformBeetleSubEntity CreateSubEntity(EnemyObject e, int row, int col, out bool success) {
+  protected override PlatformToggleEnemySubEntity CreateSubEntity(EnemyObject e, int row, int col, out bool success) {
     SubEntityGameObject subentityGameObject = new GameObject().AddComponent<SubEntityGameObject>();
     subentityGameObject.parent = this;
     subentityGameObject.name = string.Format("PlatformBeetleEnemy[r={0}, c={1}]", row, col); ;
     subentityGameObject.spawnRow = row;
     subentityGameObject.spawnCol = col;
     subentityGameObject.transform.parent = e.transform;
-    return new PlatformBeetleSubEntity(subentityGameObject, this, out success);
+    return new PlatformToggleEnemySubEntity(subentityGameObject, this, out success);
   }
 
   private void Move() {
     //Compute whether we are partially or entirely off the edge
     bool partiallyOffEdge = false;
     YVelocity = -1;
-    foreach (PlatformBeetleSubEntity entity in Bottom()) {
+    foreach (PlatformToggleEnemySubEntity entity in Bottom()) {
       if (entity.IsGrounded) {
         YVelocity = 0;
       } else {
@@ -120,7 +120,7 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
     if (YVelocity == 0 && turnParity == 0) {
       if (partiallyOffEdge) {
         bool willBeFullyOffEdgeAfterMove = true;
-        foreach (PlatformBeetleSubEntity entity in Bottom()) {
+        foreach (PlatformToggleEnemySubEntity entity in Bottom()) {
           if (entity.WillBeAboveGroundAfterMoveInDirection(XMoveDirection)) {
             willBeFullyOffEdgeAfterMove = false;
             break;
@@ -130,7 +130,7 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
           XMoveDirection = XMoveDirection.Opposite();
         }
       } else {
-        foreach (PlatformBeetleSubEntity entity in Bottom()) {
+        foreach (PlatformToggleEnemySubEntity entity in Bottom()) {
           if (!entity.WillBeAboveGroundAfterMoveInDirection(XMoveDirection)) {
             XMoveDirection = XMoveDirection.Opposite();
             break;
@@ -150,12 +150,12 @@ public class PlatformBeetle : Enemy<PlatformBeetle, PlatformBeetleSubEntity> {
     }
   }
 
-  public static PlatformBeetle Make(PlatformBeetleObject platformBeetlePrefab, int row, int col, Transform parent = null) {
+  public static PlatformToggleEnemy Make(PlatformToggleEnemyObject platformBeetlePrefab, int row, int col, Transform parent = null) {
     platformBeetlePrefab = Object.Instantiate(platformBeetlePrefab);
     platformBeetlePrefab.transform.parent = parent;
     platformBeetlePrefab.spawnRow = row;
     platformBeetlePrefab.spawnCol = col;
-    PlatformBeetle result = new PlatformBeetle(platformBeetlePrefab, out bool success);
+    PlatformToggleEnemy result = new PlatformToggleEnemy(platformBeetlePrefab, out bool success);
     return success ? result : null;
   }
 }
