@@ -114,6 +114,12 @@ public sealed class Player : ITurnTaker, IDamageable {
       }
     }
 
+    foreach (PlayerSubEntity entity in entities) {
+      if (entity.InFire) {
+        YVelocity = gameObject.jumpPower;
+      }
+    }
+
     //If the player is stunned, disregard their input
     if (turnsStunned > 0) {
       turnsStunned -= 1;

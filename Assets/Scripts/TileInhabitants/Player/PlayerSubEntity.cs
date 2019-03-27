@@ -30,6 +30,16 @@ public sealed class PlayerSubEntity : SingleTileEntity, IDamageable, PlayerLabel
       return false;
     }
   }
+  public bool InFire {
+    get {
+      foreach (ITileInhabitant inhabitant in GameManager.S.Board[Row, Col].Inhabitants) {
+        if (inhabitant is FlammableTile && ((FlammableTile)inhabitant).IsOnFire) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
 
   public SingleTileEntityObject gameObject;
 
