@@ -175,6 +175,7 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
   }
 
   public virtual void Destroy() {
+    _damageable.TakeDamage(int.MaxValue);
     foreach (SingleTileEntity entity in entities) {
       if (entity != null) {
         entity.Destroy();
