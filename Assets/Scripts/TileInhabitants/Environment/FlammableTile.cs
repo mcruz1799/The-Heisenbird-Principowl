@@ -85,14 +85,21 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
 
   private void MakeUpdrafts() {
     int row = Row;
+    bool makeVisible = true;
     while (true) {
       if (row - Row >= gameObject.numUpdraftTiles) {
         break;
       }
       row += 1;
-      if (updraftTileMaker.Make(row, Col) == null) {
+
+      object obj = updraftTileMaker.Make(row, Col);
+      UpdraftTile updraft = obj == null ? null : (UpdraftTile)obj;
+      if (updraft == null) {
         break;
       }
+
+      updraft.SetGraphicVisiblity(makeVisible);
+      makeVisible = !makeVisible;
     }
   }
 

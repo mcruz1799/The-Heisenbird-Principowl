@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpdraftTileObject : SingleTileEntityObject
-{
-
+public class UpdraftTileObject : SingleTileEntityObject {
+  public Renderer updraftGraphic;
 }
