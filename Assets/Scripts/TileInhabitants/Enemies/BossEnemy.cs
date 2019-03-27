@@ -33,9 +33,11 @@ public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
     base.Destroy();
   }
 
-  protected override void OnCollision(Direction moveDirection) {}
+  protected override void OnCollision(Direction moveDirection) {
+    //Do nothing
+  }
 
-  public override void OnTurn(){
+  protected override void OnTurnCore(){
     //instantiates barrel every couple of random seconds
     int r = Random.Range(0, 11); //10% chance to throw a barrel
     if (r == 5) barrelMaker.MakeAndGet(TopLeft.Row - bossHeight, TopLeft.Col + 2, null);

@@ -38,7 +38,7 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
     XVelocity = 1;
   }
 
-  public override void OnTurn() {
+  protected override void OnTurnCore() {
     //If player is close enough, we will follow the player >:)
     if (Mathf.Abs(GameManager.S.Player.Col - homeTileCol) <= gameObject.aggroRange && Mathf.Abs(GameManager.S.Player.Row - homeTileRow) <= gameObject.yAggroRange) {
       isFollowing = true;
@@ -56,8 +56,6 @@ public class FollowerEnemy : Enemy<FollowerEnemy, FollowerEnemySubEntity> {
     } else {
       ReturnToHome();
     }
-
-    base.OnTurn();
   }
 
   protected override FollowerEnemySubEntity CreateSubEntity(EnemyObject e, int row, int col, out bool success) {

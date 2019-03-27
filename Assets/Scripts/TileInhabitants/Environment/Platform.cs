@@ -30,7 +30,7 @@ public class Platform : SingleTileEntity {
         continue;
       }
 
-      if (other is Platform || other is IPlayer || other is IEnemy) {
+      if (other is Platform) {
         return false;
       }
     }
