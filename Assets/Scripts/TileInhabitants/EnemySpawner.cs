@@ -25,8 +25,10 @@ public class EnemySpawner : SingleTileEntity, ITurnTaker {
   private int turnsUntilRespawn;
   public void OnTurn() {
     if (enemy != null && enemy.IsAlive) {
+      gameObject.graphicsHolder.SetActive(false);
       return;
     }
+    gameObject.graphicsHolder.SetActive(true);
 
     turnsUntilRespawn -= 1;
 
