@@ -699,12 +699,12 @@ PrefabInstance:
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnRow
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnCol
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975024, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
@@ -1588,7 +1588,8 @@ MonoBehaviour:
   boardMakerPrefab: {fileID: 7044392509325897440, guid: 6bd4a5e72aa31e14fb15ef046ed08944,
     type: 3}
   nextScene: Level3_3
-  completionRow: 9
+  completionRow: 100
+  completionCol: 0
   LevelCompleteUI: {fileID: 1341080257}
   Timer: {fileID: 1800885871}
 --- !u!4 &1630602840
