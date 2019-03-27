@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5776274008664056414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5776274008664056400}
+  - component: {fileID: 5776274008664056415}
+  m_Layer: 0
+  m_Name: Testing (Henry)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5776274008664056400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776274008664056414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5776274008664056415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776274008664056414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a333e425d40de2347b34c161878f020e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: {fileID: 4900000, guid: 36b6550fbf02b1643a033213da66889b, type: 3}
+  tilePrefab: {fileID: 6910328573096434756, guid: 9c96cd149f5ea024f9075f2852a5eaf8,
+    type: 3}
+  asciiMappings:
+  - ascii: 61
+    maker: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98, type: 3}
+  - ascii: 42
+    maker: {fileID: 4286497281413670092, guid: b04736134479bb247b4832fbffbd908b, type: 3}
+  - ascii: 60
+    maker: {fileID: 778994390425347126, guid: 3c26165c1d5c7b6419eff3368f49925f, type: 3}
+  - ascii: 45
+    maker: {fileID: 5626947023956191393, guid: 18e2fbca2846eb448a78a5bfc0c0037d, type: 3}
+  - ascii: 62
+    maker: {fileID: 3375514513087832611, guid: f04ef8cdcd01bb84a8f75d53bda3e89f, type: 3}
+  - ascii: 94
+    maker: {fileID: 5626947023956191393, guid: fa7ca97fe186aa2458c2346bd4bc9315, type: 3}
+  - ascii: 97
+    maker: {fileID: 3119395089931153236, guid: 3239e28711530b44bacd6c1f6564461d, type: 3}
+  - ascii: 98
+    maker: {fileID: 3086934853162993614, guid: 0731e147dfd160741ac73b1ecf5a4586, type: 3}
+  - ascii: 99
+    maker: {fileID: 723565017015932324, guid: 78017420b75bfc641be88b2782cbe60c, type: 3}
+  - ascii: 65
+    maker: {fileID: 3119395089931153236, guid: 7145052736f07d945a7a07e08d1f7472, type: 3}
+  - ascii: 66
+    maker: {fileID: 6971115223753173469, guid: 64118357a25968c40a20ee578ea462e8, type: 3}
+  - ascii: 67
+    maker: {fileID: 4366200830738356265, guid: f2a2df68fa8a7fc468da3e293200dfe1, type: 3}
+  - ascii: 120
+    maker: {fileID: 6235150820820840103, guid: f70a64c9905c1c7478b521f70800d2e6, type: 3}
+  - ascii: 121
+    maker: {fileID: 7372579667633675906, guid: 6b4e61b3296815148a68eb929b824597, type: 3}
+  - ascii: 122
+    maker: {fileID: 5765776403622935266, guid: f60d09b9854051145b3ab73203608166, type: 3}
+  - ascii: 88
+    maker: {fileID: 7815367375816864579, guid: 47c84b98f4ce1624a9875c38f577480b, type: 3}
+  - ascii: 89
+    maker: {fileID: 7390090393881038602, guid: 776f02860b557694fb2af79a163bc4ad, type: 3}
+  - ascii: 90
+    maker: {fileID: 4097205240798735813, guid: 3019e95e2bcb94e409a8fecbd2c79f31, type: 3}
