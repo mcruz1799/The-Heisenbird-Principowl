@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UpdraftTile : SingleTileEntity {
-  private readonly UpdraftTileObject updraftObject;
+  private readonly UpdraftTileObject gameObject;
 
   public UpdraftTile(UpdraftTileObject updraftObject, out bool success) : base(updraftObject, out success) {
     if (success) {
-      this.updraftObject = updraftObject;
+      this.gameObject = updraftObject;
     }
   }
 
@@ -27,6 +27,10 @@ public class UpdraftTile : SingleTileEntity {
     }
 
     return true;
+  }
+
+  public void SetGraphicVisiblity(bool isVisible) {
+    gameObject.updraftGraphic.enabled = isVisible;
   }
 
   public static UpdraftTile Make(UpdraftTileObject updraftTilePrefab, int row, int col, Transform parent = null) {
