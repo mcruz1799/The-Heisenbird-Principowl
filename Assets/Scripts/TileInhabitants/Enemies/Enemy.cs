@@ -165,7 +165,7 @@ public abstract class Enemy<TParent, TSub> : ITurnTaker, IDamageable, IEnemy
   public bool IsAlive => _damageable.IsAlive;
 
   public virtual void OnAttacked(int attackPower, Direction attackDirection) {
-    _damageable.TakeDamage(_damageable.CalculateDamage(attackPower));
+    _damageable.TakeDamage(attackPower);
   }
 
   private void Attack() {
