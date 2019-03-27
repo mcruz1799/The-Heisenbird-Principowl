@@ -39,22 +39,22 @@
 |=====                  |                                                                            |
 |=========              |             *    X                    Y            *                       |
 |===================================================================================^^^^^^^^^^^^^^^^^|
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                                     CaB                                           <--------------->|
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                                     CaB                                                            |
-|                                     CaB                                                            |
+|                                     cAb                                                            |
+|                                     cAb                                                            |
+|                                     cAb                                                            |
+|                                     cAb                                           <--------------->|
+|                                     cAb                                                            |
+|                                     cAb                                                            |
+|                                     cAb                                                            |
+|                                     cAb                                                            |
 |                              YD     ===============================================================|
 |                          <-->========                                                              |
 |                             |b AD aD aD                                                            |
 |                             |bAAAaaaaaa                                                            |
 |                             |bXA Za Xa                                                             |
 |                     <-------|bbbbbbbbbbbbbbbbbbbbbbbbbbb                                           |
-|                     <-------|bbbbbbbbbbbbbbbbbbbbbbbbbbb                                           |
-|                     <-------|bbbbbbbbbbbbbbbbbbbbbbbbbbb                                           |
+|                             |bbbbbbbbbbbbbbbbbbbbbbbbbbb                                           |
+|                             |bbbbbbbbbbbbbbbbbbbbbbbbbbb                                           |
 |                                  BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB                            |
 |                                                                                                    |
 |              <----->                                                                               |
@@ -76,6 +76,7 @@
 |                                                                                      D             |
 |                                                                                 *w   D             |
 |                                                             ACACACACACACA==========================|
+|                                                                                                    |
 |                                                                                                    |
 |                                                                                                    |
 |                                                                 bbbbb                              |
