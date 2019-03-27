@@ -1711,6 +1711,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
+        type: 3}
+      propertyPath: _spawnRow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
+        type: 3}
+      propertyPath: _spawnCol
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975024, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: m_LocalPosition.x

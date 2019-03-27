@@ -47,6 +47,8 @@ MonoBehaviour:
   tilePrefab: {fileID: 6910328573096434756, guid: 9c96cd149f5ea024f9075f2852a5eaf8,
     type: 3}
   asciiMappings:
+  - ascii: 124
+    maker: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98, type: 3}
   - ascii: 61
     maker: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98, type: 3}
   - ascii: 42

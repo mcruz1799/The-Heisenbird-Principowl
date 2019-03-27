@@ -59,14 +59,22 @@
 |                                                                                                    |
 |                                                                                                    |
 |                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                          X                         |
-|                                                                   AAAAAAAAAA                       |
-|                                                                   aaaaaaaaaa                       |
-|                                                                                                    |
+|^^^^^^^^^^^^^^^^^^^^^^^=============================================================================|
+|                       |                                                                            |
+|                       |                                                                            |
+|<---->                 |                                                                            |
+|                       |             bbbbbbbbbbAAAAAAAAAABBBBBBBBBB       Z                         |
+|                       |  AAAAAAAAAAABBBBBBBBBBaaaaaaaaaabbbbbbbbbbAAAAAAAAAA                       |
+|                       C             bbbbbbbbbbAAAAAAAAAABBBBBBBBBBaaaaaaaaaa                       |
+|<---->                 C                                                                            |
+|                       C                                                                            |
+|                       C                                                                            |
+|                       C                                                                            |
+|<---->                 C                                                                            |
+|                       C                                                                            |
+|                       C                                                                            |
+|=====                  C                                                                            |
+|=========              C            X                          Y                                    |
 |========================================================================================^^^^^^^^^^^^|
 |                                                                                                    |
 |                                                                                                    |
