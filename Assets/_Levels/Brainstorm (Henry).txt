@@ -2,10 +2,10 @@
 |    |    |    |    |    |    |    |    |    |    |    |    |     |    |    |    |    |    |    |    |
 
 //KEY
-//x, y, z: PlatformEnemy (doesn't respawn)
-//X, Y, Z: PlatformEnemySpawner
-//a, b, c: PlatformOff
-//A, B, C: PlatformOn
+//x, y, z, w: PlatformEnemy (doesn't respawn)
+//X, Y, Z, W: PlatformEnemySpawner
+//a, b, c, d: PlatformOff
+//A, B, C, D: PlatformOn
 
 //LEVEL STARTS BELOW THIS LINE.  COPY AND PASTE INTO ANOTHER FILE TO USE.
 |                                                                                                    |
@@ -50,33 +50,44 @@
 |                                                                                                    |
 |                                                                                                    |
 |                                                                                                    |
+|===================================================================================^^^^^^^^^^^^^^^^^|
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                                     CaB                                           <--------------->|
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                                     CaB                                                            |
+|                              YD     ===============================================================|
+|                          <-->========                                                              |
+|                             |B aD AD AD                                                            |
+|                             |BaaaAAAAAA                                                            |
+|                             |BXa ZA XA                                                             |
+|                     <------->BBBBBBB                                                               |
+|                                  bbbbbbbbbbb                                                       |
+|                                                                                                    |
+|              <----->                                                                               |
 |                                                                                                    |
 |                                                                                                    |
 |                                                                                                    |
 |                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                                                    |
-|                                                                          X                         |
-|                                                                   AAAAAAAAAA                       |
-|                                                                   aaaaaaaaaa                       |
-|                                                                                                    |
+|^^^^^^^^^^^^^^^^^^^^^^^=============================================================================|
+|bDbDbDbDbDbDbDbDbDbDbDb|                                                                            |
+|                       |                                                                            |
+|<---->                 |                                                                            |
+|                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB       Z                         |
+|                       |  aaaaaaaaaaaBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
+|                       c             ========================================                       |
+|<---->                 c                                                                            |
+|                       c                                                                            |
+|                       c                                                                            |
+|                       c                                                                            |
+|<---->                 c                                                                            |
+|                       c                                                                            |
+|                       |                                                                            |
+|=====                  |                                                                            |
+|=========w             |            X                          Y                                    |
 |========================================================================================^^^^^^^^^^^^|
 |                                                                                                    |
 |                                                                                                    |
@@ -87,15 +98,15 @@
 |                                                                                                    |
 |                                                             AAAAAAAAAAAAA==========================|
 |                                                                                                    |
-|                            y                                                                       |
+|                                                                                                    |
 |                            CCCCC                                bbbbb                              |
 |                            C   C                                                                   |
-|                            C   C                          bbbbb                                    |
 |                            C   C                                                                   |
+|                            Cy  C                                                                   |
 |                            CCCCC                                                                   |
 |                                                                                                    |
-|                                              *-------*                                             |
-|                                              =   =   =                                             |
-|                                              =   =   =                                             |
-|                                              =x  =z  =                                             |
+|                                           *-----*     *                                            |
+|                                           =     =     =                                            |
+|                                           =     =     =                                            |
+|                                           =x    =z    =                                            |
 |====================================================================================================|
