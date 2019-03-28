@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowerEnemySubEntity : EnemySubEntity<FollowerEnemy, FollowerEnemySubEntity> {
-  private Direction AttackDirection => parent.XVelocity > 0 ? Direction.East : Direction.West;
+  private Direction _attackDirection;
+  private Direction AttackDirection {
+    get {
+      _attackDirection = parent.XVelocity > 0 ? Direction.East : parent.XVelocity < 0 ? Direction.West : _attackDirection;
+      return _attackDirection;
+    }
+  }
 
   public FollowerEnemySubEntity(SingleTileEntityObject gameObject, FollowerEnemy parent, out bool success) : base(gameObject, parent, out success) { }
 

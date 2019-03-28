@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformToggleEnemySubEntity : EnemySubEntity<PlatformToggleEnemy, PlatformToggleEnemySubEntity> {
-  private Direction AttackDirection => parent.XVelocity > 0 ? Direction.East : Direction.West;
+  private Direction _attackDirection;
+  private Direction AttackDirection {
+    get {
+      _attackDirection = parent.XVelocity > 0 ? Direction.East : parent.XVelocity < 0 ? Direction.West : _attackDirection;
+      return _attackDirection;
+    }
+  }
 
   public PlatformToggleEnemySubEntity(SingleTileEntityObject gameObject, PlatformToggleEnemy parent, out bool success) : base(gameObject, parent, out success) {
   }
