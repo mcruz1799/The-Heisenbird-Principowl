@@ -278,7 +278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a07a4e05c6c1c4ea4c1faf4a18de07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toFollow: {fileID: 777887235}
   localOffset: {x: 0, y: -3, z: -100}
   useInspectorOffset: 1
   smoothMotion: 1
@@ -288,6 +287,13 @@ MonoBehaviour:
   lockX: 0
   lockY: 0
   lockZ: 0
+  customCameraAreas:
+  - areaBounds:
+      x: 38
+      y: 58
+      width: 39
+      height: 7
+    additionalOffset: {x: 0, y: 15, z: 0}
 --- !u!114 &534669907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,12 +896,12 @@ PrefabInstance:
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnRow
-      value: 1
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnCol
-      value: 1
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975024, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
