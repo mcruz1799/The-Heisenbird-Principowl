@@ -287,10 +287,10 @@ MonoBehaviour:
   customCameraAreas:
   - areaBounds:
       x: 38
-      y: 58
+      y: 63
       width: 39
-      height: 7
-    additionalOffset: {x: 0, y: 15, z: 0}
+      height: 8
+    additionalOffset: {x: 0, y: 4, z: 0}
   - areaBounds:
       x: 13
       y: 40
