@@ -86,7 +86,7 @@ public class PlatformToggleEnemy : Enemy<PlatformToggleEnemy, PlatformToggleEnem
   public override void Destroy() {
     if (gameObject != null && !IsAlive) {
       SoundManager.S.BeetleDied();
-      PlatformToggleManager.Toggle(GroupColor);
+      PlatformToggleManager.S.Toggle(GroupColor);
     }
     base.Destroy();
   }

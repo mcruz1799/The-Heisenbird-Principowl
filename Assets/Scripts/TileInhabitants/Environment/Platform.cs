@@ -16,7 +16,7 @@ public class Platform : SingleTileEntity {
   private Platform(SingleTileEntityObject gameObject, out bool success) : base(gameObject, out success) {
     if (success) {
       this.gameObject = (PlatformObject)gameObject;
-      PlatformToggleManager.AddPlatform(this);
+      PlatformToggleManager.S.AddPlatform(this);
     }
   }
 

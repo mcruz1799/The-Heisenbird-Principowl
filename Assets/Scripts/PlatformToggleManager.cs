@@ -2,18 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformToggleManager {
-  private static ISet<Platform> platforms = new HashSet<Platform>();
+public class PlatformToggleManager : MonoBehaviour {
+  private static PlatformToggleManager _s;
+  public static PlatformToggleManager S {
+    get => _s == null ? throw new System.Exception("PlatformToggleManager not initialized") : _s;
+    set => _s = value;
+  }
 
-  public static bool AddPlatform(Platform platform) {
+  private ISet<Platform> platforms = new HashSet<Platform>();
+
+  private void Awake() {
+    S = this;
+  }
+
+  public bool AddPlatform(Platform platform) {
     return platforms.Add(platform);
   }
 
-  public static bool RemovePlatform(Platform platform) {
+  public bool RemovePlatform(Platform platform) {
     return platforms.Remove(platform);
   }
 
-  public static void Toggle(PlatformToggleGroup colorGroup) {
+  public void Toggle(PlatformToggleGroup colorGroup) {
     foreach (Platform platform in platforms) {
       if (colorGroup != PlatformToggleGroup.None && platform.ColorGroup == colorGroup) {
         if (platform.IsActive) SoundManager.S.PlatformToggleOff();
