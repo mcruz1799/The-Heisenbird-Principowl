@@ -11,6 +11,8 @@ public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamagea
 
   public bool IsAlive => parent.IsAlive;
 
+  protected virtual bool IgnoresPlatforms => true;
+
   int IEnemy.XVelocity => parent.XVelocity;
   int IEnemy.YVelocity => parent.YVelocity;
 
@@ -35,7 +37,7 @@ public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamagea
         return false;
       }
 
-      if (other is Platform) {
+      if (!IgnoresPlatforms && other is Platform) {
         Platform platform = (Platform)other;
         return !platform.IsActive;
       }

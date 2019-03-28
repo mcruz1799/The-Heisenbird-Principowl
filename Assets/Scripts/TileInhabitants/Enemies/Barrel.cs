@@ -5,6 +5,8 @@ using UnityEngine;
 public class BarrelSubEntity : EnemySubEntity<Barrel, BarrelSubEntity> {
   private Direction AttackDirection => Direction.South;
 
+  protected override bool IgnoresPlatforms => false;
+
   public BarrelSubEntity(SingleTileEntityObject gameObject, Barrel parent, out bool success) : base(gameObject, parent, out success) {
   }
 
