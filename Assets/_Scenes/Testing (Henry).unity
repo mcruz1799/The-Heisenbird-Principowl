@@ -582,8 +582,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenTurns: 0.1
   _playerObject: {fileID: 1140926055}
-  boardMakerPrefab: {fileID: 5776274008664056415, guid: 82cf341ba8ccfcb42a69d010e3aa8ee2,
-    type: 3}
+  boardPrefab: {fileID: 0}
+  level: {fileID: 0}
   nextScene: Level2
   completionRow: 99999
   completionCol: 0
@@ -750,7 +750,7 @@ PrefabInstance:
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnRow
-      value: 4
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
