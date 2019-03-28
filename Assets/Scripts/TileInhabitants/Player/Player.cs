@@ -301,8 +301,13 @@ public sealed class Player : ITurnTaker, IDamageable {
       XVelocity = XWallJumpPower;
       SoundManager.S.PlayerJump();
     } else {
-      YVelocity = gameObject.jumpPower + (justJumpedOnEnemy ? gameObject.enemyJumpBonus : 0);
-      SoundManager.S.PlayerJump();
+      YVelocity = gameObject.jumpPower;
+      if (justJumpedOnEnemy && gameObject.enemyJumpBonus > 0) {
+        YVelocity += gameObject.enemyJumpBonus;
+        SoundManager.S.PlayerJumpOffEnemy();
+      } else {
+        SoundManager.S.PlayerJump();
+      }
     }
     State &= ~PlayerStates.RightWallSliding;
     State &= ~PlayerStates.LeftWallSliding;

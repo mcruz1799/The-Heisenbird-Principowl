@@ -38,6 +38,11 @@ public class SoundManager : MonoBehaviour {
     audioSource.Play();
   }
 
+  public void PlayerJumpOffEnemy() {
+    //NOT YET IMPLEMENTED
+    PlayerJump();
+  }
+
   public void PlayerDamaged() {
     audioSource.clip = Damaged;
     audioSource.Play();
