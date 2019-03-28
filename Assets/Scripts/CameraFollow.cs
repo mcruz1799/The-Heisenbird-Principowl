@@ -16,13 +16,14 @@ public class CameraFollow : MonoBehaviour {
   [SerializeField] private bool lockX;
   [SerializeField] private bool lockY;
   [SerializeField] private bool lockZ;
+
+  [SerializeField] private CustomCameraArea[] customCameraAreas;
 #pragma warning restore 0649
 
   private float xDifference;
   private float yDifference;
   private Transform panTarget;
 
-  [SerializeField] private CustomCameraArea[] customCameraAreas;
 
   private void Start() {
     if (!useInspectorOffset) {
@@ -72,8 +73,10 @@ public class CameraFollow : MonoBehaviour {
   }
 
   [System.Serializable] private struct CustomCameraArea {
+#pragma warning disable 0649
     [SerializeField] private RectInt areaBounds;
     public Vector3 additionalOffset;
+#pragma warning restore 0649
 
     public bool ContainsPlayer() {
       return areaBounds.Contains(new Vector2Int(GameManager.S.Player.Col, GameManager.S.Player.Row));

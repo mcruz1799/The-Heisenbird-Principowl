@@ -34,8 +34,10 @@ public class PopupManager : MonoBehaviour {
 
   [System.Serializable]
   private struct PopupInfo {
+#pragma warning disable 0649
     public RawImage popup;
     public Vector2Int xyCoords;
     public float timeToPause;
+#pragma warning restore 0649
   }
 }
