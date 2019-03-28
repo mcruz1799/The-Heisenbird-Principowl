@@ -28,6 +28,9 @@ public sealed class Player : ITurnTaker, IDamageable {
   private int jumpGraceTurns = 0;
   private bool justJumpedOnEnemy = false;
 
+  //Exposed for camera
+  public Vector3 WorldPosition => gameObject.graphicsHolder.transform.position;
+
   public int Row => TopLeft.Row;
   public int Col => TopLeft.Col;
 

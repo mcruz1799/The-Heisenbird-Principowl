@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 #pragma warning disable 0649
-  [SerializeField] private Transform toFollow;
   [SerializeField] private Vector3 localOffset;
   [SerializeField] private bool useInspectorOffset;
 
@@ -23,16 +22,18 @@ public class CameraFollow : MonoBehaviour {
   private float yDifference;
   private Transform panTarget;
 
-  private void Awake() {
+  [SerializeField] private CustomCameraArea[] customCameraAreas;
+
+  private void Start() {
     if (!useInspectorOffset) {
-      localOffset = transform.position - toFollow.position;
+      localOffset = transform.position - GameManager.S.Player.WorldPosition;
     }
   }
 
   private void LateUpdate() {
     //Once here, assumes that it is following the Player.
     Vector3 currentPosition = transform.position;
-    Vector3 targetPosition = panTarget == null ? toFollow.position + localOffset : panTarget.transform.position;
+    Vector3 targetPosition = panTarget == null ? GameManager.S.Player.WorldPosition + localOffset : panTarget.transform.position;
 
     Vector3 finalPosition;
     finalPosition = targetPosition;
@@ -57,6 +58,15 @@ public class CameraFollow : MonoBehaviour {
 
   public void StopPanning() {
     panTarget = null;
+  }
+
+  [System.Serializable] private struct CustomCameraArea {
+    [SerializeField] private RectInt areaBounds;
+    [SerializeField] private Vector3 additionalOffset;
+
+    public bool ContainsPlayer() {
+      return areaBounds.Contains(new Vector2Int(GameManager.S.Player.Col, GameManager.S.Player.Row));
+    }
   }
 }
 
