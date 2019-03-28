@@ -22,8 +22,8 @@
 |<---->                 |                                                                            |
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB                                 |
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB                                 |
-|                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB       Z                         |
-|<---->                 |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
+|                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB     Z   |                       |
+|<---->                 |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaa|                       |
 |                       |  BBBBBBBBBBB|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaa|                       |
 |                       |  BBBBBBBBBBB|=BBBBBBB==AAAAAAAA==bbbbbbbbbaaaaaaaaa|                       |
 |                       C             ========================================                       |
@@ -32,12 +32,12 @@
 |                       C                                                                            |
 |                       C                                                                            |
 |<---->                 C                                                                            |
-|                       C             <-------------------------------------->                       |
-|                       |                                                                            |
-|                       |                                                                            |
-|                       |                                                                            |
-|=====                  |                                                                            |
-|=========              |             *    X                    Y            *                       |
+|                       C             *--------------------------------------*                       |
+|                       |             |                                      |                       |
+|                       |             |                                      |                       |
+|                       |             |                                      |                       |
+|=====                  |             |                                      |                       |
+|=========              |             |    X                    Y            |                       |
 |===================================================================================^^^^^^^^^^^^^^^^^|
 |                                     cAb                                                            |
 |                                     cAb                                                            |
