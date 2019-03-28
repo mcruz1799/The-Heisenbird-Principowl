@@ -678,8 +678,8 @@ MonoBehaviour:
   boardMakerPrefab: {fileID: 5776274008664056415, guid: 0bf61fc18862f2c44b0fcf1fda053a0e,
     type: 3}
   nextScene: Level2
-  completionRow: 78
-  completionCol: 25
+  completionRow: 87
+  completionCol: 30
 --- !u!4 &2140197682
 Transform:
   m_ObjectHideFlags: 0
@@ -783,7 +783,7 @@ PrefabInstance:
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnRow
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
