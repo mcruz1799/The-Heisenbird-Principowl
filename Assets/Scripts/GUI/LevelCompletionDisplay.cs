@@ -8,4 +8,12 @@ public class LevelCompletionDisplay : MonoBehaviour {
       gameObject.SetActive(true);
     }
   }
+
+  public void LoadNextLevel() {
+    GameManager.S.LoadNextLevel();
+  }
+
+  public void LoadMenu() {
+    GameManager.S.LoadMenu();
+  }
 }
