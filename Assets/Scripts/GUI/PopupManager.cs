@@ -2,85 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System;
 
-public class PopupManager : MonoBehaviour
-{
-    // [SerializeField] private GameObject player;
-    [SerializeField] private RawImage[] popup1;
+public class PopupManager : MonoBehaviour {
+#pragma warning disable 0649
+  [SerializeField] private new CameraFollow camera;
+  [SerializeField] private PopupInfo[] popups;
+#pragma warning restore 0649
 
-    //target is the player's x position where we want the popup to be initialized
-    // [SerializeField] private float target1;
-    // private bool target1Flag = false;
-    [SerializeField] private RawImage[] popup2;
-    // [SerializeField] private float target2;
-    // private bool target2Flag = false;
-    [SerializeField] private RawImage[] bossPopup;
-    // [SerializeField] private float bossTarget;
-    // private bool bossTargetFlag = false;
-    private CameraFollow cf;
-    private bool Level1Flag = false;
-    private bool Level2Flag = false;
-    private bool BossFlag = false;
-    [SerializeField] private int[] rows = new int[1];
-    [SerializeField] private int[] cols = new int[1];
-    private Transform[] tileTransforms;
-    [SerializeField] private float[] timesBetween;
+  private void Start() {
+    StartCoroutine(PopupRoutine());
+  }
 
-    // private Tile tile = GameManager.S.Board[Row,Col]
-    // Start is called before the first frame update
-    private void Awake() {
-        tileTransforms = new Transform[rows.Length];
-        for (int i = 0; i < tileTransforms.Length; i++)
-        {
-            tileTransforms[i] = GetTransform(rows[i],cols[i]);
-        }
-        StartCoroutine(PanRoutine());
+  public IEnumerator PopupRoutine() {
+    //Save current game manager state
+    GameManager.GameState oldState = GameManager.S.CurrentState;
 
-    }
-    private IEnumerator PanRoutine() {
-        string SceneName = SceneManager.GetActiveScene().name;
-        char level = SceneName[SceneName.Length-1];
-        bool bossCheck = (SceneName[SceneName.Length-2] == '_') ? true : false;
-        cf.PanCamera(tileTransforms,timesBetween);
-        if (level == '1' && !bossCheck)
-        {
-            StartCoroutine(PopupRoutine(popup1));
-        }
-        if (level == '2')
-        {
-            StartCoroutine(PopupRoutine(popup2));
-        }
-        if (level == '1' && bossCheck)
-        {
-            StartCoroutine(PopupRoutine(bossPopup));
-        }
-        yield return null;
+    //Pause the game, pan over targets
+    GameManager.S.CurrentState = GameManager.GameState.Stopped;
+    foreach (PopupInfo info in popups) {
+      info.popup.gameObject.SetActive(true);
+      camera.PanTo(GameManager.S.Board[info.xyCoords.y, info.xyCoords.x].transform);
+      yield return new WaitForSeconds(info.timeToPause);
+      info.popup.gameObject.SetActive(false);
     }
 
-    private IEnumerator PopupRoutine(RawImage[] popups){
-        GameManager.S.CurrentState = GameManager.GameState.Stopped; 
+    camera.StopPanning();
 
-        for (int i = 0; i < tileTransforms.Length; i++) 
-        {
-            RawImage currPopup = popups[i];
-            float currTime = timesBetween[i];
+    //Restore game manager state to what it was
+    GameManager.S.CurrentState = oldState;
+  }
 
-            cf.PanNext();
-            currPopup.gameObject.SetActive(true);
-            yield return new WaitForSeconds(currTime);
-            currPopup.gameObject.SetActive(false);
-        }
-        cf.PanToPlayer(3.0f);
-        cf.StopPanning();
-
-        GameManager.S.CurrentState = GameManager.GameState.Running; 
-
-    }
-
-    private Transform GetTransform(int row, int col)
-    {
-        return GameManager.S.Board[row,col].transform;
-    }
+  [System.Serializable]
+  public struct PopupInfo {
+    public readonly RawImage popup;
+    public readonly Vector2Int xyCoords;
+    public readonly float timeToPause;
+  }
 }

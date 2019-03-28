@@ -67,7 +67,11 @@ public class GameManager : MonoBehaviour {
   }
 
   private IEnumerator TurnTakerRoutine() {
-    while (CurrentState == GameState.Running) {
+    while (true) {
+      if (CurrentState != GameState.Running) {
+        yield return new WaitUntil(() => CurrentState == GameState.Running);
+      }
+
       Score -= 1;
       yield return new WaitForSeconds(timeBetweenTurns);
 
