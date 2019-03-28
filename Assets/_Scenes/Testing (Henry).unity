@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a07a4e05c6c1c4ea4c1faf4a18de07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localOffset: {x: 0, y: 5, z: -100}
+  localOffset: {x: 0, y: 5, z: -80}
   useInspectorOffset: 1
   smoothMotion: 1
   smoothMotionSpeed: 4
@@ -417,7 +417,7 @@ MonoBehaviour:
       y: 40
       width: 36
       height: 20
-    additionalOffset: {x: 50, y: -15, z: -50}
+    additionalOffset: {x: 40, y: -15, z: -10}
 --- !u!81 &1571685618
 AudioListener:
   m_ObjectHideFlags: 0
