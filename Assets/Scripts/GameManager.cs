@@ -7,8 +7,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
   public static GameManager S { get; private set; }
 
+  public int Score { get; private set; }
+
 #pragma warning disable 0649
-  [Range(0.01f, 2f)] [SerializeField] private float timeBetweenTurns = 0.01f;
+  [Range(0.01f, 2f)] [SerializeField] private float timeBetweenTurns = 0.1f;
   [SerializeField] private PlayerObject _playerObject;
   [SerializeField] private BoardObject boardMakerPrefab;
 
@@ -17,7 +19,6 @@ public class GameManager : MonoBehaviour {
   [SerializeField] private int completionRow = 0;
   [SerializeField] private int completionCol = 0;
   [SerializeField] private GameObject LevelCompleteUI;
-  [SerializeField] private Timer Timer;
 #pragma warning restore 0649
 
   public Player Player { get; private set; }
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour {
 
   private void Awake() {
     S = this;
+    Score = 10000;
     TileInhabitantObjectHolder = new GameObject().transform;
     TileInhabitantObjectHolder.name = "TileInhabitantObjectHolder";
     boardMakerPrefab = Instantiate(boardMakerPrefab);
@@ -68,6 +70,7 @@ public class GameManager : MonoBehaviour {
 
   private IEnumerator TurnTakerRoutine() {
     while (currentState == GameState.Running) {
+      Score -= 1;
       yield return new WaitForSeconds(timeBetweenTurns);
 
       Player.SelectAction(InputManager.S.GetPlayerAction());
@@ -121,7 +124,7 @@ public class GameManager : MonoBehaviour {
     if (Player.Row >= completionRow && Player.Col >= completionCol) {
       StopLevel();
       RevealLevelComplete();
-      BinarySaver.S.SaveCompletion(Timer.currentTimeLeft());
+      BinarySaver.S.SaveCompletion(Score);
     }
   }
 }
