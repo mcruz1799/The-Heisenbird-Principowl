@@ -10,15 +10,15 @@ public class CameraFollow : MonoBehaviour {
   [SerializeField] private bool smoothMotion;
   [Range(1f, 100f)] [SerializeField] private float smoothMotionSpeed = 4f;
 
-  [SerializeField] private float xThreshold = 0;
-  [SerializeField] private float yThreshold = 3;
-
   [SerializeField] private bool lockX;
   [SerializeField] private bool lockY;
   [SerializeField] private bool lockZ;
 
   [SerializeField] private CustomCameraArea[] customCameraAreas;
 #pragma warning restore 0649
+
+  private float xThreshold = 0.1f;
+  private float yThreshold = 0.1f;
 
   private float xDifference;
   private float yDifference;
