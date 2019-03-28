@@ -33,7 +33,18 @@ public class CameraFollow : MonoBehaviour {
   private void LateUpdate() {
     //Once here, assumes that it is following the Player.
     Vector3 currentPosition = transform.position;
-    Vector3 targetPosition = panTarget == null ? GameManager.S.Player.WorldPosition + localOffset : panTarget.transform.position;
+    Vector3 targetPosition;
+    if (panTarget != null) {
+      targetPosition = panTarget.transform.position;
+    } else {
+      targetPosition = GameManager.S.Player.WorldPosition + localOffset;
+      foreach (CustomCameraArea area in customCameraAreas) {
+        if (area.ContainsPlayer()) {
+          targetPosition += area.additionalOffset;
+          break;
+        }
+      }
+    }
 
     Vector3 finalPosition;
     finalPosition = targetPosition;
@@ -62,7 +73,7 @@ public class CameraFollow : MonoBehaviour {
 
   [System.Serializable] private struct CustomCameraArea {
     [SerializeField] private RectInt areaBounds;
-    [SerializeField] private Vector3 additionalOffset;
+    public Vector3 additionalOffset;
 
     public bool ContainsPlayer() {
       return areaBounds.Contains(new Vector2Int(GameManager.S.Player.Col, GameManager.S.Player.Row));
