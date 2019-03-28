@@ -75,14 +75,6 @@ public class CameraFollow : MonoBehaviour {
     panTarget = null;
   }
 
-    //Enables playing a popup when the user reaches a location.
-  public IEnumerator PopupForLocation(int index)
-  {
-    PopupInfo popup = LocationPopups[index];
-    popup.popup.gameObject.SetActive(true);
-    yield return new WaitForSeconds(popup.timeToPause);
-    popup.popup.gameObject.SetActive(false);
-  }
 
   [System.Serializable] private struct CustomCameraArea {
 #pragma warning disable 0649
@@ -95,21 +87,6 @@ public class CameraFollow : MonoBehaviour {
     }
   }
 
-  [System.Serializable]
-  private struct PopupLocation
-  {
-#pragma warning disable 0649
-    public RectInt areaBounds;
-    private int popupIndex;
-    public bool HasDisplayed;
-#pragma warning restore 0649
-
-
-    public bool ContainsPlayer()
-    {
-      return areaBounds.Contains(new Vector2Int(GameManager.S.Player.Col, GameManager.S.Player.Row));
-    }
-  }
 }
 
 
