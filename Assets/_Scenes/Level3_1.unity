@@ -177,8 +177,6 @@ MonoBehaviour:
   useInspectorOffset: 1
   smoothMotion: 1
   smoothMotionSpeed: 4
-  xThreshold: 10
-  yThreshold: 10
   lockX: 0
   lockY: 0
   lockZ: 0
@@ -675,8 +673,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenTurns: 0.1
   _playerObject: {fileID: 493437385}
-  boardMakerPrefab: {fileID: 7044392509325897440, guid: 21f4d6e1b723e194db56813d059c91ec,
+  boardPrefab: {fileID: 7044392509325897440, guid: 21f4d6e1b723e194db56813d059c91ec,
     type: 3}
+  level: {fileID: 4900000, guid: 3bcf1e3b1417b044691de7ae19c92c22, type: 3}
   nextScene: Level3_2
   completionRow: 70
   completionCol: 0

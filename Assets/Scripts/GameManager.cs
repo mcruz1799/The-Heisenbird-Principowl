@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour {
 #pragma warning disable 0649
   [Range(0.01f, 2f)] [SerializeField] private float timeBetweenTurns = 0.1f;
   [SerializeField] private PlayerObject _playerObject;
-  [SerializeField] private BoardObject boardMakerPrefab;
+  [SerializeField] private BoardObject boardPrefab;
+  [SerializeField] private TextAsset level;
 
   [Header("Level Completion")]
   [SerializeField] private string nextScene = "MainMenu";
@@ -43,10 +44,10 @@ public class GameManager : MonoBehaviour {
     Score = 10000;
     TileInhabitantObjectHolder = new GameObject().transform;
     TileInhabitantObjectHolder.name = "TileInhabitantObjectHolder";
-    boardMakerPrefab = Instantiate(boardMakerPrefab);
-    boardMakerPrefab.Initialize();
-    Board = new Board(boardMakerPrefab.NumRows, boardMakerPrefab.NumCols, boardMakerPrefab.tilePrefab, boardMakerPrefab.transform);
-    boardMakerPrefab.PopulateBoard();
+    boardPrefab = Instantiate(boardPrefab);
+    boardPrefab.Initialize(level);
+    Board = new Board(boardPrefab.NumRows, boardPrefab.NumCols, boardPrefab.tilePrefab, boardPrefab.transform);
+    boardPrefab.PopulateBoard();
 
     Player = new Player(_playerObject);
     if (Board == null || Player == null) {

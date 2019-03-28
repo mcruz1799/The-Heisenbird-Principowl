@@ -7,7 +7,6 @@ using UnityEngine;
 //Configurable via the Unity inspector
 public class BoardObject : MonoBehaviour {
 #pragma warning disable 0649
-  [SerializeField] private TextAsset level;
   public Tile tilePrefab;
   [SerializeField] private ASCIIToTileInhabitantMaker[] asciiMappings;
 #pragma warning restore 0649
@@ -17,7 +16,7 @@ public class BoardObject : MonoBehaviour {
 
   private char[,] levelChars;
 
-  public void Initialize(int currLevel = 0) {
+  public void Initialize(TextAsset level) {
     //Calculate the number of rows and columns
     string[] lines = level.text.Split('\n');
     NumRows = lines.Length;
