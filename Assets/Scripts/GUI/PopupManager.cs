@@ -20,7 +20,9 @@ public class PopupManager : MonoBehaviour {
       PopupLocation location = locations[i];
       {
         if (location.ContainsPlayer() && !location.HasDisplayed) {
-          location.DisplayPopup();
+          Debug.Log("Show Popup.");
+          location.HasDisplayed = false;
+          StartCoroutine(location.DisplayPopup());
         }
       }
     }
@@ -58,7 +60,7 @@ public class PopupManager : MonoBehaviour {
   private struct PopupLocation
   {
 #pragma warning disable 0649
-    public RectInt areaBounds;
+    [SerializeField] private RectInt areaBounds;
     public PopupInfo info;
     public bool HasDisplayed;
 #pragma warning restore 0649
@@ -71,7 +73,6 @@ public class PopupManager : MonoBehaviour {
 
     public IEnumerator DisplayPopup()
     {
-      HasDisplayed = true;
       info.popup.gameObject.SetActive(true);
       yield return new WaitForSeconds(info.timeToPause);
       info.popup.gameObject.SetActive(false);
