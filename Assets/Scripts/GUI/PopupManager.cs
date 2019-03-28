@@ -7,11 +7,23 @@ public class PopupManager : MonoBehaviour {
 #pragma warning disable 0649
   [SerializeField] private new CameraFollow camera;
   [SerializeField] private PopupInfo[] popups;
-  [SerializeField] private PopupInfo[] LocationPopups;
+  [SerializeField] private PopupLocation[] locations;
 #pragma warning restore 0649
 
   private void Start() {
     StartCoroutine(PopupRoutine());
+  }
+
+  private void LateUpdate()
+  {
+    for (int i = 0; i < locations.Length; i++) {
+      PopupLocation location = locations[i];
+      {
+        if (location.ContainsPlayer() && !location.HasDisplayed) {
+          location.DisplayPopup();
+        }
+      }
+    }
   }
 
   public IEnumerator PopupRoutine() {
@@ -33,15 +45,6 @@ public class PopupManager : MonoBehaviour {
     GameManager.S.CurrentState = oldState;
   }
 
-  //Enables playing a popup when the user reaches a location.
-  public IEnumerator PopupForLocation(int index)
-  {
-    PopupInfo popup = LocationPopups[index];
-    popup.popup.gameObject.SetActive(true);
-    yield return new WaitForSeconds(popup.timeToPause);
-    popup.popup.gameObject.SetActive(false);
-  }
-
   [System.Serializable]
   private struct PopupInfo {
 #pragma warning disable 0649
@@ -49,5 +52,29 @@ public class PopupManager : MonoBehaviour {
     public Vector2Int xyCoords;
     public float timeToPause;
 #pragma warning restore 0649
+  }
+
+  [System.Serializable]
+  private struct PopupLocation
+  {
+#pragma warning disable 0649
+    public RectInt areaBounds;
+    public PopupInfo info;
+    public bool HasDisplayed;
+#pragma warning restore 0649
+
+
+    public bool ContainsPlayer()
+    {
+      return areaBounds.Contains(new Vector2Int(GameManager.S.Player.Col, GameManager.S.Player.Row));
+    }
+
+    public IEnumerator DisplayPopup()
+    {
+      HasDisplayed = true;
+      info.popup.gameObject.SetActive(true);
+      yield return new WaitForSeconds(info.timeToPause);
+      info.popup.gameObject.SetActive(false);
+    }
   }
 }
