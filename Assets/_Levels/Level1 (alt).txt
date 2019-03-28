@@ -24,14 +24,14 @@
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB                                 |
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB       Z                         |
 |<---->                 |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
-|                       |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
-|                       |  BBBBBBBBBBB==BBBBBBB==AAAAAAAA==bbbbbbbbbaaaaaaaaaa                       |
-|                       C             |======================================|                       |
-|<---->                 C             |                                      |                       |
-|                       C             |                                      |                       |
-|                       C             |                                      |                       |
-|                       C             |                                      |                       |
-|<---->                 C             |                                      |                       |
+|                       |  BBBBBBBBBBB|BBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaa|                       |
+|                       |  BBBBBBBBBBB|=BBBBBBB==AAAAAAAA==bbbbbbbbbaaaaaaaaa|                       |
+|                       C             ========================================                       |
+|<---->                 C                                                                            |
+|                       C                                                                            |
+|                       C                                                                            |
+|                       C                                                                            |
+|<---->                 C                                                                            |
 |                       C             <-------------------------------------->                       |
 |                       |                                                                            |
 |                       |                                                                            |
