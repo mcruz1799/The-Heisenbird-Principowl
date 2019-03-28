@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour {
   [SerializeField] private string nextScene = "MainMenu";
   [SerializeField] private int completionRow = 0;
   [SerializeField] private int completionCol = 0;
-  [SerializeField] private GameObject LevelCompleteUI;
 #pragma warning restore 0649
 
   public Player Player { get; private set; }
@@ -35,10 +34,9 @@ public class GameManager : MonoBehaviour {
   public enum GameState {
     Running,
     Stopped,
+    GameOver,
   }
-
-  private GameState currentState = GameState.Stopped;
-  public GameState CurrentState{get{return currentState;}set{currentState=value;}}
+  public GameState CurrentState { get; set; } = GameState.Stopped;
 
   private void Awake() {
     S = this;
@@ -54,7 +52,7 @@ public class GameManager : MonoBehaviour {
     if (Board == null || Player == null) {
       throw new System.Exception("Failed to initialize GameManager");
     }
-    currentState = GameState.Running;
+    CurrentState = GameState.Running;
     StartCoroutine(TurnTakerRoutine());
   }
 
@@ -69,7 +67,7 @@ public class GameManager : MonoBehaviour {
   }
 
   private IEnumerator TurnTakerRoutine() {
-    while (currentState == GameState.Running) {
+    while (CurrentState == GameState.Running) {
       Score -= 1;
       yield return new WaitForSeconds(timeBetweenTurns);
 
@@ -93,16 +91,6 @@ public class GameManager : MonoBehaviour {
   //Level completion
   //
 
-  public void StopLevel() {
-    currentState = GameState.Stopped;
-    StopCoroutine(TurnTakerRoutine());
-
-    turnTakers.ExceptWith(toRemove);
-    toAdd.Clear();
-    toRemove.Clear();
-    turnTakers.Clear();
-  }
-
   public void LoadMenu() {
     SceneManager.LoadScene("MainMenu");
   }
@@ -116,14 +104,16 @@ public class GameManager : MonoBehaviour {
     Application.Quit();
   }
 
-  private void RevealLevelComplete() {
-    LevelCompleteUI.SetActive(true);
-  }
-
   private void CheckCompletion() {
     if (Player.Row >= completionRow && Player.Col >= completionCol) {
-      StopLevel();
-      RevealLevelComplete();
+      CurrentState = GameState.GameOver;
+      StopCoroutine(TurnTakerRoutine());
+
+      turnTakers.ExceptWith(toRemove);
+      toAdd.Clear();
+      toRemove.Clear();
+      turnTakers.Clear();
+
       BinarySaver.S.SaveCompletion(Score);
     }
   }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -228,7 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01076eaa5cd4c714dad863f7344e99d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timerLength: 999
 --- !u!114 &147467391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,6 +1495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1713488709}
+  - component: {fileID: 1713488710}
   m_Layer: 0
   m_Name: LevelComplete
   m_TagString: Untagged
@@ -1523,6 +1523,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1713488710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713488708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 595ab6975826f57469624feaf1e5d006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1808468155 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
@@ -1620,8 +1632,6 @@ MonoBehaviour:
   nextScene: Level3_1
   completionRow: 100
   completionCol: 0
-  LevelCompleteUI: {fileID: 1713488708}
-  Timer: {fileID: 147467390}
 --- !u!4 &1987882785
 Transform:
   m_ObjectHideFlags: 0
