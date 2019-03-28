@@ -7,7 +7,7 @@
 |                                                |
 |                                                |
 |                                                |
-|                         eeeee                  |
+|                         aaaaa                  |
 |          O                                     |
 |                                                |
 |                                                |
@@ -28,7 +28,7 @@
 |                                                |
 |                                                |
 |                                                |
-|                 eeeeeeeeeeeeeeeee              |
+|                 AAAAAAAAAAAAAAAAA              |
 |                                                |
 |                                                |
 |                                                |
@@ -37,7 +37,7 @@
 |                                                |
 |                                                |
 |                                                |
-|                    E      E                    |
+|                    X      X                    |
 |               <---------------->               |
 |                                                |
 |                                                |
