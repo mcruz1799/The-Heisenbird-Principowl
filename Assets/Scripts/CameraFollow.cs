@@ -36,7 +36,7 @@ public class CameraFollow : MonoBehaviour {
     Vector3 currentPosition = transform.position;
     Vector3 targetPosition;
     if (panTarget != null) {
-      targetPosition = panTarget.transform.position;
+      targetPosition = panTarget.transform.position + localOffset;
     } else {
       targetPosition = GameManager.S.Player.WorldPosition + localOffset;
       foreach (CustomCameraArea area in customCameraAreas) {
