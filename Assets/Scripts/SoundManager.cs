@@ -7,14 +7,13 @@ public class SoundManager : MonoBehaviour {
 
 #pragma warning disable 0649
   [SerializeField] private AudioSource audioSource;
-  [SerializeField] private AudioClip HeadBonk;
-  [SerializeField] private AudioClip Landed;
-  [SerializeField] private AudioClip Jump;
-  [SerializeField] private AudioClip Damaged;
-  [SerializeField] private AudioClip PlayerDeath;
-  [SerializeField] private AudioClip BeetleDeath;
-  [SerializeField] private AudioClip PlatformOn;
-  [SerializeField] private AudioClip PlatformOff;
+  [SerializeField] private AudioClip headBonk;
+  [SerializeField] private AudioClip landed;
+  [SerializeField] private AudioClip jump;
+  [SerializeField] private AudioClip damaged;
+  [SerializeField] private AudioClip playerDeath;
+  [SerializeField] private AudioClip beetleDeath;
+  [SerializeField] private AudioClip platformToggle;
 #pragma warning restore 0649
 
 
@@ -24,7 +23,7 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayerHeadBonk() {
-    audioSource.clip = HeadBonk;
+    audioSource.clip = headBonk;
     audioSource.Play();
   }
 
@@ -34,7 +33,7 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayerJump() {
-    audioSource.clip = Jump;
+    audioSource.clip = jump;
     audioSource.Play();
   }
 
@@ -44,26 +43,21 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayerDamaged() {
-    audioSource.clip = Damaged;
+    audioSource.clip = damaged;
     audioSource.Play();
   }
 
   public void PlayerDied() {
-    audioSource.clip = PlayerDeath;
+    audioSource.clip = playerDeath;
     audioSource.Play();
   }
   public void BeetleDied(){
-    audioSource.clip = BeetleDeath;
+    audioSource.clip = beetleDeath;
     audioSource.Play();
   }
 
-  public void PlatformToggleOn(){
-    audioSource.clip = PlatformOn;
-    audioSource.Play();
-  }
-
-  public void PlatformToggleOff(){
-    audioSource.clip = PlatformOff;
+  public void PlatformToggle(){
+    audioSource.clip = platformToggle;
     audioSource.Play();
   }
 }
