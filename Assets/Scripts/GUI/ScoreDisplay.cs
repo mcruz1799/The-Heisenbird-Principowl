@@ -12,6 +12,6 @@ public class ScoreDisplay : MonoBehaviour {
   }
 
   private void Update() {
-    timerText.text = GameManager.S.Score.ToString();
+    timerText.text = "Score: " + GameManager.S.Score.ToString();
   }
 }
