@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour {
 
   [SerializeField] private bool smoothMotion;
   [Range(1f, 100f)] [SerializeField] private float smoothMotionSpeed = 4f;
+  [Range(1f, 100f)] [SerializeField] private float panningSpeed = 2f;
 
   [SerializeField] private bool lockX;
   [SerializeField] private bool lockY;
@@ -35,8 +36,10 @@ public class CameraFollow : MonoBehaviour {
     //Once here, assumes that it is following the Player.
     Vector3 currentPosition = transform.position;
     Vector3 targetPosition;
+    float speed = smoothMotionSpeed;
     if (panTarget != null) {
       targetPosition = panTarget.transform.position + localOffset;
+      speed = panningSpeed;
     } else {
       targetPosition = GameManager.S.Player.WorldPosition + localOffset;
       foreach (CustomCameraArea area in customCameraAreas) {
@@ -55,7 +58,7 @@ public class CameraFollow : MonoBehaviour {
       yDifference = Mathf.Abs(targetPosition.y - currentPosition.y);
 
       if (xDifference >= xThreshold || yDifference >= yThreshold) {
-        finalPosition = Vector3.Lerp(currentPosition, targetPosition, smoothMotionSpeed * Time.deltaTime);
+        finalPosition = Vector3.Lerp(currentPosition, targetPosition, speed * Time.deltaTime);
       }
       finalPosition.x = (xDifference < xThreshold) ? currentPosition.x : finalPosition.x;
       finalPosition.y = (yDifference < yThreshold) ? currentPosition.y : finalPosition.y;
