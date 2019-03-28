@@ -485,7 +485,13 @@ MonoBehaviour:
   lockX: 0
   lockY: 0
   lockZ: 0
-  customCameraAreas: []
+  customCameraAreas:
+  - areaBounds:
+      x: 10
+      y: 8
+      width: 21
+      height: 12
+    additionalOffset: {x: -10, y: -10, z: 0}
 --- !u!81 &1088558398
 AudioListener:
   m_ObjectHideFlags: 0
@@ -593,7 +599,7 @@ PrefabInstance:
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnRow
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
