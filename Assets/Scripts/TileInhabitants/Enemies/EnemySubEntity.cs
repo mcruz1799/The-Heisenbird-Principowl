@@ -11,7 +11,7 @@ public abstract class EnemySubEntity<TParent, TSub> : SingleTileEntity, IDamagea
 
   public bool IsAlive => parent.IsAlive;
 
-  protected virtual bool IgnoresPlatforms => true;
+  protected virtual bool IgnoresPlatforms => false;
 
   int IEnemy.XVelocity => parent.XVelocity;
   int IEnemy.YVelocity => parent.YVelocity;
