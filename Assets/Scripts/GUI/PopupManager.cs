@@ -7,6 +7,7 @@ public class PopupManager : MonoBehaviour {
 #pragma warning disable 0649
   [SerializeField] private new CameraFollow camera;
   [SerializeField] private PopupInfo[] popups;
+  [SerializeField] private PopupInfo[] LocationPopups;
 #pragma warning restore 0649
 
   private void Start() {
@@ -30,6 +31,15 @@ public class PopupManager : MonoBehaviour {
 
     //Restore game manager state to what it was
     GameManager.S.CurrentState = oldState;
+  }
+
+  //Enables playing a popup when the user reaches a location.
+  public IEnumerator PopupForLocation(int index)
+  {
+    PopupInfo popup = LocationPopups[index];
+    popup.popup.gameObject.SetActive(true);
+    yield return new WaitForSeconds(popup.timeToPause);
+    popup.popup.gameObject.SetActive(false);
   }
 
   [System.Serializable]
