@@ -24,10 +24,9 @@ public class PlatformToggleManager : MonoBehaviour {
   }
 
   public void Toggle(PlatformToggleGroup colorGroup) {
+    SoundManager.S.PlatformToggle();
     foreach (Platform platform in platforms) {
       if (colorGroup != PlatformToggleGroup.None && platform.ColorGroup == colorGroup) {
-        if (platform.IsActive) SoundManager.S.PlatformToggleOff();
-        else SoundManager.S.PlatformToggleOn();
         platform.IsActive = !platform.IsActive;
       }
     }
