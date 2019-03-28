@@ -25,7 +25,7 @@
 |                       |             bbbbbbbbbbaaaaaaaaaaBBBBBBBBBB       Z                         |
 |<---->                 |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
 |                       |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
-|                       |  BBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAbbbbbbbbbbaaaaaaaaaa                       |
+|                       |  BBBBBBBBBBB==BBBBBBB==AAAAAAAA==bbbbbbbbbaaaaaaaaaa                       |
 |                       C             |======================================|                       |
 |<---->                 C             |                                      |                       |
 |                       C             |                                      |                       |
@@ -86,8 +86,8 @@
 |                                           =     =               Cy  C                              |
 |                                           =     =               CCCCC                              |
 |                                           =     =                                                  |
-|                                      <---------->     *                                            |
-|                                           =     =     =                                            |
-|                                           =     =     =                                            |
-|                                           =x    =z    =                                            |
+|                                      <---------->     ***                                          |
+|                                           =     =     ===                                          |
+|                                           =     =     ===                                          |
+|                                           =x    =z    ===                                          |
 |====================================================================================================|
