@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenTurns: 0.1
   _playerObject: {fileID: 531446017}
-  boardPrefab: {fileID: 7044392509325897440, guid: 96a39713559b4964d9c6fe17030773c7,
+  boardPrefab: {fileID: 5776274008664056415, guid: 32e9a0f578a9dcc41bcae10537ea8b85,
     type: 3}
   level: {fileID: 4900000, guid: f279da6051685344aa70d5dc65983d5a, type: 3}
   nextScene: GameOver
@@ -363,6 +363,7 @@ MonoBehaviour:
   useInspectorOffset: 1
   smoothMotion: 1
   smoothMotionSpeed: 4
+  panningSpeed: 2
   lockX: 0
   lockY: 0
   lockZ: 0
@@ -722,7 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0db86429b605427887b1c0d7c645811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  camera: {fileID: 349957928}
   popups: []
 --- !u!4 &1328540607
 Transform:
