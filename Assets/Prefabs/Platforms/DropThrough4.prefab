@@ -97,4 +97,5 @@ MonoBehaviour:
   colorGroup: 0
   playerCanDropThrough: 1
   playerCanJumpThrough: 1
-  sprite: {fileID: 650676926431157305}
+  activeMaterial: {fileID: 2100000, guid: a22bbe0e94d4bd7418f5b6fa913346fa, type: 2}
+  inactiveMaterial: {fileID: 0}

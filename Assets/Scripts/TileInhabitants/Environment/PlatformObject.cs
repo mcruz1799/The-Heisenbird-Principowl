@@ -14,10 +14,31 @@ public class PlatformObject : SingleTileEntityObject {
   public bool playerCanJumpThrough;
 
 #pragma warning disable 0649
-  [SerializeField] private Renderer sprite;
+  [SerializeField] private Material activeMaterial;
+  [SerializeField] private Material inactiveMaterial;
 #pragma warning restore 0649
 
+  private Renderer graphic;
+
+  private void Awake() {
+    graphic = GetComponent<Renderer>();
+  }
+
   private void Update() {
-    sprite.enabled = isActive;
+    if (isActive) {
+      if (activeMaterial != null) {
+        graphic.enabled = true;
+        graphic.material = activeMaterial;
+      } else {
+        throw new System.Exception("Uninitialized active material");
+      }
+    } else {
+      if (inactiveMaterial != null) {
+        graphic.enabled = true;
+        graphic.material = inactiveMaterial;
+      } else {
+        graphic.enabled = false;
+      }
+    }
   }
 }
