@@ -481,6 +481,7 @@ MonoBehaviour:
   useInspectorOffset: 1
   smoothMotion: 1
   smoothMotionSpeed: 4
+  panningSpeed: 2
   lockX: 0
   lockY: 0
   lockZ: 0
@@ -592,12 +593,12 @@ PrefabInstance:
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnRow
-      value: 15
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnCol
-      value: 85
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975024, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
