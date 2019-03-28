@@ -7,10 +7,21 @@ public class InputManager : MonoBehaviour {
 
   //Associates different keys with actions for the player to take
   private readonly IDictionary<KeyCode, Action> playerControlsMap = new Dictionary<KeyCode, Action>() {
+
+    //Arrow key movement
     { KeyCode.UpArrow, Action.Jump },
     { KeyCode.DownArrow, Action.Drop },
     { KeyCode.LeftArrow, Action.MoveLeft },
     { KeyCode.RightArrow, Action.MoveRight },
+
+    //WASD movement
+    { KeyCode.W, Action.Jump },
+    { KeyCode.S, Action.Drop },
+    { KeyCode.A, Action.MoveLeft },
+    { KeyCode.D, Action.MoveRight },
+
+    //Can also use Space to jump
+    { KeyCode.Space, Action.Jump },
   };
 
   //If the player has multiple buttons down, then they're trying to select multiple actions
