@@ -207,7 +207,13 @@ public class BinarySaver : MonoBehaviour
   public void SaveCompletion(int score)
   {
     String currentLevel = SceneManager.GetActiveScene().name;
-    int index = Int32.Parse(currentLevel.Substring(currentLevel.Length -1));
+    bool InBoss = currentLevel.Contains("3");
+    int index;
+    if (InBoss) {
+       if (currentLevel.Contains("3-3")) { index = 3; }
+       else { return; }
+    }
+    index = Int32.Parse(currentLevel.Substring(currentLevel.Length -1));
     LevelProgress progress = currentSave.levels[index-1];
     progress.completed = true;
     progress.score = (progress.score >= score) ? progress.score : score;

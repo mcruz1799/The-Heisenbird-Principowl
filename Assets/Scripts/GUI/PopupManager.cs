@@ -16,16 +16,19 @@ public class PopupManager : MonoBehaviour {
 
   private void LateUpdate()
   {
-    for (int i = 0; i < locations.Length; i++) {
-      PopupLocation location = locations[i];
-      {
-        if (location.ContainsPlayer() && !location.HasDisplayed) {
-          Debug.Log("Show Popup.");
-          location.HasDisplayed = false;
-          StartCoroutine(location.DisplayPopup());
+    if (locations != null) 
+    {
+      for (int i = 0; i < locations.Length; i++) {
+        PopupLocation location = locations[i];
+        {
+          if (location.ContainsPlayer() && !location.HasDisplayed) {
+            Debug.Log("Show Popup.");
+            location.HasDisplayed = false;
+            StartCoroutine(location.DisplayPopup());
+          }
         }
       }
-    }
+    }    
   }
 
   public IEnumerator PopupRoutine() {
