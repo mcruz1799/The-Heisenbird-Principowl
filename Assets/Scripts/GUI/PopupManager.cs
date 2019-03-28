@@ -33,9 +33,9 @@ public class PopupManager : MonoBehaviour {
   }
 
   [System.Serializable]
-  public struct PopupInfo {
-    public readonly RawImage popup;
-    public readonly Vector2Int xyCoords;
-    public readonly float timeToPause;
+  private struct PopupInfo {
+    public RawImage popup;
+    public Vector2Int xyCoords;
+    public float timeToPause;
   }
 }
