@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -322,6 +322,12 @@ MonoBehaviour:
   lockZ: 0
   customCameraAreas:
   - areaBounds:
+      x: 5
+      y: 26
+      width: 4
+      height: 1
+    additionalOffset: {x: 35, y: 0, z: 0}
+  - areaBounds:
       x: 38
       y: 63
       width: 39
@@ -332,12 +338,6 @@ MonoBehaviour:
       y: 40
       width: 36
       height: 20
-    additionalOffset: {x: 50, y: -15, z: -50}
-  - areaBounds:
-      x: 1
-      y: 6
-      width: 8
-      height: 21
     additionalOffset: {x: 50, y: -15, z: -50}
 --- !u!81 &308000708
 AudioListener:
