@@ -43,26 +43,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a333e425d40de2347b34c161878f020e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 4900000, guid: 9d9462d8990f94e45989b0f16d919554, type: 3}
   tilePrefab: {fileID: 6910328573096434756, guid: 9c96cd149f5ea024f9075f2852a5eaf8,
     type: 3}
   asciiMappings:
   - ascii: 61
-    maker: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98, type: 3}
+    maker: {fileID: 7497200965460343324, guid: 435f6e9e7f00aa24aaa6b6a52cb0bf26, type: 3}
   - ascii: 124
-    maker: {fileID: 6202049215974502749, guid: d0fd9c37f194e584dbfe4b3f3b7bbd98, type: 3}
+    maker: {fileID: 7497200965460343324, guid: 435f6e9e7f00aa24aaa6b6a52cb0bf26, type: 3}
   - ascii: 69
     maker: {fileID: 7815367375816864579, guid: 47c84b98f4ce1624a9875c38f577480b, type: 3}
   - ascii: 101
     maker: {fileID: 3119395089931153236, guid: 7145052736f07d945a7a07e08d1f7472, type: 3}
   - ascii: 42
-    maker: {fileID: 4286497281413670092, guid: b04736134479bb247b4832fbffbd908b, type: 3}
+    maker: {fileID: 7497200965460343324, guid: 435f6e9e7f00aa24aaa6b6a52cb0bf26, type: 3}
   - ascii: 60
-    maker: {fileID: 778994390425347126, guid: 3c26165c1d5c7b6419eff3368f49925f, type: 3}
+    maker: {fileID: 5730613264925669224, guid: 664b7d2be98086942a5c001da90daa18, type: 3}
   - ascii: 45
-    maker: {fileID: 5626947023956191393, guid: 18e2fbca2846eb448a78a5bfc0c0037d, type: 3}
+    maker: {fileID: 8160513283181472023, guid: 0c4b630aee2352349a2e5256c6e4a5fb, type: 3}
   - ascii: 62
-    maker: {fileID: 3375514513087832611, guid: f04ef8cdcd01bb84a8f75d53bda3e89f, type: 3}
+    maker: {fileID: 4229999123542872481, guid: e715a80d7446d654686eaa2f64b7ed97, type: 3}
   - ascii: 87
     maker: {fileID: 3954388177857958443, guid: 7f76d6fec4f14364483f1ec8efc6014e, type: 3}
   - ascii: 102
