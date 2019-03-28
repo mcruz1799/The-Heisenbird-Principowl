@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -456,7 +456,6 @@ GameObject:
   - component: {fileID: 1088558400}
   - component: {fileID: 1088558399}
   - component: {fileID: 1088558398}
-  - component: {fileID: 1088558397}
   - component: {fileID: 1088558396}
   - component: {fileID: 1088558401}
   m_Layer: 0
@@ -478,34 +477,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a07a4e05c6c1c4ea4c1faf4a18de07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localOffset: {x: 0, y: -3, z: -100}
+  localOffset: {x: 0, y: -3, z: -80}
   useInspectorOffset: 1
   smoothMotion: 1
   smoothMotionSpeed: 4
+  panningSpeed: 2
   lockX: 0
   lockY: 0
   lockZ: 0
-  customCameraAreas: []
---- !u!114 &1088558397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088558395}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5862e69166729634bb4b2f4214087d9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toFollow: {fileID: 0}
-  localOffset: {x: 0, y: 10, z: -100}
-  useInspectorOffset: 1
-  smoothMotion: 1
-  smoothMotionSpeed: 2
-  lockX: 0
-  lockY: 0
-  lockZ: 0
+  customCameraAreas:
+  - areaBounds:
+      x: 10
+      y: 8
+      width: 21
+      height: 12
+    additionalOffset: {x: -10, y: -10, z: 0}
 --- !u!81 &1088558398
 AudioListener:
   m_ObjectHideFlags: 0
@@ -613,7 +599,12 @@ PrefabInstance:
     - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
       propertyPath: _spawnRow
-      value: 9
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8120240370488975039, guid: 4cd7ef9996934a34f859b050a682d036,
+        type: 3}
+      propertyPath: _spawnCol
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8120240370488975024, guid: 4cd7ef9996934a34f859b050a682d036,
         type: 3}
@@ -700,7 +691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1888516796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0db86429b605427887b1c0d7c645811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  camera: {fileID: 1088558396}
   popups: []
 --- !u!4 &1888516797
 Transform:
@@ -723,7 +714,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888516795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.291143, y: 1.2741073, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -760,9 +751,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenTurns: 0.1
   _playerObject: {fileID: 1808468155}
-  boardPrefab: {fileID: 7044392509325897440, guid: 17094645cd93ad84f8182f6372bfd93f,
+  boardPrefab: {fileID: 5776274008664056415, guid: 32e9a0f578a9dcc41bcae10537ea8b85,
     type: 3}
-  level: {fileID: 4900000, guid: eb8d2ecf38b2e9e4697a795004b3a87b, type: 3}
+  level: {fileID: 4900000, guid: 1e1443ec12fb0b541aadb88f600ab59f, type: 3}
   nextScene: Level3_1
   completionRow: 100
   completionCol: 0

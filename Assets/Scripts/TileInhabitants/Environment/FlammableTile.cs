@@ -6,12 +6,20 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
   private readonly FlammableTileObject gameObject;
   private readonly UpdraftTileMaker updraftTileMaker;
 
-  public bool IsOnFire { get; private set; } = false;
+  private bool _isOnFire;
+  public bool IsOnFire {
+    get => _isOnFire;
+    set {
+      _isOnFire = value;
+      gameObject.UpdateGraphic(IsOnFire);
+    }
+  }
 
   private FlammableTile(FlammableTileObject gameObject, out bool success) : base(gameObject, out success) {
     if (success) {
       this.gameObject = gameObject;
       updraftTileMaker = gameObject.updraftTileMaker;
+      IsOnFire = false;
       GameManager.S.RegisterTurnTaker(this);
     }
   }
@@ -85,7 +93,7 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
 
   private void MakeUpdrafts() {
     int row = Row;
-    bool makeVisible = true;
+    bool makeVisible = false;
     while (true) {
       if (row - Row >= gameObject.numUpdraftTiles) {
         break;
