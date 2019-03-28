@@ -41,8 +41,8 @@ public class FlammableTile : SingleTileEntity, ITurnTaker {
       IsOnFire = true;
     }
 
-    //If on fire, 10% chance to set adjacent FlammableTiles on fire
-    if (IsOnFire && Random.Range(0, 10) == 0) {
+    //If on fire, 50% chance to set adjacent FlammableTiles on fire
+    if (IsOnFire && Random.Range(0, 2) == 0) {
       ActivateAdjacentTiles();
     }
 
