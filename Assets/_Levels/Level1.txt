@@ -80,7 +80,7 @@
 |</------\>|     C C C C  C C C   C  C C                                               D </---\></-\>|
 |          |     CC  CCC   C C    C   CC                                               D             |
 |          |                                                                           D             |
-|          |                                                  ACACACACACACACACACAC=w   D             |
+|          |                                                  ACACACACACACACACACAC=e   D             |
 |          |                                                  CACACACACACACACAC======================|
 |</------\>|                                                  ACACACACACACA==========================|
 |          |                                                                                         |
