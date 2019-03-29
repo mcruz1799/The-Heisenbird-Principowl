@@ -87,13 +87,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39a4daa933a4814d9566b60af933d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headBonk: {fileID: 0}
+  headBonk: {fileID: 8300000, guid: 6fdf7e9b896f4bd4fa67d81d3f112ca5, type: 3}
   landed: {fileID: 8300000, guid: 5654086ceef9f794687dea2b66a3f825, type: 3}
   jump: {fileID: 8300000, guid: 0c5bdd9aa9f1500428eec88a44cb1225, type: 3}
-  damaged: {fileID: 8300000, guid: d77f260b887c4174a8e806a5f2a5021e, type: 3}
+  damaged: {fileID: 8300000, guid: f2c50d7be9bf3f0498faf78798ac5c07, type: 3}
   playerDeath: {fileID: 0}
   beetleDeath: {fileID: 8300000, guid: 3d53cf556c3db014eaf31c9205f64edb, type: 3}
-  platformToggle: {fileID: 8300000, guid: 91dad81c54695264883f8d8d356ff8b7, type: 3}
+  platformToggle: {fileID: 8300000, guid: 4815deb90487cc14688c60268853f5fa, type: 3}
   levelComplete: {fileID: 8300000, guid: c774d4da3d3082e4d884454862337995, type: 3}
   bossHit: {fileID: 8300000, guid: 2201f0dabcc403246a7c48550abc1929, type: 3}
 --- !u!82 &2656951647636313591
