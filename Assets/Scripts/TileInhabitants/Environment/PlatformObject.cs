@@ -14,14 +14,15 @@ public class PlatformObject : SingleTileEntityObject {
   public bool playerCanJumpThrough;
 
 #pragma warning disable 0649
+  [SerializeField] private Renderer graphic;
   [SerializeField] private Material activeMaterial;
   [SerializeField] private Material inactiveMaterial;
 #pragma warning restore 0649
 
-  private Renderer graphic;
-
   private void Awake() {
-    graphic = GetComponent<Renderer>();
+    if (graphic == null) {
+      graphic = GetComponent<Renderer>();
+    }
   }
 
   private void Update() {
