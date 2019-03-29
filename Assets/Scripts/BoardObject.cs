@@ -16,6 +16,8 @@ public class BoardObject : MonoBehaviour {
 
   private char[,] levelChars;
 
+  public bool IsPopulated { get; private set; } = false;
+
   private void Start() {
     PopulateBoard();
   }
@@ -54,5 +56,6 @@ public class BoardObject : MonoBehaviour {
         }
       }
     }
+    IsPopulated = true;
   }
 }

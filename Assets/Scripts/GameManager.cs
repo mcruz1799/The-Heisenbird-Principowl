@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour {
   }
 
   private IEnumerator TurnTakerRoutine() {
+    yield return new WaitUntil(() => boardPrefab.IsPopulated);
     while (true) {
       if (CurrentState != GameState.Running) {
         yield return new WaitUntil(() => CurrentState == GameState.Running);
