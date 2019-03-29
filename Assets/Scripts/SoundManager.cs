@@ -6,7 +6,6 @@ public class SoundManager : MonoBehaviour {
   public static SoundManager S { get; private set; }
 
 #pragma warning disable 0649
-  [SerializeField] private AudioSource audioSource;
   [SerializeField] private AudioClip headBonk;
   [SerializeField] private AudioClip landed;
   [SerializeField] private AudioClip jump;
@@ -16,15 +15,26 @@ public class SoundManager : MonoBehaviour {
   [SerializeField] private AudioClip platformToggle;
 #pragma warning restore 0649
 
+  private Stack<AudioSource> audioSources = new Stack<AudioSource>();
 
   private void Awake() {
     S = this;
-    audioSource = GetComponent<AudioSource>();
+    for (int i = 0; i < 5; i++) {
+      GameObject g = new GameObject("AudioSource");
+      g.transform.parent = transform;
+      audioSources.Push(g.AddComponent<AudioSource>());
+    }
+  }
+
+  private void PlaySound(AudioClip sound) {
+    AudioSource src = audioSources.Pop();
+    src.clip = sound;
+    src.Play();
+    audioSources.Push(src);
   }
 
   public void PlayerHeadBonk() {
-    audioSource.clip = headBonk;
-    audioSource.Play();
+    PlaySound(headBonk);
   }
 
   public void PlayerLanded() {
@@ -33,8 +43,7 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayerJump() {
-    audioSource.clip = jump;
-    audioSource.Play();
+    PlaySound(jump);
   }
 
   public void PlayerJumpOffEnemy() {
@@ -43,21 +52,18 @@ public class SoundManager : MonoBehaviour {
   }
 
   public void PlayerDamaged() {
-    audioSource.clip = damaged;
-    audioSource.Play();
+    PlaySound(damaged);
   }
 
   public void PlayerDied() {
-    audioSource.clip = playerDeath;
-    audioSource.Play();
+    PlaySound(playerDeath);
   }
+
   public void BeetleDied(){
-    audioSource.clip = beetleDeath;
-    audioSource.Play();
+    PlaySound(beetleDeath);
   }
 
   public void PlatformToggle(){
-    audioSource.clip = platformToggle;
-    audioSource.Play();
+    PlaySound(platformToggle);
   }
 }
