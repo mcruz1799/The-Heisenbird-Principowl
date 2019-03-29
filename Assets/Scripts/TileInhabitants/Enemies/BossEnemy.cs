@@ -3,27 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BossEnemySubEntity : EnemySubEntity<BossEnemy, BossEnemySubEntity> {
-  private Direction AttackDirection => Direction.South;
-
   public BossEnemySubEntity(SingleTileEntityObject gameObject, BossEnemy parent, out bool success) : base(gameObject, parent, out success) {
   }
 
-  public override void Attack() {}
-
-  private bool CanAttack(ITileInhabitant other) {
-    return other is IPlayer && !toIgnore.Contains(other);
+  public override void Attack() {
+    //Do nothing
   }
 }
 
 public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
   private readonly BossEnemyObject gameObject;
-  private readonly BarrelMaker barrelMaker;
-  private readonly int bossHeight;
 
   private BossEnemy(BossEnemyObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
-    this.barrelMaker = gameObject.barrelMaker;
-    this.bossHeight = gameObject.bossHeight;
   }
 
 
@@ -38,9 +30,7 @@ public class BossEnemy : Enemy<BossEnemy, BossEnemySubEntity> {
   }
 
   protected override void OnTurnCore(){
-    //instantiates barrel every couple of random seconds
-    int r = Random.Range(0, 11); //10% chance to throw a barrel
-    if (r == 5) barrelMaker.MakeAndGet(TopLeft.Row - bossHeight, TopLeft.Col + 2, null);
+    //Do nothing
   }
 
   public override void OnAttacked(int attackPower, Direction attackDirection){
