@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour {
   [SerializeField] private AudioClip playerDeath;
   [SerializeField] private AudioClip beetleDeath;
   [SerializeField] private AudioClip platformToggle;
+  [SerializeField] private AudioClip levelComplete;
+  [SerializeField] private AudioClip bossHit;
 #pragma warning restore 0649
 
   private Stack<AudioSource> audioSources = new Stack<AudioSource>();
@@ -65,5 +67,15 @@ public class SoundManager : MonoBehaviour {
 
   public void PlatformToggle(){
     PlaySound(platformToggle);
+  }
+
+  public void LevelComplete()
+  {
+    PlaySound(levelComplete);
+  }
+
+  public void BossHit()
+  {
+    PlaySound(bossHit);
   }
 }
