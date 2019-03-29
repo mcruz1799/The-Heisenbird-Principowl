@@ -114,6 +114,8 @@ public class GameManager : MonoBehaviour {
       CurrentState = GameState.GameOver;
       StopCoroutine(TurnTakerRoutine());
 
+      SoundManager.S.LevelComplete();
+
       turnTakers.ExceptWith(toRemove);
       toAdd.Clear();
       toRemove.Clear();
