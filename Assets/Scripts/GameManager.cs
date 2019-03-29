@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
     boardPrefab = Instantiate(boardPrefab);
     boardPrefab.Initialize(level);
     Board = new Board(boardPrefab.NumRows, boardPrefab.NumCols, boardPrefab.tilePrefab, boardPrefab.transform);
-    boardPrefab.PopulateBoard();
+    //boardPrefab.PopulateBoard();
 
     Player = new Player(_playerObject);
     if (Board == null || Player == null) {
