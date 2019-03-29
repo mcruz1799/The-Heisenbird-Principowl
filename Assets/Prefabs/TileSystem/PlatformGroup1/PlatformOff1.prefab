@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5114525392386839801}
-  - component: {fileID: 726232168003749515}
-  - component: {fileID: 8121892613739722495}
   - component: {fileID: 9215325318308815690}
   m_Layer: 0
   m_Name: PlatformOff1
@@ -28,26 +26,81 @@ Transform:
   m_GameObject: {fileID: 2952615726605426264}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.1}
-  m_LocalScale: {x: 3, y: 3, z: 1}
-  m_Children: []
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5612687557383743835}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &726232168003749515
+--- !u!114 &9215325318308815690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952615726605426264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4986eed3e5ba5a40a6a7a490d628499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnRow: 0
+  spawnCol: 0
+  animateMovement: 1
+  isActive: 0
+  colorGroup: 1
+  playerCanDropThrough: 0
+  playerCanJumpThrough: 0
+  graphic: {fileID: 8124791291883907024}
+  activeMaterial: {fileID: 2100000, guid: e0e5b30886ca60c4ab6a16bf7c5c25d5, type: 2}
+  inactiveMaterial: {fileID: 2100000, guid: 88a0c0c87442e0b45b6ad01be0e62edd, type: 2}
+--- !u!1 &4399330693984713858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5612687557383743835}
+  - component: {fileID: 5494302668021452867}
+  - component: {fileID: 8124791291883907024}
+  m_Layer: 0
+  m_Name: Graphic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5612687557383743835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4399330693984713858}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5114525392386839801}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5494302668021452867
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2952615726605426264}
+  m_GameObject: {fileID: 4399330693984713858}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8121892613739722495
+--- !u!23 &8124791291883907024
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2952615726605426264}
+  m_GameObject: {fileID: 4399330693984713858}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -78,25 +131,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &9215325318308815690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2952615726605426264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4986eed3e5ba5a40a6a7a490d628499, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnRow: 0
-  spawnCol: 0
-  animateMovement: 1
-  isActive: 0
-  colorGroup: 1
-  playerCanDropThrough: 0
-  playerCanJumpThrough: 0
-  graphic: {fileID: 8121892613739722495}
-  activeMaterial: {fileID: 2100000, guid: e0e5b30886ca60c4ab6a16bf7c5c25d5, type: 2}
-  inactiveMaterial: {fileID: 0}
