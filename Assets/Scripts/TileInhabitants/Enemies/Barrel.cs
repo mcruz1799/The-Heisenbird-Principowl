@@ -34,8 +34,8 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
 
   private Barrel(BarrelObject gameObject, out bool success) : base(gameObject, out success) {
     this.gameObject = gameObject;
-    this.YVelocity = -1;
-    this.XVelocity = 0;
+    YVelocity = -1;
+    XVelocity = 0;
   }
 
 
