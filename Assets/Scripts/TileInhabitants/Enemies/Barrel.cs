@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BarrelSubEntity : EnemySubEntity<Barrel, BarrelSubEntity> {
-  private Direction AttackDirection => Direction.South;
-
-  protected override bool IgnoresPlatforms => true;
+  private static readonly Direction[] attackDirections = new Direction[] { Direction.South, Direction.East, Direction.West };
 
   public BarrelSubEntity(SingleTileEntityObject gameObject, Barrel parent, out bool success) : base(gameObject, parent, out success) {
   }
 
   public override void Attack() {
-    Tile t = GameManager.S.Board.GetInDirection(Row, Col, AttackDirection);
-    if (t != null) {
-      foreach (ITileInhabitant other in t.Inhabitants) {
-        IDamageable victim = other is IDamageable ? (IDamageable)other : null;
-        if (victim != null && CanAttack(other)) {
-          victim.OnAttacked(parent.AttackPower, AttackDirection);
-          parent.Destroy();
-          return;
+    foreach (Direction d in attackDirections) {
+      Tile t = GameManager.S.Board.GetInDirection(Row, Col, d);
+      if (t != null) {
+        foreach (ITileInhabitant other in t.Inhabitants) {
+          IDamageable victim = other is IDamageable ? (IDamageable)other : null;
+          if (victim != null && CanAttack(other)) {
+            victim.OnAttacked(parent.AttackPower, d);
+          }
         }
       }
     }
@@ -38,42 +36,12 @@ public class Barrel : Enemy<Barrel, BarrelSubEntity> {
     XVelocity = 0;
   }
 
-
-  public override void Destroy() {
-    SoundManager.S.PlayerDamaged();
-    base.Destroy();
-  }
-
   protected override void OnCollision(Direction moveDirection) {
-    //Do nothing
+    OnAttacked(int.MaxValue, moveDirection.Opposite());
   }
 
-  protected override void OnTurnCore(){
-    //First attack, then move
-    //Destroy once we reach the ground
-    if (TopLeft.Row <= 2) {
-      Destroy();
-      return;
-    }
-
-    //Check if anything is beneath us
-    Tile t = GameManager.S.Board.GetInDirection(TopLeft.Row, TopLeft.Col, Direction.South);
-    if (t != null) {
-      foreach (ITileInhabitant item in t.Inhabitants){
-        if (item is Platform){
-          Platform platform = (Platform) item;
-
-          //If we are above a colored platform, kamikaze
-          if (platform.IsActive && platform.ColorGroup != PlatformToggleGroup.None) {
-            Destroy();
-            return;
-          }
-        }
-      }
-    }
-
-    //Nothing below us, we are clear for takeoff
-    YVelocity = -1;
+  protected override void OnTurnCore() {
+    //Do nothing
   }
 
   private class SubEntityGameObject : SingleTileEntityObject {
