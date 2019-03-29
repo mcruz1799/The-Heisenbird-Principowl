@@ -16,6 +16,10 @@ public class BoardObject : MonoBehaviour {
 
   private char[,] levelChars;
 
+  private void Start() {
+    PopulateBoard();
+  }
+
   public void Initialize(TextAsset level) {
     //Calculate the number of rows and columns
     string[] lines = level.text.Split('\n');
