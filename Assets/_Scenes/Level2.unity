@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -294,6 +294,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 970272385257524143, guid: 4cebb2032d87826488e976b99d451f3b,
+        type: 3}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 029e97660f8eb1c49878abfb8e65ce4a, type: 3}
+    - target: {fileID: 3251735866844378760, guid: 4cebb2032d87826488e976b99d451f3b,
+        type: 3}
+      propertyPath: m_Name
+      value: Level2J
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cebb2032d87826488e976b99d451f3b, type: 3}
@@ -584,6 +594,18 @@ MonoBehaviour:
   blurIterations: 5
   glowIntensityInner: 0.4
   samples: 2
+--- !u!114 &1110393794 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 970272385257524143, guid: 4cebb2032d87826488e976b99d451f3b,
+    type: 3}
+  m_PrefabInstance: {fileID: 40286827}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1476175247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -706,6 +728,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 1088558396}
   popups: []
+  locations:
+  - areaBounds:
+      x: 71
+      y: 32
+      width: 20
+      height: 5
+    info:
+      popup: {fileID: 1110393794}
+      xyCoords: {x: 0, y: 0}
+      timeToPause: 10
+    HasDisplayed: 0
 --- !u!4 &1888516797
 Transform:
   m_ObjectHideFlags: 0
@@ -755,8 +788,8 @@ MonoBehaviour:
     type: 3}
   level: {fileID: 4900000, guid: 1e1443ec12fb0b541aadb88f600ab59f, type: 3}
   nextScene: Level3_1
-  completionRow: 100
-  completionCol: 0
+  completionRow: 32
+  completionCol: 70
 --- !u!4 &1987882785
 Transform:
   m_ObjectHideFlags: 0
